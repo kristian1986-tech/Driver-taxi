@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Driver Panel</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen p-6">
+
+<h1 class="text-2xl font-bold mb-6">Řidič panel</h1>
+
+<!-- LOGIN DRIVER -->
+
+<div id="loginSection" class="max-w-md space-y-4">
+
+<input id="driverCode"
+placeholder="Kód řidiče"
+class="w-full p-3 rounded bg-gray-800 border border-gray-700">
+
+<button onclick="driverLogin()"
+class="w-full bg-yellow-500 text-black font-bold py-3 rounded">
+Přihlásit se
+</button>
+
+</div>
+
+<!-- DRIVER PANEL -->
+
+<div id="driverPanel" class="hidden">
+
+<h2 class="text-xl mb-4">Nové jízdy</h2>
+
+<div id="ridesList" class="space-y-4"></div>
+
+<button onclick="logoutDriver()"
+class="mt-6 bg-red-500 px-4 py-2 rounded">
+Odhlásit
+</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyCSapx5d9v_fxpPBzuOfnH66lvQoQ8H-6E",
+authDomain: "taxi-kristian.firebaseapp.com",
+projectId: "taxi-kristian",
+storageBucket: "taxi-kristian.firebasestorage.app",
+messagingSenderId: "872925880546",
+appId: "1:872925880546:web:12da74898c90a0155b7ebb"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const loginSection = document.getElementById("loginSection");
+const driverPanel = document.getElementById("driverPanel");
+const ridesList = document.getElementById("ridesList");
+
+let driverId = null;
+
+/* DRIVER LOGIN */
+
+window.driverLogin = async function(){
+
+const code = document.getElementById("driverCode").value;
+
+const driverRef = doc(db,"drivers",code);
+const driverSnap = await getDoc(driverRef);
+
+if(!driverSnap.exists()){
+alert("Řidič nenalezen");
+return;
+}
+
+driverId = code;
+
+localStorage.setItem("driverId",driverId);
+
+await updateDoc(driverRef,{
+status:"online"
+});
+
+loginSection.classList.add("hidden");
+driverPanel.classList.remove("hidden");
+
+listenForRides();
+
+}
+
+/* LOGOUT */
+
+window.logoutDriver = async function(){
+
+await updateDoc(doc(db,"drivers",driverId),{
+status:"offline"
+});
+
+localStorage.removeItem("driverId");
+location.reload();
+
+}
+
+/* LISTEN RIDES */
+
+function listenForRides(){
+
+onSnapshot(collection(db,"rides"),snapshot=>{
+
+ridesList.innerHTML="";
+
+snapshot.forEach(docSnap=>{
+
+const ride = {id:docSnap.id,...docSnap.data()};
+
+if(ride.status !== "new") return;
+
+const div = document.createElement("div");
+div.className="bg-gray-700 p-4 rounded";
+
+div.innerHTML = `
+<p><strong>Odkud:</strong> ${ride.pickup}</p>
+<p><strong>Kam:</strong> ${ride.destination}</p>
+<p><strong>Cena:</strong> ${ride.estimatedPrice} Kč</p>
+`;
+
+const acceptBtn = document.createElement("button");
+acceptBtn.innerText="Přijmout";
+acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
+
+acceptBtn.onclick = ()=>{
+
+updateDoc(doc(db,"rides",ride.id),{
+status:"confirmed",
+driverId:driverId
+});
+
+};
+
+div.appendChild(acceptBtn);
+
+ridesList.appendChild(div);
+
+});
+
+});
+
+}
+
+/* AUTO LOGIN */
+
+const savedDriver = localStorage.getItem("driverId");
+
+if(savedDriver){
+
+driverId = savedDriver;
+
+loginSection.classList.add("hidden");
+driverPanel.classList.remove("hidden");
+
+listenForRides();
+
+}
+
+</script>
+
+</body>
+</html>
