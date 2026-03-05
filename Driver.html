@@ -1,24 +1,14 @@
-<!DOCTYPE html>
-<html lang="cs">
+<!DOCTYPE html><html lang="cs">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Driver Panel</title>
+<title>Driver Panel</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"
+placeholder="Driver ID (např: driver1)"
+class="w-full p-3 rounded bg-gray-800 border border-gray-700">
 
-<script src="https://cdn.tailwindcss.com"></script>
-
-</head>
-
-<body class="bg-gray-900 text-white min-h-screen p-6">
-
-<h1 class="text-2xl font-bold mb-6">Řidič panel</h1>
-
-<!-- LOGIN DRIVER -->
-
-<div id="loginSection" class="max-w-md space-y-4">
-
-<input id="driverCode"
-placeholder="Kód řidiče"
+<input id="driverPin"
+placeholder="PIN"
+type="password"
 class="w-full p-3 rounded bg-gray-800 border border-gray-700">
 
 <button onclick="driverLogin()"
@@ -26,24 +16,12 @@ class="w-full bg-yellow-500 text-black font-bold py-3 rounded">
 Přihlásit se
 </button>
 
-</div>
-
-<!-- DRIVER PANEL -->
-
-<div id="driverPanel" class="hidden">
-
-<h2 class="text-xl mb-4">Nové jízdy</h2>
-
-<div id="ridesList" class="space-y-4"></div>
-
-<button onclick="logoutDriver()"
+</div><!-- DRIVER PANEL --><div id="driverPanel" class="hidden"><h2 class="text-xl mb-4">Nové jízdy</h2><div id="ridesList" class="space-y-4"></div><button onclick="logoutDriver()"
 class="mt-6 bg-red-500 px-4 py-2 rounded">
 Odhlásit
 </button>
 
-</div>
-
-<script type="module">
+</div><script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -70,13 +48,21 @@ let driverId = null;
 
 window.driverLogin = async function(){
 
-const code = document.getElementById("driverCode").value;
+const code = document.getElementById("driverCode").value.trim();
+const pin = parseInt(document.getElementById("driverPin").value);
 
 const driverRef = doc(db,"drivers",code);
 const driverSnap = await getDoc(driverRef);
 
 if(!driverSnap.exists()){
 alert("Řidič nenalezen");
+return;
+}
+
+const data = driverSnap.data();
+
+if(data.pin !== pin){
+alert("Špatný PIN");
 return;
 }
 
@@ -91,6 +77,7 @@ status:"online"
 loginSection.classList.add("hidden");
 driverPanel.classList.remove("hidden");
 
+startLocationTracking();
 listenForRides();
 
 }
@@ -105,6 +92,35 @@ status:"offline"
 
 localStorage.removeItem("driverId");
 location.reload();
+
+}
+
+/* GPS TRACKING */
+
+function startLocationTracking(){
+
+if(!navigator.geolocation){
+alert("GPS není dostupné");
+return;
+}
+
+navigator.geolocation.watchPosition(async pos=>{
+
+const lat = pos.coords.latitude;
+const lng = pos.coords.longitude;
+
+await updateDoc(doc(db,"drivers",driverId),{
+lat:lat,
+lng:lng
+});
+
+},
+error=>{
+console.log("GPS error",error);
+},
+{
+enableHighAccuracy:true
+});
 
 }
 
@@ -165,11 +181,10 @@ driverId = savedDriver;
 loginSection.classList.add("hidden");
 driverPanel.classList.remove("hidden");
 
+startLocationTracking();
 listenForRides();
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
