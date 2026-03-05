@@ -216,6 +216,12 @@ status:"completed"
 div.appendChild(finishBtn);
 }
 
+const statusDiv = document.createElement("div");
+statusDiv.className = "text-sm text-gray-300 mt-2";
+statusDiv.innerText = "Status jízdy: " + ride.status;
+
+div.appendChild(statusDiv);
+  
 ridesList.appendChild(div);
 
 });
