@@ -147,6 +147,14 @@ div.innerHTML = `
 <p><strong>Status:</strong> ${ride.status}</p>
 `;
 
+  if(ride.phone){
+const callBtn=document.createElement("a");
+callBtn.href=`tel:${ride.phone}`;
+callBtn.innerText="Zavolat klientovi";
+callBtn.className="mt-2 block bg-gray-600 px-4 py-2 rounded text-center";
+div.appendChild(callBtn);
+  }
+
 if(ride.status==="new"){
 
 const acceptBtn=document.createElement("button");
