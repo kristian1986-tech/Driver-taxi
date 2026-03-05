@@ -233,6 +233,7 @@ statusDiv.innerText = "Status jízdy: " + ride.status;
 div.appendChild(statusDiv);
   
 if(ride.status==="completed"){
+div.className="bg-gray-800 p-4 rounded opacity-70";
 historyList.appendChild(div);
 }else{
 ridesList.appendChild(div);
