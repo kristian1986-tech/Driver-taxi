@@ -136,8 +136,6 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
-if(ride.status !== "new") return;
-
 const div = document.createElement("div");
 div.className="bg-gray-700 p-4 rounded";
 
@@ -147,20 +145,66 @@ div.innerHTML = `
 <p><strong>Cena:</strong> ${ride.estimatedPrice} Kč</p>
 `;
 
-const acceptBtn = document.createElement("button");
+if(ride.status==="new"){
+
+const acceptBtn=document.createElement("button");
 acceptBtn.innerText="Přijmout";
 acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
-acceptBtn.onclick = ()=>{
-
+acceptBtn.onclick=()=>{
 updateDoc(doc(db,"rides",ride.id),{
-status:"confirmed",
+status:"accepted",
 driverId:driverId
 });
-
 };
 
 div.appendChild(acceptBtn);
+}
+
+if(ride.status==="accepted" && ride.driverId===driverId){
+
+const arriveBtn=document.createElement("button");
+arriveBtn.innerText="Jsem na místě";
+arriveBtn.className="mt-3 bg-yellow-500 px-4 py-2 rounded";
+
+arriveBtn.onclick=()=>{
+updateDoc(doc(db,"rides",ride.id),{
+status:"arrived"
+});
+};
+
+div.appendChild(arriveBtn);
+}
+
+if(ride.status==="arrived" && ride.driverId===driverId){
+
+const startBtn=document.createElement("button");
+startBtn.innerText="Start jízdy";
+startBtn.className="mt-3 bg-blue-500 px-4 py-2 rounded";
+
+startBtn.onclick=()=>{
+updateDoc(doc(db,"rides",ride.id),{
+status:"driving"
+});
+};
+
+div.appendChild(startBtn);
+}
+
+if(ride.status==="driving" && ride.driverId===driverId){
+
+const finishBtn=document.createElement("button");
+finishBtn.innerText="Dokončit jízdu";
+finishBtn.className="mt-3 bg-red-600 px-4 py-2 rounded";
+
+finishBtn.onclick=()=>{
+updateDoc(doc(db,"rides",ride.id),{
+status:"completed"
+});
+};
+
+div.appendChild(finishBtn);
+}
 
 ridesList.appendChild(div);
 
