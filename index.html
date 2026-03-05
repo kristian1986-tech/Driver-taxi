@@ -29,7 +29,7 @@ Historie
  </div>
 <div id="ridesList" class="space-y-4 mb-8"></div>
 
-<h2 class="text-xl mb-4">Historie jízd</h2>
+<h2 id="historyTitle" class="text-xl mb-4">Historie jízd</h2>
 <div id="historyList" class="space-y-4 hidden"></div>
 
 <button onclick="logoutDriver()"
@@ -58,7 +58,7 @@ const loginSection = document.getElementById("loginSection");
 const driverPanel = document.getElementById("driverPanel");
 const ridesList = document.getElementById("ridesList");
 const historyList = document.getElementById("historyList");
-
+const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 
 /* DRIVER LOGIN */
@@ -264,14 +264,19 @@ driverId = savedDriver;
 loginSection.classList.add("hidden");
 driverPanel.classList.remove("hidden");
 
+historyList.classList.add("hidden");
+historyTitle.classList.add("hidden");
+
 startLocationTracking();
 listenForRides();
 
 }
+  
 window.showActive = function(){
 
 ridesList.classList.remove("hidden");
 historyList.classList.add("hidden");
+historyTitle.classList.add("hidden");
 
 }
 
@@ -279,6 +284,7 @@ window.showHistory = function(){
 
 ridesList.classList.add("hidden");
 historyList.classList.remove("hidden");
+historyTitle.classList.remove("hidden");
 
 }
 
