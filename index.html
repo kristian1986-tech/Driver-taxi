@@ -234,14 +234,14 @@ startBtn.className="mt-3 bg-blue-500 px-4 py-2 rounded";
 
 startBtn.onclick=()=>{
 updateDoc(doc(db,"rides",ride.id),{
-status:"in_progress"
+status:"driving"
 });
 };
 
 div.appendChild(startBtn);
 }
 
-if(ride.status==="in_progress" && ride.driverId===driverId){
+if((ride.status==="in_progress" || ride.status==="driving") && ride.driverId===driverId){
 
 const finishBtn=document.createElement("button");
 finishBtn.innerText="Dokončit jízdu";
