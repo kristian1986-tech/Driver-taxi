@@ -162,6 +162,12 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
+  if(
+ride.status !== "new" &&
+ride.driverId !== driverId
+){
+return;
+  }
 
 const div = document.createElement("div");
 div.className="bg-gray-700 p-4 rounded";
