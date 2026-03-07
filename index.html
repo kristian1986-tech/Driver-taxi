@@ -130,6 +130,13 @@ await updateDoc(doc(db,"drivers",driverId),{
 lat:lat,
 lng:lng
 });
+  
+if(currentRideId){
+
+await updateDoc(doc(db,"rides",currentRideId),{
+driverLat:lat,
+driverLng:lng
+});
 
 },
 error=>{
