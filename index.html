@@ -311,24 +311,78 @@ const receiptBtn=document.createElement("button");
 receiptBtn.innerText="Stáhnout účtenku";
 receiptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded w-full";
 
-receiptBtn.onclick=()=>{
+receiptBtn.onclick = ()=>{
 
 const { jsPDF } = window.jspdf;
 
 const pdf = new jsPDF();
 
-pdf.setFontSize(18);
-pdf.text("Taxi Plzeň",105,20,{align:"center"});
+/* DATA */
+const rideDate = ride.createdAt
+? new Date(ride.createdAt.seconds * 1000)
+: new Date();
 
+const datum = rideDate.toLocaleDateString("cs-CZ");
+const cas = rideDate.toLocaleTimeString("cs-CZ",{hour:"2-digit",minute:"2-digit"});
+
+/* HEADER */
+
+pdf.setFontSize(20);
+pdf.setFont("helvetica","bold");
+pdf.text("TAXI PLZEŇ",105,20,{align:"center"});
+
+pdf.setFontSize(10);
+pdf.setFont("helvetica","normal");
+
+pdf.text("Taxi služba Plzeň",105,28,{align:"center"});
+pdf.text("Telefon: +420 XXX XXX XXX",105,34,{align:"center"});
+pdf.text("Email: info@taxiplzen.cz",105,40,{align:"center"});
+
+pdf.line(20,45,190,45);
+
+/* TITLE */
+
+pdf.setFontSize(14);
+pdf.setFont("helvetica","bold");
+pdf.text("ÚČTENKA",105,55,{align:"center"});
+
+pdf.setFont("helvetica","normal");
 pdf.setFontSize(11);
 
-pdf.text("Odkud: "+ride.pickup,20,50);
-pdf.text("Kam: "+ride.destination,20,60);
-pdf.text("Telefon: "+(ride.phone||"-"),20,70);
+/* DATA */
 
-pdf.text("Cena: "+ride.estimatedPrice+" Kč",20,90);
+pdf.text("Datum: "+datum,20,75);
+pdf.text("Čas: "+cas,20,85);
 
-pdf.text("Datum: "+new Date().toLocaleString(),20,110);
+pdf.line(20,95,190,95);
+
+/* RIDE INFO */
+
+pdf.text("Odkud: "+ride.pickup,20,110);
+pdf.text("Kam: "+ride.destination,20,120);
+
+pdf.text("Telefon: "+(ride.phone || "-"),20,135);
+
+pdf.text("Vzdálenost: "+(ride.distance ? ride.distance.toFixed(1)+" km" : "-"),20,150);
+
+pdf.line(20,160,190,160);
+
+/* TOTAL */
+
+pdf.setFont("helvetica","bold");
+pdf.setFontSize(14);
+
+pdf.text("Celkem:",20,180);
+pdf.text((ride.estimatedPrice || 0)+" Kč",150,180);
+
+pdf.line(20,190,190,190);
+
+/* FOOTER */
+
+pdf.setFontSize(9);
+pdf.setFont("helvetica","normal");
+
+pdf.text("Děkujeme za využití taxi služby.",105,205,{align:"center"});
 
 pdf.save("uctenka_taxi.pdf");
 
