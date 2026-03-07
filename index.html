@@ -2,7 +2,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Driver Panel</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"
+  
+<title>Driver Panel</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+</head>
+  
+  <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"
 placeholder="Driver ID (např: driver1)"
 class="w-full p-3 rounded bg-gray-800 border border-gray-700">
 
@@ -277,6 +286,39 @@ statusDiv.className = "text-sm text-gray-300 mt-2";
 statusDiv.innerText = "Status jízdy: " + ride.status;
 
 div.appendChild(statusDiv);
+ if(ride.status==="completed"){
+
+const receiptBtn=document.createElement("button");
+
+receiptBtn.innerText="Stáhnout účtenku";
+receiptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded w-full";
+
+receiptBtn.onclick=()=>{
+
+const { jsPDF } = window.jspdf;
+
+const pdf = new jsPDF();
+
+pdf.setFontSize(18);
+pdf.text("Taxi Plzeň",105,20,{align:"center"});
+
+pdf.setFontSize(11);
+
+pdf.text("Odkud: "+ride.pickup,20,50);
+pdf.text("Kam: "+ride.destination,20,60);
+pdf.text("Telefon: "+(ride.phone||"-"),20,70);
+
+pdf.text("Cena: "+ride.estimatedPrice+" Kč",20,90);
+
+pdf.text("Datum: "+new Date().toLocaleString(),20,110);
+
+pdf.save("uctenka_taxi.pdf");
+
+};
+
+div.appendChild(receiptBtn);
+
+ }
   
 if(
 ride.status==="completed" ||
