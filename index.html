@@ -539,10 +539,26 @@ price = parseFloat(t.replace("Cena:","").replace("Kč","").trim());
 
 total += price;
 
-pdf.text(datum,20,y);
-pdf.text(from.substring(0,20),50,y);
-pdf.text(to.substring(0,20),110,y);
-pdf.text(price+" Kč",180,y,{align:"right"});
+function normalize(text){
+return text
+.replace(/č/g,"c")
+.replace(/ř/g,"r")
+.replace(/š/g,"s")
+.replace(/ž/g,"z")
+.replace(/ě/g,"e")
+.replace(/á/g,"a")
+.replace(/í/g,"i")
+.replace(/ý/g,"y")
+.replace(/ů/g,"u")
+.replace(/ď/g,"d")
+.replace(/ť/g,"t")
+.replace(/ň/g,"n");
+}
+
+pdf.text(normalize(datum),20,y);
+pdf.text(normalize(from.substring(0,20)),50,y);
+pdf.text(normalize(to.substring(0,20)),110,y);
+pdf.text(price+" Kc ",180,y,{align:"right"});
 
 y += 10;
 
@@ -561,7 +577,7 @@ pdf.setFontSize(12);
 pdf.setFont("helvetica","bold");
 
 pdf.text("CELKEM:",140,y);
-pdf.text(total+" Kč",180,y,{align:"right"});
+pdf.text(total+" Kc ",180,y,{align:"right"});
 
 pdf.save("prehled_jizd_mesic.pdf");
 
