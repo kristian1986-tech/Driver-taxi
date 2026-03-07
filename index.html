@@ -223,7 +223,9 @@ const cas = rideDate
 : "-";
 
 div.innerHTML = `
-<p><strong>Datum:</strong> ${datum}</p>
+<p class="ride-date" data-date="${rideDate ? rideDate.toISOString() : ""}">
+<strong>Datum:</strong> ${datum}
+</p>
 <p><strong>Čas:</strong> ${cas}</p>
 
 <p><strong>Odkud:</strong> ${ride.pickup}</p>
@@ -494,7 +496,7 @@ const dateText = div.querySelector(".ride-date");
 
 if(!dateText) return;
 
-const rideDate = new Date(dateText.innerText);
+const rideDate = new Date(dateText.dataset.date);
 const rideMonth = rideDate.getMonth();
 
 if(rideMonth !== selectedMonth) return;
