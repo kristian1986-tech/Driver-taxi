@@ -241,7 +241,7 @@ status:"in_progress"
 div.appendChild(startBtn);
 }
 
-if((ride.status==="in_progress" || ride.status==="driving") && ride.driverId===driverId){
+if(ride.status==="in_progress" && ride.driverId===driverId){
 
 const finishBtn=document.createElement("button");
 finishBtn.innerText="Dokončit jízdu";
