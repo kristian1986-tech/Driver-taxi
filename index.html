@@ -200,7 +200,7 @@ acceptBtn.onclick=()=>{
 currentRideId = ride.id;
 
 updateDoc(doc(db,"rides",ride.id),{
-status:"accepted",
+status:"confirmed",
 driverId:driverId
 });
 
