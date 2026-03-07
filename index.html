@@ -249,7 +249,11 @@ statusDiv.innerText = "Status jízdy: " + ride.status;
 
 div.appendChild(statusDiv);
   
-if(ride.status==="completed"){
+if(
+ride.status==="completed" ||
+ride.status==="cancelled" ||
+ride.status==="rejected"
+){
 div.className="bg-gray-800 p-4 rounded opacity-70";
 historyList.appendChild(div);
 }else{
