@@ -503,9 +503,12 @@ const rideMonth = rideDate.getMonth();
 
 if(rideMonth !== selectedMonth) return;
 
-const text = div.innerText;
+const from = div.querySelector("p:nth-child(3)")?.innerText || "";
+const to = div.querySelector("p:nth-child(4)")?.innerText || "";
+const price = div.querySelector("p:nth-child(6)")?.innerText || "";
 
-pdf.setFontSize(10);
+const text = from + " | " + to + " | " + price;
+
 pdf.text(text,20,y);
 
 y += 20;
