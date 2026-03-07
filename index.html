@@ -488,9 +488,27 @@ const { jsPDF } = window.jspdf;
 const pdf = new jsPDF();
 
 pdf.setFontSize(18);
-pdf.text("PREHLED JIZD",105,20,{align:"center"});
+pdf.text("Taxi Plzeň",105,20,{align:"center"});
 
-let y = 40;
+pdf.setFontSize(14);
+pdf.text("Přehled jízd",105,30,{align:"center"});
+
+let y = 50;
+
+pdf.setFontSize(10);
+
+pdf.text("Datum",20,y);
+pdf.text("Odkud",50,y);
+pdf.text("Kam",110,y);
+pdf.text("Cena",180,y,{align:"right"});
+
+y += 5;
+
+pdf.line(20,y,190,y);
+
+y += 10;
+
+let total = 0;
 
 historyList.querySelectorAll("div").forEach(div=>{
 
@@ -503,22 +521,47 @@ const rideMonth = rideDate.getMonth();
 
 if(rideMonth !== selectedMonth) return;
 
-const from = div.querySelector("p:nth-child(3)")?.innerText || "";
-const to = div.querySelector("p:nth-child(4)")?.innerText || "";
-const price = div.querySelector("p:nth-child(6)")?.innerText || "";
+const datum = rideDate.toLocaleDateString("cs-CZ");
 
-const text = from + " | " + to + " | " + price;
+const pTags = div.querySelectorAll("p");
 
-pdf.text(text,20,y);
+let from="", to="", price=0;
 
-y += 20;
+pTags.forEach(p=>{
+const t = p.innerText;
 
-if(y > 260){
+if(t.includes("Odkud")) from = t.replace("Odkud: ","");
+if(t.includes("Kam")) to = t.replace("Kam: ","");
+if(t.includes("Cena")){
+price = parseFloat(t.replace("Cena:","").replace("Kč","").trim());
+}
+});
+
+total += price;
+
+pdf.text(datum,20,y);
+pdf.text(from.substring(0,20),50,y);
+pdf.text(to.substring(0,20),110,y);
+pdf.text(price+" Kč",180,y,{align:"right"});
+
+y += 10;
+
+if(y > 270){
 pdf.addPage();
 y = 20;
 }
 
 });
+
+pdf.line(20,y,190,y);
+
+y += 10;
+
+pdf.setFontSize(12);
+pdf.setFont("helvetica","bold");
+
+pdf.text("CELKEM:",140,y);
+pdf.text(total+" Kč",180,y,{align:"right"});
 
 pdf.save("prehled_jizd_mesic.pdf");
 
