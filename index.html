@@ -198,12 +198,13 @@ acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
 acceptBtn.onclick=()=>{
 
-
+currentRideId = ride.id;
+  
 updateDoc(doc(db,"rides",ride.id),{
 status:"confirmed",
 driverId:driverId
 });
-currentRideId = ride.id;
+
 };
 
 div.appendChild(acceptBtn);
