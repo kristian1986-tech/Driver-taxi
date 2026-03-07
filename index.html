@@ -475,7 +475,14 @@ historyTitle.classList.remove("hidden");
 
 window.exportMonth = function(){
 
-const selectedMonth = parseInt(document.getElementById("monthSelect").value);
+const value = document.getElementById("monthSelect").value;
+
+if(!value){
+alert("Vyber měsíc");
+return;
+}
+
+const selectedMonth = parseInt(value.split("-")[1]) - 1;
 
 const { jsPDF } = window.jspdf;
 const pdf = new jsPDF();
