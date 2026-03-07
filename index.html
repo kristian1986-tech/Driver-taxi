@@ -163,6 +163,11 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
+  
+  if(ride.driverId === driverId){
+currentRideId = ride.id;
+  }
+  
   if(
 ride.status === "new" ||
 ride.driverId === driverId
