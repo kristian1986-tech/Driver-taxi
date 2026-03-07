@@ -200,11 +200,18 @@ acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 acceptBtn.onclick=()=>{
 
 currentRideId = ride.id;
-  
+
 updateDoc(doc(db,"rides",ride.id),{
 status:"confirmed",
 driverId:driverId
 });
+
+const pickup = encodeURIComponent(ride.pickup);
+
+window.open(
+`https://www.google.com/maps/dir/?api=1&destination=${pickup}&travelmode=driving`,
+"_blank"
+);
 
 };
 
@@ -233,9 +240,18 @@ startBtn.innerText="Start jízdy";
 startBtn.className="mt-3 bg-blue-500 px-4 py-2 rounded";
 
 startBtn.onclick=()=>{
+
 updateDoc(doc(db,"rides",ride.id),{
 status:"in_progress"
 });
+
+const destination = encodeURIComponent(ride.destination);
+
+window.open(
+`https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`,
+"_blank"
+);
+
 };
 
 div.appendChild(startBtn);
