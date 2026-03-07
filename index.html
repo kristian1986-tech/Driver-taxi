@@ -28,6 +28,32 @@ Přihlásit se
 </div><!-- DRIVER PANEL -->
   <div id="driverPanel" class="hidden">
  <div class="flex gap-4 mb-4">
+ <div class="flex gap-3 mb-6">
+
+<select id="monthSelect"
+class="bg-gray-700 px-4 py-2 rounded text-white">
+
+<option value="0">Leden</option>
+<option value="1">Únor</option>
+<option value="2">Březen</option>
+<option value="3">Duben</option>
+<option value="4">Květen</option>
+<option value="5">Červen</option>
+<option value="6">Červenec</option>
+<option value="7">Srpen</option>
+<option value="8">Září</option>
+<option value="9">Říjen</option>
+<option value="10">Listopad</option>
+<option value="11">Prosinec</option>
+
+</select>
+
+<button onclick="exportMonth()" 
+class="bg-green-600 px-4 py-2 rounded font-bold">
+Exportovat měsíc
+</button>
+
+ </div>
 <button onclick="showActive()" class="bg-yellow-500 text-black px-4 py-2 rounded">
 Aktivní jízdy
 </button>
@@ -450,5 +476,46 @@ historyTitle.classList.remove("hidden");
 
 }
 
+window.exportMonth = function(){
+
+const selectedMonth = parseInt(document.getElementById("monthSelect").value);
+
+const { jsPDF } = window.jspdf;
+const pdf = new jsPDF();
+
+pdf.setFontSize(18);
+pdf.text("PREHLED JIZD",105,20,{align:"center"});
+
+let y = 40;
+
+historyList.querySelectorAll("div").forEach(div=>{
+
+const dateText = div.querySelector(".ride-date");
+
+if(!dateText) return;
+
+const rideDate = new Date(dateText.innerText);
+const rideMonth = rideDate.getMonth();
+
+if(rideMonth !== selectedMonth) return;
+
+const text = div.innerText;
+
+pdf.setFontSize(10);
+pdf.text(text,20,y);
+
+y += 20;
+
+if(y > 260){
+pdf.addPage();
+y = 20;
+}
+
+});
+
+pdf.save("prehled_jizd_mesic.pdf");
+
+};
+  
 </script></body>
 </html>
