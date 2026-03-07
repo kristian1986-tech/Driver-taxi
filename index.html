@@ -27,9 +27,9 @@ Přihlásit se
 
 </div><!-- DRIVER PANEL -->
   <div id="driverPanel" class="hidden">
- <div class="flex gap-4 mb-4">
-<div class="flex gap-3 mb-4">
+<div class="flex flex-col gap-4 mb-6">
 
+<div class="flex gap-3">
 <input type="month"
 id="monthSelect"
 class="bg-gray-700 px-4 py-3 rounded text-white flex-1">
@@ -38,12 +38,9 @@ class="bg-gray-700 px-4 py-3 rounded text-white flex-1">
 class="bg-green-600 px-4 py-3 rounded font flex-1">
 Exportovat měsíc
 </button>
-
 </div>
 
-
-<div class="flex gap-3 mb-6">
-
+<div class="flex gap-3">
 <button onclick="showActive()"
 class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">
 Aktivní jízdy
@@ -53,14 +50,14 @@ Aktivní jízdy
 class="bg-gray-600 px-4 py-3 rounded flex-1">
 Historie
 </button>
-
 </div>
 
-
-<button onclick="logout()"
+<button onclick="logoutDriver()"
 class="bg-red-500 px-4 py-3 rounded">
 Odhlásit
-</button> 
+</button>
+
+</div>
 
 </div><script type="module">
 
