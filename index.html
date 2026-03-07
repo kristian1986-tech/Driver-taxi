@@ -28,33 +28,39 @@ Přihlásit se
 </div><!-- DRIVER PANEL -->
   <div id="driverPanel" class="hidden">
  <div class="flex gap-4 mb-4">
- <div class="flex gap-3 mb-4">
+<div class="flex gap-3 mb-4">
 
-<input type="month" id="monthSelect" class="bg-gray-700 px-4 py-2 rounded text-white">
+<input type="month"
+id="monthSelect"
+class="bg-gray-700 px-4 py-3 rounded text-white flex-1">
 
-<button onclick="exportMonth()" 
-class="bg-green-600 px-4 py-2 rounded font-bold">
+<button onclick="exportMonth()"
+class="bg-green-600 px-4 py-3 rounded font flex-1">
 Exportovat měsíc
 </button>
 
- </div>
-<button onclick="showActive()" class="bg-yellow-500 text-black px-4 py-2 rounded">
+</div>
+
+
+<div class="flex gap-3 mb-6">
+
+<button onclick="showActive()"
+class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">
 Aktivní jízdy
 </button>
 
-<button onclick="showHistory()" class="bg-gray-700 px-4 py-2 rounded">
+<button onclick="showHistory()"
+class="bg-gray-600 px-4 py-3 rounded flex-1">
 Historie
 </button>
- </div>
-<div id="ridesList" class="space-y-4 mb-8"></div>
 
-<h2 id="historyTitle" class="text-xl mb-4">Historie jízd</h2>
-<div id="historyList" class="space-y-4 hidden"></div>
+</div>
 
-<button onclick="logoutDriver()"
-class="mt-6 bg-red-500 px-4 py-2 rounded">
+
+<button onclick="logout()"
+class="bg-red-500 px-4 py-3 rounded">
 Odhlásit
-</button>
+</button> 
 
 </div><script type="module">
 
