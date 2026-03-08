@@ -157,17 +157,38 @@ location.reload();
 
 async function requestNotificationPermission(){
 
+if(!("Notification" in window)){
+console.log("Browser nepodporuje notifikace");
+return;
+}
+
+if(Notification.permission === "granted"){
+return;
+}
+
 const permission = await Notification.requestPermission();
 
 if(permission === "granted"){
+
+try{
 
 const token = await getToken(messaging,{
 vapidKey:"BNjO8QUOa0ncoJsS_XsEwYeWzwYzskAkbPGaMlDv4WOgvWXKQmsEMhKluwF_yPYxYkBKZqpDx05ERWQp2DI7-Ck"
 });
 
+if(token){
+
 await updateDoc(doc(db,"drivers",driverId),{
 pushToken: token
 });
+
+console.log("Push token saved");
+
+}
+
+}catch(e){
+console.log("Token error",e);
+}
 
 }
 
