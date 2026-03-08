@@ -71,7 +71,8 @@ Historie jízd
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
+  
 const firebaseConfig = {
 apiKey: "AIzaSyCSapx5d9v_fxpPBzuOfnH66lvQoQ8H-6E",
 authDomain: "taxi-kristian.firebaseapp.com",
@@ -83,6 +84,7 @@ appId: "1:872925880546:web:12da74898c90a0155b7ebb"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const messaging = getMessaging(app);
 
 const loginSection = document.getElementById("loginSection");
 const driverPanel = document.getElementById("driverPanel");
@@ -127,7 +129,8 @@ driverPanel.classList.remove("hidden");
 
 startLocationTracking();
 listenForRides();
-
+requestNotificationPermission();
+  
 }
 
 /* LOGOUT */
@@ -143,6 +146,24 @@ location.reload();
 
 }
 
+async function requestNotificationPermission(){
+
+const permission = await Notification.requestPermission();
+
+if(permission === "granted"){
+
+const token = await getToken(messaging,{
+vapidKey:"BNjO8QUOa0ncoJsS_XsEwYeWzwYzskAkbPGaMlDv4WOgvWXKQmsEMhKluwF_yPYxYkBKZqpDx05ERWQp2DI7-Ck"
+});
+
+await updateDoc(doc(db,"drivers",driverId),{
+pushToken: token
+});
+
+}
+
+}
+  
 /* GPS TRACKING */
 
 function startLocationTracking(){
