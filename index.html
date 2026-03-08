@@ -162,9 +162,6 @@ console.log("Browser nepodporuje notifikace");
 return;
 }
 
-if(Notification.permission === "granted"){
-return;
-}
 
 const permission = await Notification.requestPermission();
 
