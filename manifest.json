@@ -1,7 +1,7 @@
 {
   "name": "Driver-taxi",
   "short_name": "Drivertaxi",
-  "start_url": "/",
+  "start_url": "Driver-taxi",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#111827",
