@@ -257,13 +257,6 @@ const ride = {id:docSnap.id,...docSnap.data()};
 if(ride.status === "new"){
 newRideIds.push(ride.id);
 }
-if(newRideIds.length > lastRideIds.length){
-
-rideSound.play().catch(()=>{});
-
-}
-
-lastRideIds = newRideIds;
   
   if(ride.driverId === driverId){
 currentRideId = ride.id;
@@ -506,7 +499,11 @@ ridesList.appendChild(div);
 }
 
 });
+if(newRideIds.length > lastRideIds.length){
+rideSound.play().catch(()=>{});
+}
 
+lastRideIds = newRideIds;
 });
 
 }
