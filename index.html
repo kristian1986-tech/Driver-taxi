@@ -654,6 +654,13 @@ pdf.text(total+" Kc ",180,y,{align:"right"});
 pdf.save("prehled_jizd_mesic.pdf");
 
 };
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js")
+  .then(()=>console.log("PWA ready"))
+  .catch(err=>console.log("SW error",err));
+}
   
-</script></body>
+</script>
+</body>
 </html>
