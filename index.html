@@ -111,6 +111,11 @@ rideSound.loop = true;
 
 window.driverLogin = async function(){
 
+  rideSound.play().then(()=>{
+rideSound.pause();
+rideSound.currentTime = 0;
+}).catch(()=>{});
+
 const code = document.getElementById("driverCode").value.trim();
 const pin = parseInt(document.getElementById("driverPin").value);
 
