@@ -102,6 +102,10 @@ const historyList = document.getElementById("historyList");
 const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 let currentRideId = null;
+let lastRideIds = [];
+
+const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+rideSound.loop = true;
 
 /* DRIVER LOGIN */
 
