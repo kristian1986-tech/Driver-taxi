@@ -252,6 +252,13 @@ const ride = {id:docSnap.id,...docSnap.data()};
 if(ride.status === "new"){
 newRideIds.push(ride.id);
 }
+if(newRideIds.length > lastRideIds.length){
+
+rideSound.play().catch(()=>{});
+
+}
+
+lastRideIds = newRideIds;
   
   if(ride.driverId === driverId){
 currentRideId = ride.id;
@@ -307,6 +314,8 @@ acceptBtn.innerText="Přijmout";
 acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
 acceptBtn.onclick=()=>{
+rideSound.pause();
+rideSound.currentTime = 0;
 
 currentRideId = ride.id;
 
