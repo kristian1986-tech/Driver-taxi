@@ -241,6 +241,7 @@ enableHighAccuracy:true
 function listenForRides(){
 
 onSnapshot(collection(db,"rides"),snapshot=>{
+let newRideIds = [];
 
 ridesList.innerHTML="";
 historyList.innerHTML="";
@@ -248,6 +249,9 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
+if(ride.status === "new"){
+newRideIds.push(ride.id);
+}
   
   if(ride.driverId === driverId){
 currentRideId = ride.id;
