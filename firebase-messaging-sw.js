@@ -15,7 +15,7 @@ messaging.onBackgroundMessage(function(payload){
 
 self.registration.showNotification("🚕 Cursă nouă",{
 body: payload.data.body,
-icon: "/Driver-taxi/icon-192.png",
+icon: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
 vibrate: [300,100,300,100,300],
 requireInteraction: true
 });
