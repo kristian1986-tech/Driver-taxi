@@ -13,7 +13,7 @@ placeholder="PIN"
 type="password"  
 class="w-full p-3 rounded bg-gray-800 border border-gray-700">
 
-<button onclick="alert('merge butonul')"
+<button id="loginBtn"
 class="w-full bg-yellow-500 text-black font-bold py-3 rounded">
 Přihlásit se
 </button>
@@ -602,7 +602,7 @@ pdf.text(total+" Kc ",180,y,{align:"right"});
 pdf.save("prehled_jizd_mesic.pdf");
 
 };
-
+document.getElementById("loginBtn").addEventListener("click", driverLogin);
 </script></body>
 
 </html>  
