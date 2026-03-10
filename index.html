@@ -242,7 +242,6 @@ enableHighAccuracy:true
 function listenForRides(){
 
 onSnapshot(collection(db,"rides"),snapshot=>{
-let newRideIds = [];
 
 ridesList.innerHTML="";
 historyList.innerHTML="";
@@ -251,12 +250,8 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
-  
-  if(ride.driverId === driverId){
-currentRideId = ride.id;
-  }
-
-if(ride.status === "new" || ride.driverId === driverId){
+// sunet + notificare pentru cursă nouă
+if(ride.status === "new"){
 const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
 audio.play();
 
@@ -265,6 +260,26 @@ new Notification("Cursă nouă 🚕",{
 body: ride.pickup + " → " + ride.destination,
 icon: "/Driver-taxi/icon-192.png"
 });
+}
+}
+
+// creează cardul cursei
+const div = document.createElement("div");
+div.className="bg-gray-700 p-4 rounded";
+
+div.innerHTML = `
+<p><strong>Odkud:</strong> ${ride.pickup}</p>
+<p><strong>Kam:</strong> ${ride.destination}</p>
+<p><strong>Cena:</strong> ${ride.estimatedPrice}</p>
+<p><strong>Status:</strong> ${ride.status}</p>
+`;
+
+ridesList.appendChild(div);
+
+});
+
+});
+
 }
 
 const div = document.createElement("div");
