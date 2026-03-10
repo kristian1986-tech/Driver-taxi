@@ -83,7 +83,6 @@ let currentRideId = null;
 /* DRIVER LOGIN */
 
 window.driverLogin = async function(){
-alert("driverLogin pornit");
 
 const code = document.getElementById("driverCode").value.trim();
 const pin = parseInt(document.getElementById("driverPin").value);
@@ -603,7 +602,12 @@ pdf.text(total+" Kc ",180,y,{align:"right"});
 pdf.save("prehled_jizd_mesic.pdf");
 
 };
+      
+window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("loginBtn").addEventListener("click", driverLogin);
-</script></body>
+});
+  
+</script>
+</body>
 
 </html>  
