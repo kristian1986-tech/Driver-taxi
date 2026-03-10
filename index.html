@@ -189,6 +189,8 @@ serviceWorkerRegistration: registration
 
 if(token){
 
+alert("TOKEN OK");
+
 await updateDoc(doc(db,"drivers",driverId),{
 pushToken: token
 });
