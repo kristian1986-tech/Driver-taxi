@@ -1,80 +1,47 @@
-<!DOCTYPE html><html lang="cs">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-<link rel="manifest" href="manifest.json">
-  
-<title>Driver Panel</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  
-</head>
-  
-  <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"
-placeholder="Driver ID (např: driver1)"
+<!DOCTYPE html><html lang="cs">  <head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <link rel="manifest" href="manifest.json">  <title>Driver Panel</title>    <script src="https://cdn.tailwindcss.com"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  </head>    <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"  
+placeholder="Driver ID (např: driver1)"  
+class="w-full p-3 rounded bg-gray-800 border border-gray-700">  <input id="driverPin"  
+placeholder="PIN"  
+type="password"  
 class="w-full p-3 rounded bg-gray-800 border border-gray-700">
 
-<input id="driverPin"
-placeholder="PIN"
-type="password"
-class="w-full p-3 rounded bg-gray-800 border border-gray-700">
-
-<button onclick="driverLogin()"
+<button onclick="driverLogin()"  
 class="w-full bg-yellow-500 text-black font-bold py-3 rounded">
 Přihlásit se
 </button>
 
-</div><!-- DRIVER PANEL -->
-  <div id="driverPanel" class="hidden">
-<div class="flex flex-col gap-4 mb-6">
-
-<div class="flex gap-3">
-<input type="month"
-id="monthSelect"
-class="bg-gray-700 px-4 py-3 rounded text-white flex-1">
-
-<button onclick="exportMonth()"
+</div><!-- DRIVER PANEL -->  
+  <div id="driverPanel" class="hidden">  
+<div class="flex flex-col gap-4 mb-6">  <div class="flex gap-3">  
+<input type="month"  
+id="monthSelect"  
+class="bg-gray-700 px-4 py-3 rounded text-white flex-1">  <button onclick="exportMonth()"  
 class="bg-green-600 px-4 py-3 rounded font flex-1">
 Exportovat měsíc
 </button>
-</div>
 
-<div class="flex gap-3">
-<button onclick="showActive()"
-class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">
-Aktivní jízdy
-</button>
-
-<button onclick="showHistory()"
+</div>  <div class="flex gap-3">  
+<button onclick="showActive()"  
+class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">  
+Aktivní jízdy  
+</button>  <button onclick="showHistory()"  
 class="bg-gray-600 px-4 py-3 rounded flex-1">
 Historie
 </button>
-</div>
 
-<button onclick="logoutDriver()"
+</div>  <button onclick="logoutDriver()"  
 class="bg-red-500 px-4 py-3 rounded">
 Odhlásit
 </button>
 
-</div>
-
-<h2 id="historyTitle" class="text-xl font-bold mt-6 hidden">
-Historie jízd
-</h2>
-
-<div id="ridesList" class="space-y-4 mt-6"></div>
-
-<div id="historyList" class="space-y-4 mt-6 hidden"></div>
-    
-</div><script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+</div>  <h2 id="historyTitle" class="text-xl font-bold mt-6 hidden">  
+Historie jízd  
+</h2>  <div id="ridesList" class="space-y-4 mt-6"></div>  <div id="historyList" class="space-y-4 mt-6 hidden"></div>  </div><script type="module">  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
-  
+
 const firebaseConfig = {
 apiKey: "AIzaSyCSapx5d9v_fxpPBzuOfnH66lvQoQ8H-6E",
 authDomain: "taxi-kristian.firebaseapp.com",
@@ -87,7 +54,6 @@ appId: "1:872925880546:web:12da74898c90a0155b7ebb"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messaging = getMessaging(app);
-
 
 const loginSection = document.getElementById("loginSection");
 const driverPanel = document.getElementById("driverPanel");
@@ -105,7 +71,7 @@ rideSound.loop = true;
 
 window.driverLogin = async function(){
 
-  rideSound.play().then(()=>{
+rideSound.play().then(()=>{
 rideSound.pause();
 rideSound.currentTime = 0;
 }).catch(()=>{});
@@ -142,7 +108,7 @@ driverPanel.classList.remove("hidden");
 startLocationTracking();
 listenForRides();
 requestNotificationPermission();
-  
+
 }
 
 /* LOGOUT */
@@ -164,7 +130,6 @@ if(!("Notification" in window)){
 console.log("Browser nepodporuje notifikace");
 return;
 }
-
 
 const permission = await Notification.requestPermission();
 
@@ -198,7 +163,7 @@ console.log("Token error",e);
 }
 
 }
-  
+
 /* GPS TRACKING */
 
 function startLocationTracking(){
@@ -217,7 +182,7 @@ await updateDoc(doc(db,"drivers",driverId),{
 lat:lat,
 lng:lng
 });
-  
+
 if(currentRideId){
 
 await updateDoc(doc(db,"rides",currentRideId),{
@@ -242,6 +207,7 @@ enableHighAccuracy:true
 function listenForRides(){
 
 onSnapshot(collection(db,"rides"),snapshot=>{
+let newRideIds = [];
 
 ridesList.innerHTML="";
 historyList.innerHTML="";
@@ -249,37 +215,16 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
-
-// sunet + notificare pentru cursă nouă
 if(ride.status === "new"){
-const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
-audio.play();
-
-if(Notification.permission === "granted"){
-new Notification("Cursă nouă 🚕",{
-body: ride.pickup + " → " + ride.destination,
-icon: "/Driver-taxi/icon-192.png"
-});
-}
+newRideIds.push(ride.id);
 }
 
-// creează cardul cursei
-const div = document.createElement("div");
-div.className="bg-gray-700 p-4 rounded";
+if(ride.driverId === driverId){
+currentRideId = ride.id;
+}
 
-div.innerHTML = `
-<p><strong>Odkud:</strong> ${ride.pickup}</p>
-<p><strong>Kam:</strong> ${ride.destination}</p>
-<p><strong>Cena:</strong> ${ride.estimatedPrice}</p>
-<p><strong>Status:</strong> ${ride.status}</p>
-`;
-
-ridesList.appendChild(div);
-
-});
-
-});
-
+if(ride.status !== "new" && ride.driverId !== driverId){
+return;
 }
 
 const div = document.createElement("div");
@@ -298,28 +243,21 @@ const cas = rideDate
 : "-";
 
 div.innerHTML = `
-<p class="ride-date" data-date="${rideDate ? rideDate.toISOString() : ""}">
-<strong>Datum:</strong> ${datum}
-</p>
-<p><strong>Čas:</strong> ${cas}</p>
 
-<p><strong>Odkud:</strong> ${ride.pickup}</p>
-<p><strong>Kam:</strong> ${ride.destination}</p>
-
-<p><strong>Vzdálenost:</strong> ${ride.distance ? ride.distance.toFixed(1)+" km" : "-"}</p>
-<p><strong>Cena:</strong> ${ride.estimatedPrice} Kč</p>
-
-<p><strong>Telefon:</strong> ${ride.phone || "N/A"}</p>
-<p><strong>Status:</strong> ${ride.status}</p>
-`;
-
-  if(ride.phone){
+<p class="ride-date" data-date="${rideDate ? rideDate.toISOString() : ""}">  
+<strong>Datum:</strong> ${datum}  
+</p>  
+<p><strong>Čas:</strong> ${cas}</p>  <p><strong>Odkud:</strong> ${ride.pickup}</p>  
+<p><strong>Kam:</strong> ${ride.destination}</p>  <p><strong>Vzdálenost:</strong> ${ride.distance ? ride.distance.toFixed(1)+" km" : "-"}</p>  
+<p><strong>Cena:</strong> ${ride.estimatedPrice} Kč</p>  <p><strong>Telefon:</strong> ${ride.phone || "N/A"}</p>  
+<p><strong>Status:</strong> ${ride.status}</p>  
+`;  if(ride.phone){
 const callBtn=document.createElement("a");
-callBtn.href=`tel:${ride.phone}`;
+callBtn.href=tel:${ride.phone};
 callBtn.innerText="Zavolat klientovi";
 callBtn.className="mt-2 block bg-gray-600 px-4 py-2 rounded text-center";
 div.appendChild(callBtn);
-  }
+}
 
 if(ride.status==="new"){
 
@@ -341,7 +279,7 @@ driverId:driverId
 const pickup = encodeURIComponent(ride.pickup);
 
 window.open(
-`https://www.google.com/maps/dir/?api=1&destination=${pickup}&travelmode=driving`,
+https://www.google.com/maps/dir/?api=1&destination=${pickup}&travelmode=driving,
 "_blank"
 );
 
@@ -380,7 +318,7 @@ status:"in_progress"
 const destination = encodeURIComponent(ride.destination);
 
 window.open(
-`https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`,
+https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving,
 "_blank"
 );
 
@@ -409,7 +347,7 @@ statusDiv.className = "text-sm text-gray-300 mt-2";
 statusDiv.innerText = "Status jízdy: " + ride.status;
 
 div.appendChild(statusDiv);
- if(ride.status==="completed"){
+if(ride.status==="completed"){
 
 const receiptBtn=document.createElement("button");
 
@@ -501,8 +439,8 @@ pdf.save("uctenka_taxi.pdf");
 
 div.appendChild(receiptBtn);
 
- }
-  
+}
+
 if(
 ride.status==="completed" ||
 ride.status==="cancelled" ||
@@ -542,7 +480,7 @@ startLocationTracking();
 listenForRides();
 
 }
-  
+
 window.showActive = function(){
 
 ridesList.classList.remove("hidden");
@@ -670,11 +608,11 @@ pdf.save("prehled_jizd_mesic.pdf");
 };
 
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js")
-  .then(()=>console.log("PWA ready"))
-  .catch(err=>console.log("SW error",err));
+navigator.serviceWorker.register("sw.js")
+.then(()=>console.log("PWA ready"))
+.catch(err=>console.log("SW error",err));
 }
-  
-</script>
-</body>
+
+</script>  
+</body>  
 </html>
