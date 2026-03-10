@@ -55,6 +55,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messaging = getMessaging(app);
 
+if ("serviceWorker" in navigator) {
+
+navigator.serviceWorker.register("firebase-messaging-sw.js")
+.then(function(registration){
+console.log("Service Worker registered");
+});
+
+}
+
 const loginSection = document.getElementById("loginSection");
 const driverPanel = document.getElementById("driverPanel");
 const ridesList = document.getElementById("ridesList");
@@ -137,7 +146,7 @@ if(permission === "granted"){
 
 try{
 
-const registration = await navigator.serviceWorker.register('/Driver-taxi/firebase-messaging-sw.js');
+const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
 
 const token = await getToken(messaging,{
 vapidKey:"BNjO8QUOa0ncoJsS_XsEwYeWzwYzskAkbPGaMlDv4WOgvWXKQmsEMhKluwF_yPYxYkBKZqpDx05ERWQp2DI7-Ck",
@@ -615,4 +624,4 @@ navigator.serviceWorker.register("sw.js")
 
 </script>  
 </body>  
-</html>
+</html>  
