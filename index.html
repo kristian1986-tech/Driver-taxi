@@ -172,7 +172,7 @@ if(permission === "granted"){
 
 try{
 
-const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+const registration = await navigator.serviceWorker.register('/Driver-taxi/firebase-messaging-sw.js');
 
 const token = await getToken(messaging,{
 vapidKey:"BNjO8QUOa0ncoJsS_XsEwYeWzwYzskAkbPGaMlDv4WOgvWXKQmsEMhKluwF_yPYxYkBKZqpDx05ERWQp2DI7-Ck",
