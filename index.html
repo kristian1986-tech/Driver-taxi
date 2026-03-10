@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="cs">  <head>  
 <meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <link rel="manifest" href="manifest.json">  <title>Driver Panel</title>    <script src="https://cdn.tailwindcss.com"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  </head>    <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Driver Panel</title>    <script src="https://cdn.tailwindcss.com"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  </head>    <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"  
 placeholder="Driver ID (např: driver1)"  
 class="w-full p-3 rounded bg-gray-800 border border-gray-700">  <input id="driverPin"  
 placeholder="PIN"  
@@ -57,7 +57,7 @@ const messaging = getMessaging(app);
 
 if ("serviceWorker" in navigator) {
 
-navigator.serviceWorker.register("firebase-messaging-sw.js")
+navigator.serviceWorker.register("/Driver-taxi/firebase-messaging-sw.js")
 .then(function(registration){
 console.log("Service Worker registered");
 });
@@ -71,19 +71,10 @@ const historyList = document.getElementById("historyList");
 const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 let currentRideId = null;
-let lastRideIds = [];
-
-const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
-rideSound.loop = true;
 
 /* DRIVER LOGIN */
 
 window.driverLogin = async function(){
-
-rideSound.play().then(()=>{
-rideSound.pause();
-rideSound.currentTime = 0;
-}).catch(()=>{});
 
 const code = document.getElementById("driverCode").value.trim();
 const pin = parseInt(document.getElementById("driverPin").value);
@@ -155,8 +146,6 @@ serviceWorkerRegistration: registration
 
 if(token){
 
-alert("TOKEN OK");
-
 await updateDoc(doc(db,"drivers",driverId),{
 pushToken: token
 });
@@ -216,7 +205,6 @@ enableHighAccuracy:true
 function listenForRides(){
 
 onSnapshot(collection(db,"rides"),snapshot=>{
-let newRideIds = [];
 
 ridesList.innerHTML="";
 historyList.innerHTML="";
@@ -224,15 +212,12 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
-if(ride.status === "new"){
-newRideIds.push(ride.id);
-}
 
 if(ride.driverId === driverId){
 currentRideId = ride.id;
 }
 
-if(ride.status !== "new" && ride.driverId && ride.driverId !== driverId){
+if(ride.status !== "new" && ride.driverId !== driverId){
 return;
 }
 
@@ -275,8 +260,6 @@ acceptBtn.innerText="Přijmout";
 acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
 acceptBtn.onclick=()=>{
-rideSound.pause();
-rideSound.currentTime = 0;
 
 currentRideId = ride.id;
 
@@ -462,11 +445,7 @@ ridesList.appendChild(div);
 }
 
 });
-if(newRideIds.length > lastRideIds.length){
-rideSound.play().catch(()=>{});
-}
 
-lastRideIds = newRideIds;
 });
 
 }
@@ -616,12 +595,6 @@ pdf.save("prehled_jizd_mesic.pdf");
 
 };
 
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js")
-.then(()=>console.log("PWA ready"))
-.catch(err=>console.log("SW error",err));
-}
+</script></body>
 
-</script>  
-</body>  
 </html>  
