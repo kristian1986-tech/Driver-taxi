@@ -256,7 +256,7 @@ const ride = {id:docSnap.id,...docSnap.data()};
 currentRideId = ride.id;
   }
 
-if(ride.status === "new"){
+if(ride.status === "new" || ride.driverId === driverId){
 const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
 audio.play();
 
