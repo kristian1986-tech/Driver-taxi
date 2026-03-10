@@ -250,8 +250,22 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
+
 if(ride.status === "new"){
 newRideIds.push(ride.id);
+
+// SUNET
+const audio = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+audio.play();
+
+// NOTIFICARE
+if(Notification.permission === "granted"){
+new Notification("Cursă nouă 🚕",{
+body: ride.pickup + " → " + ride.destination,
+icon: "/Driver-taxi/icon-192.png"
+});
+}
+
 }
   
   if(ride.driverId === driverId){
