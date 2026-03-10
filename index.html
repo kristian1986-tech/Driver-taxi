@@ -232,7 +232,7 @@ if(ride.driverId === driverId){
 currentRideId = ride.id;
 }
 
-if(ride.status !== "new" && ride.driverId !== driverId){
+if(ride.status !== "new" && ride.driverId && ride.driverId !== driverId){
 return;
 }
 
