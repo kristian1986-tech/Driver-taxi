@@ -87,15 +87,7 @@ appId: "1:872925880546:web:12da74898c90a0155b7ebb"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messaging = getMessaging(app);
-  
-if ("serviceWorker" in navigator) {
 
-navigator.serviceWorker.register("firebase-messaging-sw.js")
-.then(function(registration){
-console.log("Service Worker registered");
-});
-
-}
 
 const loginSection = document.getElementById("loginSection");
 const driverPanel = document.getElementById("driverPanel");
