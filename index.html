@@ -68,8 +68,13 @@ const historyList = document.getElementById("historyList");
 const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 let currentRideId = null;
+let lastRideIds = [];
 
-/* DRIVER LOGIN */
+const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+rideSound.loop = true;
+
+    /* DRIVER LOGIN */
+      
 
 window.driverLogin = async function(){
 
@@ -203,6 +208,8 @@ function listenForRides(){
 
 onSnapshot(collection(db,"rides"),snapshot=>{
 
+let newRideIds = [];
+
 ridesList.innerHTML="";
 historyList.innerHTML="";
 
@@ -210,6 +217,10 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
+if(ride.status === "new"){
+newRideIds.push(ride.id);
+}
+  
 if(ride.driverId === driverId){
 currentRideId = ride.id;
 }
@@ -439,7 +450,13 @@ ridesList.appendChild(div);
 }
 
 });
+  
+if(newRideIds.length > lastRideIds.length){
+rideSound.play().catch(()=>{});
+}
 
+lastRideIds = newRideIds;
+  
 });
 
 }
