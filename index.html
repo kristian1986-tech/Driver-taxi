@@ -456,6 +456,18 @@ ridesList.appendChild(div);
   
 if(newRideIds.length > lastRideIds.length){
 rideSound.play().catch(()=>{});
+  
+if(navigator.vibrate){
+navigator.vibrate([400,200,400,200,400]);
+}
+  
+if(Notification.permission === "granted"){
+new Notification("🚕 Nová jízda!",{
+body:"Máte novou objednávku taxi.",
+icon:"https://maps.google.com/mapfiles/kml/shapes/cabs.png"
+});
+}
+  
 }
 
 lastRideIds = newRideIds;
