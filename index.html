@@ -1,48 +1,44 @@
-<!DOCTYPE html><html lang="cs">  <head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <link rel="manifest" href="manifest.json">  <title>Driver Panel</title>    <script src="https://cdn.tailwindcss.com"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>  </head>    <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"  
-placeholder="Driver ID (např: driver1)"  
-class="w-full p-3 rounded bg-gray-800 border border-gray-700">  <input id="driverPin"  
-placeholder="PIN"  
-type="password"  
-class="w-full p-3 rounded bg-gray-800 border border-gray-700">
+<!DOCTYPE html><html lang="cs">  <head>    <meta charset="UTF-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">    
+  <title>Driver Panel</title>     
+  <script src="https://cdn.tailwindcss.com">  </script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<button onclick="driverLogin()"  
+</head>      
+  <body class="bg-gray-900 text-white min-h-screen p-6"><h1 class="text-2xl font-bold mb-6">Řidič panel</h1><!-- LOGIN DRIVER --><div id="loginSection" class="max-w-md space-y-4"><input id="driverCode"    
+placeholder="Driver ID (např: driver1)"    
+class="w-full p-3 rounded bg-gray-800 border border-gray-700">  <input id="driverPin"    
+placeholder="PIN"    
+type="password"    
+class="w-full p-3 rounded bg-gray-800 border border-gray-700">  <button id="loginBtn"  
 class="w-full bg-yellow-500 text-black font-bold py-3 rounded">
 Přihlásit se
 </button>
 
-</div><!-- DRIVER PANEL -->  
-  <div id="driverPanel" class="hidden">  
-<div class="flex flex-col gap-4 mb-6">  <div class="flex gap-3">  
-<input type="month"  
-id="monthSelect"  
-class="bg-gray-700 px-4 py-3 rounded text-white flex-1">  <button onclick="exportMonth()"  
-class="bg-green-600 px-4 py-3 rounded font flex-1">
-Exportovat měsíc
-</button>
-
-</div>  <div class="flex gap-3">  
-<button onclick="showActive()"  
-class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">  
-Aktivní jízdy  
-</button>  <button onclick="showHistory()"  
-class="bg-gray-600 px-4 py-3 rounded flex-1">
-Historie
-</button>
-
-</div>  <button onclick="logoutDriver()"  
-class="bg-red-500 px-4 py-3 rounded">
-Odhlásit
-</button>
-
-</div>  <h2 id="historyTitle" class="text-xl font-bold mt-6 hidden">  
-Historie jízd  
-</h2>  <div id="ridesList" class="space-y-4 mt-6"></div>  <div id="historyList" class="space-y-4 mt-6 hidden"></div>  </div><script type="module">  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";
-
-const firebaseConfig = {
+</div><!-- DRIVER PANEL -->    
+  <div id="driverPanel" class="hidden">    
+<div class="flex flex-col gap-4 mb-6">  <div class="flex gap-3">    
+<input type="month"    
+id="monthSelect"    
+class="bg-gray-700 px-4 py-3 rounded text-white flex-1">  <button onclick="exportMonth()"    
+class="bg-green-600 px-4 py-3 rounded font flex-1">  
+Exportovat měsíc  
+</button>  </div>  <div class="flex gap-3">    
+<button onclick="showActive()"    
+class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">    
+Aktivní jízdy    
+</button>  <button onclick="showHistory()"    
+class="bg-gray-600 px-4 py-3 rounded flex-1">  
+Historie  
+</button>  </div>  <button onclick="logoutDriver()"    
+class="bg-red-500 px-4 py-3 rounded">  
+Odhlásit  
+</button>  </div>  <h2 id="historyTitle" class="text-xl font-bold mt-6 hidden">    
+Historie jízd    
+</h2>  <div id="ridesList" class="space-y-4 mt-6"></div>  <div id="historyList" class="space-y-4 mt-6 hidden"></div>   
+  </div>  
+    <script type="module">  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";  
+import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";  
+import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";  const firebaseConfig = {
 apiKey: "AIzaSyCSapx5d9v_fxpPBzuOfnH66lvQoQ8H-6E",
 authDomain: "taxi-kristian.firebaseapp.com",
 projectId: "taxi-kristian",
@@ -55,6 +51,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const messaging = getMessaging(app);
 
+if ("serviceWorker" in navigator) {
+
+navigator.serviceWorker.register("/Driver-taxi/firebase-messaging-sw.js")
+.then(function(registration){
+console.log("Service Worker registered");
+});
+
+}
+
 const loginSection = document.getElementById("loginSection");
 const driverPanel = document.getElementById("driverPanel");
 const ridesList = document.getElementById("ridesList");
@@ -62,19 +67,10 @@ const historyList = document.getElementById("historyList");
 const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 let currentRideId = null;
-let lastRideIds = [];
-
-const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
-rideSound.loop = true;
 
 /* DRIVER LOGIN */
 
 window.driverLogin = async function(){
-
-rideSound.play().then(()=>{
-rideSound.pause();
-rideSound.currentTime = 0;
-}).catch(()=>{});
 
 const code = document.getElementById("driverCode").value.trim();
 const pin = parseInt(document.getElementById("driverPin").value);
@@ -137,7 +133,7 @@ if(permission === "granted"){
 
 try{
 
-const registration = await navigator.serviceWorker.register('/Driver-taxi/firebase-messaging-sw.js');
+const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
 
 const token = await getToken(messaging,{
 vapidKey:"BNjO8QUOa0ncoJsS_XsEwYeWzwYzskAkbPGaMlDv4WOgvWXKQmsEMhKluwF_yPYxYkBKZqpDx05ERWQp2DI7-Ck",
@@ -145,8 +141,6 @@ serviceWorkerRegistration: registration
 });
 
 if(token){
-
-alert("TOKEN OK");
 
 await updateDoc(doc(db,"drivers",driverId),{
 pushToken: token
@@ -207,7 +201,6 @@ enableHighAccuracy:true
 function listenForRides(){
 
 onSnapshot(collection(db,"rides"),snapshot=>{
-let newRideIds = [];
 
 ridesList.innerHTML="";
 historyList.innerHTML="";
@@ -215,9 +208,6 @@ historyList.innerHTML="";
 snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
-if(ride.status === "new"){
-newRideIds.push(ride.id);
-}
 
 if(ride.driverId === driverId){
 currentRideId = ride.id;
@@ -244,30 +234,26 @@ const cas = rideDate
 
 div.innerHTML = `
 
-<p class="ride-date" data-date="${rideDate ? rideDate.toISOString() : ""}">  
-<strong>Datum:</strong> ${datum}  
-</p>  
-<p><strong>Čas:</strong> ${cas}</p>  <p><strong>Odkud:</strong> ${ride.pickup}</p>  
-<p><strong>Kam:</strong> ${ride.destination}</p>  <p><strong>Vzdálenost:</strong> ${ride.distance ? ride.distance.toFixed(1)+" km" : "-"}</p>  
-<p><strong>Cena:</strong> ${ride.estimatedPrice} Kč</p>  <p><strong>Telefon:</strong> ${ride.phone || "N/A"}</p>  
-<p><strong>Status:</strong> ${ride.status}</p>  
-`;  if(ride.phone){
-const callBtn=document.createElement("a");
-callBtn.href=tel:${ride.phone};
-callBtn.innerText="Zavolat klientovi";
-callBtn.className="mt-2 block bg-gray-600 px-4 py-2 rounded text-center";
-div.appendChild(callBtn);
-}
-
-if(ride.status==="new"){
+<p class="ride-date" data-date="${rideDate ? rideDate.toISOString() : ""}">    
+<strong>Datum:</strong> ${datum}    
+</p>    
+<p><strong>Čas:</strong> ${cas}</p>  <p><strong>Odkud:</strong> ${ride.pickup}</p>    
+<p><strong>Kam:</strong> ${ride.destination}</p>  <p><strong>Vzdálenost:</strong> ${ride.distance ? ride.distance.toFixed(1)+" km" : "-"}</p>    
+<p><strong>Cena:</strong> ${ride.estimatedPrice} Kč</p>  <p><strong>Telefon:</strong> ${ride.phone || "N/A"}</p>    
+<p><strong>Status:</strong> ${ride.status}</p>    
+`;  if(ride.phone){  
+const callBtn=document.createElement("a");  
+callBtn.href = `tel:${ride.phone}`;  
+callBtn.innerText="Zavolat klientovi";  
+callBtn.className="mt-2 block bg-gray-600 px-4 py-2 rounded text-center";  
+div.appendChild(callBtn);  
+}  if(ride.status==="new"){
 
 const acceptBtn=document.createElement("button");
 acceptBtn.innerText="Přijmout";
 acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
 acceptBtn.onclick=()=>{
-rideSound.pause();
-rideSound.currentTime = 0;
 
 currentRideId = ride.id;
 
@@ -453,11 +439,7 @@ ridesList.appendChild(div);
 }
 
 });
-if(newRideIds.length > lastRideIds.length){
-rideSound.play().catch(()=>{});
-}
 
-lastRideIds = newRideIds;
 });
 
 }
@@ -607,12 +589,10 @@ pdf.save("prehled_jizd_mesic.pdf");
 
 };
 
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("sw.js")
-.then(()=>console.log("PWA ready"))
-.catch(err=>console.log("SW error",err));
-}
+window.addEventListener("DOMContentLoaded", () => {
+document.getElementById("loginBtn").addEventListener("click", driverLogin);
+});
 
 </script>  
-</body>  
-</html>  Alta rezerva driver
+</body> 
+</html>
