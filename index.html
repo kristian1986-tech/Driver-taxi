@@ -266,7 +266,10 @@ acceptBtn.innerText="Přijmout";
 acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
 acceptBtn.onclick=()=>{
-
+  
+rideSound.pause();
+rideSound.currentTime = 0;
+  
 currentRideId = ride.id;
 
 updateDoc(doc(db,"rides",ride.id),{
