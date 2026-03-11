@@ -265,10 +265,9 @@ driverId:driverId
 const pickup = encodeURIComponent(ride.pickup);
 
 window.open(
-https://www.google.com/maps/dir/?api=1&destination=${pickup}&travelmode=driving,
+`https://www.google.com/maps/dir/?api=1&destination=${pickup}&travelmode=driving`,
 "_blank"
 );
-
 };
 
 div.appendChild(acceptBtn);
