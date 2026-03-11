@@ -290,6 +290,20 @@ window.open(
 div.appendChild(acceptBtn);
 }
 
+const rejectBtn=document.createElement("button");
+rejectBtn.innerText="Zrušit";
+rejectBtn.className="mt-2 bg-red-600 px-4 py-2 rounded";
+
+rejectBtn.onclick=()=>{
+
+updateDoc(doc(db,"rides",ride.id),{
+status:"rejected"
+});
+
+};
+
+div.appendChild(rejectBtn);
+
 if(ride.status==="confirmed" && ride.driverId===driverId){
 
 const arriveBtn=document.createElement("button");
