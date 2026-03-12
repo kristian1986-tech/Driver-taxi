@@ -306,6 +306,9 @@ rejectBtn.className="mt-2 bg-red-500 px-4 py-2 rounded";
 
 rejectBtn.onclick=()=>{
 
+rideSound.pause();
+rideSound.currentTime = 0;
+
 updateDoc(doc(db,"rides",ride.id),{
 rejectedDrivers: arrayUnion(driverId)
 });
