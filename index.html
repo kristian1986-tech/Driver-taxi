@@ -484,29 +484,20 @@ ridesList.appendChild(div);
 });
   
 if(newRideIds.length > lastRideIds.length){
+
 rideSound.play().catch(()=>{});
-}
 
-if(newRideIds.length === 0){
-rideSound.pause();
-rideSound.currentTime = 0;
-}
-
-lastRideIds = newRideIds;
-
-lastRideIds = newRideIds;
-  
 if(navigator.vibrate){
 navigator.vibrate([400,200,400,200,400]);
 }
-  
+
 if(Notification.permission === "granted"){
 new Notification("🚕 Nová jízda!",{
 body:"Máte novou objednávku taxi.",
 icon:"https://maps.google.com/mapfiles/kml/shapes/cabs.png"
 });
 }
-  
+
 }
 
 lastRideIds = newRideIds;
