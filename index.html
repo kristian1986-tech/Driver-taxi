@@ -238,6 +238,10 @@ if(
 ride.rejectedDrivers &&
 ride.rejectedDrivers.includes(driverId)
 ){
+
+rideSound.pause();
+rideSound.currentTime = 0;
+
 return;
 }
 
