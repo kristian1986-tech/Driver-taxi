@@ -276,19 +276,21 @@ let distanceText = "";
 if(
 ride.pickupLat &&
 ride.pickupLng &&
-ride.driverLat &&
-ride.driverLng
+driverLat &&
+driverLng
 ){
 
 const km = distanceKm(
-ride.driverLat,
-ride.driverLng,
+driverLat,
+driverLng,
 ride.pickupLat,
 ride.pickupLng
 );
 
 distanceText =
-"<p><strong>🚕 Od vás:</strong> "+km.toFixed(1)+" km</p>";
+"<p><strong>🚕 Od vás:</strong> "
++ km.toFixed(1) +
+" km</p>";
 
 }
 
