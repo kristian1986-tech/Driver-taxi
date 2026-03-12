@@ -237,6 +237,17 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
+let driverLat = null;
+let driverLng = null;
+
+const driverDoc = await getDoc(doc(db,"drivers",driverId));
+
+if(driverDoc.exists()){
+const driverData = driverDoc.data();
+driverLat = driverData.lat;
+driverLng = driverData.lng;
+}
+
 if(
   ride.status === "new" &&
   (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
@@ -283,9 +294,7 @@ ride.pickupLng
 );
 
 distanceText =
-"<p><strong>Vzdálenost od vás:</strong> "
-+ km.toFixed(1) +
-" km</p>";
+"<p><strong>🚕 Od vás:</strong> "+km.toFixed(1)+" km</p>";
 
 }
 
