@@ -89,6 +89,8 @@ const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 let currentRideId = null;
 let lastRideIds = [];
+let driverLat = null;
+let driverLng = null;
 
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
 rideSound.loop = true;
@@ -197,6 +199,9 @@ navigator.geolocation.watchPosition(async pos=>{
 
 const lat = pos.coords.latitude;
 const lng = pos.coords.longitude;
+
+driverLat = lat;
+driverLng = lng;
 
 await updateDoc(doc(db,"drivers",driverId),{
 lat:lat,
