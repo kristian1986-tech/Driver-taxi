@@ -271,13 +271,13 @@ let distanceText = "";
 if(
 ride.pickupLat &&
 ride.pickupLng &&
-driverLat &&
-driverLng
+ride.driverLat &&
+ride.driverLng
 ){
 
 const km = distanceKm(
-driverLat,
-driverLng,
+ride.driverLat,
+ride.driverLng,
 ride.pickupLat,
 ride.pickupLng
 );
