@@ -219,8 +219,11 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
-if(ride.status === "new"){
-newRideIds.push(ride.id);
+if(
+  ride.status === "new" &&
+  (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
+){
+  newRideIds.push(ride.id);
 }
   
 if(ride.driverId === driverId){
