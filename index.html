@@ -485,6 +485,14 @@ ridesList.appendChild(div);
   
 if(newRideIds.length > lastRideIds.length){
 rideSound.play().catch(()=>{});
+}
+
+if(newRideIds.length === 0){
+rideSound.pause();
+rideSound.currentTime = 0;
+}
+
+lastRideIds = newRideIds;
   
 if(navigator.vibrate){
 navigator.vibrate([400,200,400,200,400]);
