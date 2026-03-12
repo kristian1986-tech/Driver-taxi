@@ -305,7 +305,7 @@ window.open(
 };
 
 div.appendChild(acceptBtn);
-}
+
 
 const rejectBtn=document.createElement("button");
 rejectBtn.innerText="Zrušit";
@@ -323,7 +323,7 @@ rejectedDrivers: arrayUnion(driverId)
 };
 
 div.appendChild(rejectBtn);
-
+}
 if(ride.status==="confirmed" && ride.driverId===driverId){
 
 const arriveBtn=document.createElement("button");
