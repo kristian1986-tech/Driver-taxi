@@ -266,6 +266,29 @@ rideSound.currentTime = 0;
 return;
 }
 
+let distanceText = "";
+
+if(
+ride.pickupLat &&
+ride.pickupLng &&
+driverLat &&
+driverLng
+){
+
+const km = distanceKm(
+driverLat,
+driverLng,
+ride.pickupLat,
+ride.pickupLng
+);
+
+distanceText =
+"<p><strong>Vzdálenost od vás:</strong> "
++ km.toFixed(1) +
+" km</p>";
+
+}
+
 const div = document.createElement("div");
 div.className="bg-gray-700 p-4 rounded";
 
