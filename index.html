@@ -203,8 +203,6 @@ const lng = pos.coords.longitude;
 driverLat = lat;
 driverLng = lng;
 
-listenForRides();
-
 await updateDoc(doc(db,"drivers",driverId),{
 lat:lat,
 lng:lng
@@ -275,14 +273,11 @@ return;
 
 let distanceText = "";
 
-const lat = driverLat || 49.7384;
-const lng = driverLng || 13.3736;
-
 if(ride.pickupLat && ride.pickupLng){
 
 const km = distanceKm(
-lat,
-lng,
+49.7384,
+13.3736,
 ride.pickupLat,
 ride.pickupLng
 );
