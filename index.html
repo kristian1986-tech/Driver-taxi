@@ -203,6 +203,8 @@ const lng = pos.coords.longitude;
 driverLat = lat;
 driverLng = lng;
 
+listenForRides();
+
 await updateDoc(doc(db,"drivers",driverId),{
 lat:lat,
 lng:lng
