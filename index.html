@@ -273,7 +273,7 @@ return;
 
 let distanceText = "";
 
-if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
+if(ride.pickupLat != null && ride.pickupLng != null && driverLat != null && driverLng != null){
 
 const km = distanceKm(
 driverLat,
