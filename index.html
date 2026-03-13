@@ -273,11 +273,16 @@ return;
 
 let distanceText = "";
 
-if(ride.pickupLat != null && ride.pickupLng != null){
+if(
+ride.pickupLat &&
+ride.pickupLng &&
+driverLat &&
+driverLng
+){
 
 const km = distanceKm(
-49.7384,
-13.3736,
+driverLat,
+driverLng,
 ride.pickupLat,
 ride.pickupLng
 );
