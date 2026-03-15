@@ -287,8 +287,15 @@ newRideIds.push(ride.id);
 
 }
   
-if(ride.driverId === driverId){
+if(
+ride.driverId === driverId &&
+ride.status !== "completed" &&
+ride.status !== "cancelled" &&
+ride.status !== "rejected"
+){
 currentRideId = ride.id;
+}else{
+currentRideId = null;
 }
 
 if(
