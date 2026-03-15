@@ -716,7 +716,11 @@ pdf.save("prehled_jizd_mesic.pdf");
 window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("loginBtn").addEventListener("click", window.driverLogin);
 });
-
+      
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker.register("/sw.js");
+}
+      
 </script>  
 </body> 
 </html>
