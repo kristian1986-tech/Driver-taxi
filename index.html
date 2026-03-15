@@ -287,6 +287,12 @@ ride.pickupLat,
 ride.pickupLng
 );
 
+/* LIMITARE RAZA */
+
+if(km > 20){
+return;
+}
+
 distanceText =
 "<p><strong>🚕 Od vás:</strong> "
 + km.toFixed(1) +
