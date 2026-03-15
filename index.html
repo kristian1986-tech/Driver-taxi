@@ -212,7 +212,8 @@ if(currentRideId){
 
 await updateDoc(doc(db,"rides",currentRideId),{
 driverLat:lat,
-driverLng:lng
+driverLng:lng,
+driverUpdatedAt: Date.now()
 });
 
 }
