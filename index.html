@@ -242,6 +242,23 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
+/* LIMITARE RAZA */
+
+if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
+
+const km = distanceKm(
+driverLat,
+driverLng,
+ride.pickupLat,
+ride.pickupLng
+);
+
+if(km > 20){
+return;
+}
+
+}
+
 if(
 ride.status === "new" &&
 (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
@@ -301,12 +318,6 @@ driverLng,
 ride.pickupLat,
 ride.pickupLng
 );
-
-/* LIMITARE RAZA */
-
-if(km > 20){
-return;
-}
 
 distanceText =
 "<p><strong>🚕 Od vás:</strong> "
