@@ -363,14 +363,24 @@ const acceptBtn=document.createElement("button");
 acceptBtn.innerText="Přijmout";
 acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
-acceptBtn.onclick=()=>{
-  
+acceptBtn.onclick = async ()=>{
+
 rideSound.pause();
 rideSound.currentTime = 0;
-  
+
+const rideRef = doc(db,"rides",ride.id);
+const rideSnap = await getDoc(rideRef);
+
+if(!rideSnap.exists()) return;
+
+if(rideSnap.data().status !== "new"){
+alert("Tuto jízdu už přijal jiný řidič.");
+return;
+}
+
 currentRideId = ride.id;
 
-updateDoc(doc(db,"rides",ride.id),{
+await updateDoc(rideRef,{
 status:"confirmed",
 driverId:driverId
 });
@@ -381,6 +391,7 @@ window.open(
 `https://www.google.com/maps/dir/?api=1&destination=${pickup}&travelmode=driving`,
 "_blank"
 );
+
 };
 
 div.appendChild(acceptBtn);
