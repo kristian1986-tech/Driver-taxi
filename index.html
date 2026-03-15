@@ -243,10 +243,25 @@ snapshot.forEach(docSnap=>{
 const ride = {id:docSnap.id,...docSnap.data()};
 
 if(
-  ride.status === "new" &&
-  (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
+ride.status === "new" &&
+(!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
 ){
-  newRideIds.push(ride.id);
+
+if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
+
+const km = distanceKm(
+driverLat,
+driverLng,
+ride.pickupLat,
+ride.pickupLng
+);
+
+if(km <= 20){
+newRideIds.push(ride.id);
+}
+
+}
+
 }
   
 if(ride.driverId === driverId){
