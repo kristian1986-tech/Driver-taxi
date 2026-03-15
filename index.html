@@ -139,6 +139,11 @@ requestNotificationPermission();
 
 window.logoutDriver = async function(){
 
+if(currentRideId){
+alert("Nejdříve dokončete aktuální jízdu.");
+return;
+}
+
 await updateDoc(doc(db,"drivers",driverId),{
 status:"offline"
 });
