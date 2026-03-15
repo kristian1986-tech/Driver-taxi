@@ -140,8 +140,25 @@ requestNotificationPermission();
 window.logoutDriver = async function(){
 
 if(currentRideId){
+
+const rideRef = doc(db,"rides",currentRideId);
+const rideSnap = await getDoc(rideRef);
+
+if(rideSnap.exists()){
+
+const ride = rideSnap.data();
+
+if(
+ride.status === "confirmed" ||
+ride.status === "arrived" ||
+ride.status === "in_progress"
+){
 alert("Nejdříve dokončete aktuální jízdu.");
 return;
+}
+
+}
+
 }
 
 await updateDoc(doc(db,"drivers",driverId),{
