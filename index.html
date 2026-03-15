@@ -287,15 +287,8 @@ newRideIds.push(ride.id);
 
 }
   
-if(
-ride.driverId === driverId &&
-ride.status !== "completed" &&
-ride.status !== "cancelled" &&
-ride.status !== "rejected"
-){
+if(ride.driverId === driverId){
 currentRideId = ride.id;
-}else{
-currentRideId = null;
 }
 
 if(
@@ -486,7 +479,12 @@ statusDiv.className = "text-sm text-gray-300 mt-2";
 statusDiv.innerText = "Status jízdy: " + ride.status;
 
 div.appendChild(statusDiv);
+  
 if(ride.status==="completed"){
+
+if(ride.driverId === driverId){
+currentRideId = null;
+}
 
 const receiptBtn=document.createElement("button");
 
