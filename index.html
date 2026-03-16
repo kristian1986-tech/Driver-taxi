@@ -681,7 +681,19 @@ listenForRides();
 
 window.showActive = function(){
 
-document.getElementById("activeBtn").classList.add("ring","ring-yellow-300","ring-2");
+const activeBtn = document.getElementById("activeBtn");
+
+const activeVisible = !ridesList.classList.contains("hidden");
+
+if(activeVisible){
+
+ridesList.classList.add("hidden");
+resetButtons();
+
+}else{
+
+resetButtons();
+activeBtn.classList.add("ring","ring-yellow-300","ring-2");
 
 ridesList.classList.remove("hidden");
 historyList.classList.add("hidden");
@@ -691,6 +703,8 @@ document.getElementById("statsPanel").classList.add("hidden");
 
 }
 
+}
+      
 window.showHistory = function(){
 
 const historyVisible = !historyList.classList.contains("hidden");
