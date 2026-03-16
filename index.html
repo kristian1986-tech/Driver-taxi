@@ -27,14 +27,41 @@ Exportovat měsíc
 </button>  </div>  <div class="flex gap-3">    
 <button onclick="showActive()"    
 class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">    
-Aktivní jízdy    
-</button>  <button onclick="showHistory()"    
+Aktivní jízdy </button> 
+  
+<button onclick="showHistory()"    
 class="bg-gray-600 px-4 py-3 rounded flex-1">  
-Historie  
-</button>  </div>  <button onclick="logoutDriver()"    
+Historie  </button>
+
+<button onclick="toggleStats()" 
+class="bg-blue-600 px-4 py-3 rounded flex-1">
+Statistika
+</button>
+
+  <div id="statsPanel" class="hidden space-y-4 mt-4">
+
+<div class="bg-gray-800 p-4 rounded-xl">
+<p class="text-gray-400">💰 Dnes</p>
+<p id="todayEarnings" class="text-2xl font-bold text-green-400">0 Kč</p>
+</div>
+
+<div class="bg-gray-800 p-4 rounded-xl">
+<p class="text-gray-400">📅 Tento týden</p>
+<p id="weekEarnings" class="text-2xl font-bold text-yellow-400">0 Kč</p>
+</div>
+
+<div class="bg-gray-800 p-4 rounded-xl">
+<p class="text-gray-400">📆 Tento měsíc</p>
+<p id="monthEarnings" class="text-2xl font-bold text-blue-400">0 Kč</p>
+</div>
+
+  </div>
+
+</div>  <button onclick="logoutDriver()"    
 class="bg-red-500 px-4 py-3 rounded">  
-Odhlásit  
-</button>  </div>  <h2 id="historyTitle" class="text-xl font-bold mt-6 hidden">    
+Odhlásit </button> 
+  
+</div>  <h2 id="historyTitle" class="text-xl font-bold mt-6 hidden">    
 Historie jízd    
 </h2>  <div id="ridesList" class="space-y-4 mt-6"></div>  <div id="historyList" class="space-y-4 mt-6 hidden"></div>   
   </div>  
@@ -774,6 +801,63 @@ pdf.text(total+" Kc ",180,y,{align:"right"});
 pdf.save("prehled_jizd_mesic.pdf");
 
 };
+
+window.toggleStats = function(){
+
+const panel = document.getElementById("statsPanel");
+
+panel.classList.toggle("hidden");
+
+calculateStats();
+
+}
+
+/* CALCUL VÝDĚLKŮ */
+
+function calculateStats(){
+
+let today = 0;
+let week = 0;
+let month = 0;
+
+const now = new Date();
+
+historyList.querySelectorAll("div").forEach(div=>{
+
+const dateText = div.querySelector(".ride-date");
+if(!dateText) return;
+
+const rideDate = new Date(dateText.dataset.date);
+
+const priceMatch = div.innerText.match(/Cena:\s*(\d+)/);
+if(!priceMatch) return;
+
+const price = parseFloat(priceMatch[1]);
+
+const diffDays = (now - rideDate) / (1000*60*60*24);
+
+if(rideDate.toDateString() === now.toDateString()){
+today += price;
+}
+
+if(diffDays <= 7){
+week += price;
+}
+
+if(
+rideDate.getMonth() === now.getMonth() &&
+rideDate.getFullYear() === now.getFullYear()
+){
+month += price;
+}
+
+});
+
+document.getElementById("todayEarnings").innerText = today + " Kč";
+document.getElementById("weekEarnings").innerText = week + " Kč";
+document.getElementById("monthEarnings").innerText = month + " Kč";
+
+}
 
 window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("loginBtn").addEventListener("click", window.driverLogin);
