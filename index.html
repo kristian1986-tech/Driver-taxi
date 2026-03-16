@@ -687,9 +687,23 @@ historyTitle.classList.add("hidden");
 
 window.showHistory = function(){
 
+const historyVisible = !historyList.classList.contains("hidden");
+
+if(historyVisible){
+
+historyList.classList.add("hidden");
+historyTitle.classList.add("hidden");
+
+}else{
+
 ridesList.classList.add("hidden");
+
 historyList.classList.remove("hidden");
 historyTitle.classList.remove("hidden");
+
+document.getElementById("statsPanel").classList.add("hidden");
+
+}
 
 }
 
