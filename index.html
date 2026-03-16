@@ -245,7 +245,12 @@ enableHighAccuracy:true
 
 function listenForRides(){
 
-onSnapshot(collection(db,"rides"),snapshot=>{
+const ridesQuery = query(
+collection(db,"rides"),
+where("status","in",["new","confirmed","arrived","in_progress"])
+);
+
+onSnapshot(ridesQuery,snapshot=>{
 
 let newRideIds = [];
 
