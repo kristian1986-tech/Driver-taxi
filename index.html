@@ -806,6 +806,10 @@ window.toggleStats = function(){
 
 const panel = document.getElementById("statsPanel");
 
+ridesList.classList.add("hidden");
+historyList.classList.add("hidden");
+historyTitle.classList.add("hidden");
+
 panel.classList.toggle("hidden");
 
 calculateStats();
