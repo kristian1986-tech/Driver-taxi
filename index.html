@@ -137,7 +137,29 @@ requestNotificationPermission();
 
 /* LOGOUT */
 
+window.logoutDriver = async function(){
 
+const q = query(
+collection(db,"rides"),
+where("driverId","==",driverId),
+where("status","in",["confirmed","arrived","in_progress"])
+);
+
+const snap = await getDocs(q);
+
+if(!snap.empty){
+alert("Nejdříve dokončete aktuální jízdu.");
+return;
+}
+
+await updateDoc(doc(db,"drivers",driverId),{
+status:"offline"
+});
+
+localStorage.removeItem("driverId");
+location.reload();
+
+}
 
 async function requestNotificationPermission(){
 
