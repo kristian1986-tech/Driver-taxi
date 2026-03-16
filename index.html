@@ -25,9 +25,11 @@ class="bg-gray-700 px-4 py-3 rounded text-white flex-1">  <button onclick="expor
 class="bg-green-600 px-4 py-3 rounded font flex-1">  
 Exportovat měsíc  
 </button>  </div>  <div class="flex gap-3">    
-<button onclick="showActive()"    
-class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">    
-Aktivní jízdy </button> 
+
+<button id="activeBtn" onclick="showActive()"
+class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">
+Aktivní jízdy
+</button>
   
 <button onclick="showHistory()"    
 class="bg-gray-600 px-4 py-3 rounded flex-1">  
@@ -679,9 +681,13 @@ listenForRides();
 
 window.showActive = function(){
 
+document.getElementById("activeBtn").classList.add("ring","ring-yellow-300","ring-2");
+
 ridesList.classList.remove("hidden");
 historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
+
+document.getElementById("statsPanel").classList.add("hidden");
 
 }
 
