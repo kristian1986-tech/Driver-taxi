@@ -770,6 +770,28 @@ document.getElementById("statsPanel").classList.add("hidden");
 
 }
 
+window.showRules = function(){
+
+document.getElementById("rulesPanel").classList.toggle("hidden");
+
+document.getElementById("statsPanel").classList.add("hidden");
+historyList.classList.add("hidden");
+historyTitle.classList.add("hidden");
+ridesList.classList.add("hidden");
+
+}
+
+window.showSettings = function(){
+
+document.getElementById("settingsPanel").classList.toggle("hidden");
+
+document.getElementById("statsPanel").classList.add("hidden");
+historyList.classList.add("hidden");
+historyTitle.classList.add("hidden");
+ridesList.classList.add("hidden");
+
+}
+
 window.exportMonth = function(){
 
 const value = document.getElementById("monthSelect").value;
