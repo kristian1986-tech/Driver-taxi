@@ -26,7 +26,7 @@ z-index:0;
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>      
-  <body class="bg-gray-900 text-white min-h-screen p-6">
+<body class="bg-gray-900 text-white min-h-screen p-6 pb-24">
 
 <div id="watermark"></div>
 
@@ -912,7 +912,32 @@ document.getElementById("monthEarnings").innerText = month + " Kč";
 window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("loginBtn").addEventListener("click", window.driverLogin);
 });
-      
-</script>  
+
+</script>
+
+<div class="fixed bottom-0 left-0 w-full bg-gray-800 border-t border-gray-700 flex justify-around py-3 text-sm">
+
+<button onclick="showActive()" class="flex flex-col items-center">
+🏠
+<span>Domů</span>
+</button>
+
+<a href="tel:+420777842870" class="flex flex-col items-center">
+📞
+<span>Podpora</span>
+</a>
+
+<button onclick="showRules()" class="flex flex-col items-center">
+📜
+<span>Pravidla</span>
+</button>
+
+<button onclick="showSettings()" class="flex flex-col items-center">
+⚙️
+<span>Nastavení</span>
+</button>
+
+</div>
+  
 </body> 
 </html>
