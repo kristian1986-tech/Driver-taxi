@@ -775,23 +775,45 @@ document.getElementById("settingsPanel").classList.add("hidden");
 
 window.showRules = function(){
 
-document.getElementById("rulesPanel").classList.toggle("hidden");
+const panel = document.getElementById("rulesPanel");
 
+const isVisible = !panel.classList.contains("hidden");
+
+// închidem TOT
+document.getElementById("settingsPanel").classList.add("hidden");
 document.getElementById("statsPanel").classList.add("hidden");
 historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
 ridesList.classList.add("hidden");
+
+// toggle DOAR rules
+if(isVisible){
+panel.classList.add("hidden");
+}else{
+panel.classList.remove("hidden");
+}
 
 }
 
 window.showSettings = function(){
 
-document.getElementById("settingsPanel").classList.toggle("hidden");
+const panel = document.getElementById("settingsPanel");
 
+const isVisible = !panel.classList.contains("hidden");
+
+// închidem TOT
+document.getElementById("rulesPanel").classList.add("hidden");
 document.getElementById("statsPanel").classList.add("hidden");
 historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
 ridesList.classList.add("hidden");
+
+// toggle DOAR settings
+if(isVisible){
+panel.classList.add("hidden");
+}else{
+panel.classList.remove("hidden");
+}
 
 }
 
