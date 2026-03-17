@@ -745,7 +745,8 @@ historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
 
 document.getElementById("statsPanel").classList.add("hidden");
-
+document.getElementById("rulesPanel").classList.add("hidden");
+document.getElementById("settingsPanel").classList.add("hidden");
 }
       
 window.showHistory = function(){
@@ -765,7 +766,9 @@ historyList.classList.remove("hidden");
 historyTitle.classList.remove("hidden");
 
 document.getElementById("statsPanel").classList.add("hidden");
-
+document.getElementById("rulesPanel").classList.add("hidden");
+document.getElementById("settingsPanel").classList.add("hidden");
+  
 }
 
 }
@@ -909,6 +912,8 @@ const panel = document.getElementById("statsPanel");
 ridesList.classList.add("hidden");
 historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
+document.getElementById("rulesPanel").classList.add("hidden");
+document.getElementById("settingsPanel").classList.add("hidden");
 
 panel.classList.toggle("hidden");
 
