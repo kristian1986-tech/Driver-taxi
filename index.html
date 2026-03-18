@@ -652,6 +652,7 @@ receiptBtn.onclick = ()=>{
 const { jsPDF } = window.jspdf;
 
 const pdf = new jsPDF();
+pdf.setFont("helvetica", "normal");
 
 /* DATA */
 const rideDate = ride.createdAt
@@ -670,7 +671,7 @@ pdf.text("COBRA",105,20,{align:"center"});
 pdf.setFontSize(10);
 pdf.setFont("helvetica","normal");
 
-pdf.text("preprava osob Plzen",105,28,{align:"center"});
+pdf.text("přeprava osob Plzeñ",105,28,{align:"center"});
 pdf.text("Telefon: +420 777 842 870",105,34,{align:"center"});
 pdf.text("Email: Nicolaecristian100@yahoo.com",105,40,{align:"center"});
 
@@ -686,7 +687,7 @@ const receiptNumber =
 year + "-" +
 ride.id.slice(-6).toUpperCase();
 
-pdf.text("UCTENKA #"+receiptNumber,105,55,{align:"center"});
+pdf.text("ÚČTENKA #"+receiptNumber,105,55,{align:"center"});
 
 pdf.setFont("helvetica","normal");
 pdf.setFontSize(11);
@@ -705,7 +706,7 @@ pdf.text("Kam: "+ride.destination,20,120);
 
 pdf.text("Telefon: "+(ride.phone || "-"),20,135);
 
-pdf.text("Vzdalenost: "+(ride.distance ? ride.distance.toFixed(1)+" km" : "-"),20,150);
+pdf.text("Vzdálenost: "+(ride.distance ? ride.distance.toFixed(1)+" km" : "-"),20,150);
 
 pdf.line(20,160,190,160);
 
@@ -724,9 +725,9 @@ pdf.line(20,190,190,190);
 pdf.setFontSize(9);
 pdf.setFont("helvetica","normal");
 
-pdf.text("Dekujeme za využití naše služby.",105,205,{align:"center"});
+pdf.text("Děkujeme za využití naší služby.",105,205,{align:"center"});
 
-pdf.save("uctenka_taxi.pdf");
+pdf.save("učtenka_cobra.pdf");
 
 };
 
