@@ -681,11 +681,8 @@ pdf.line(20,45,190,45);
 
 pdf.setFontSize(14);
 pdf.setFont("helvetica","bold");
-const year = new Date().getFullYear();
 
-const receiptNumber =
-year + "-" +
-ride.id.slice(-6).toUpperCase();
+const receiptNumber = ride.receiptId || ("OLD-" + ride.id.slice(-6));
 
 pdf.text("ÚČTENKA #"+receiptNumber,105,55,{align:"center"});
 
