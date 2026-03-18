@@ -31,7 +31,12 @@ z-index:0;
 <div id="watermark"></div>
 
 <h1 class="text-2xl font-bold mb-6">Řidič panel</h1>
-    
+
+<div class="bg-gray-800 p-4 rounded-xl mb-4 text-center">
+  <p class="text-gray-400">⭐ Hodnocení řidiče</p>
+  <p id="driverRating" class="text-2xl font-bold text-yellow-400">0.0 ⭐</p>
+</div>
+  
     <!-- LOGIN DRIVER -->
 <div id="loginSection" class="max-w-md space-y-4">
 <input id="driverCode"    
@@ -270,7 +275,8 @@ status:"online"
 
 loginSection.classList.add("hidden");
 driverPanel.classList.remove("hidden");
-
+loadDriverRating();
+  
 startLocationTracking();
 listenForRides();
 requestNotificationPermission();
@@ -1046,6 +1052,25 @@ document.getElementById("monthEarnings").innerText = month + " Kč";
 window.addEventListener("DOMContentLoaded", () => {
 document.getElementById("loginBtn").addEventListener("click", window.driverLogin);
 });
+
+function loadDriverRating(){
+
+const driverRef = doc(db,"drivers",driverId);
+
+onSnapshot(driverRef,(snap)=>{
+
+if(!snap.exists()) return;
+
+const data = snap.data();
+
+const avg = data.ratingAvg || 0;
+
+document.getElementById("driverRating").innerText =
+avg.toFixed(1) + " ⭐";
+
+});
+
+}
 
 </script>
 
