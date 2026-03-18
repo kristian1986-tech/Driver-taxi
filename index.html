@@ -671,7 +671,7 @@ pdf.text("COBRA",105,20,{align:"center"});
 pdf.setFontSize(10);
 pdf.setFont("helvetica","normal");
 
-pdf.text("přeprava osob Plzeñ",105,28,{align:"center"});
+pdf.text("preprava osob Plzeñ",105,28,{align:"center"});
 pdf.text("Telefon: +420 777 842 870",105,34,{align:"center"});
 pdf.text("Email: Nicolaecristian100@yahoo.com",105,40,{align:"center"});
 
@@ -684,7 +684,7 @@ pdf.setFont("helvetica","bold");
 
 const receiptNumber = ride.receiptId || ("OLD-" + ride.id.slice(-6));
 
-pdf.text("ÚČTENKA #"+receiptNumber,105,55,{align:"center"});
+pdf.text("ÚCTENKA #"+receiptNumber,105,55,{align:"center"});
 
 pdf.setFont("helvetica","normal");
 pdf.setFontSize(11);
@@ -722,7 +722,7 @@ pdf.line(20,190,190,190);
 pdf.setFontSize(9);
 pdf.setFont("helvetica","normal");
 
-pdf.text("Děkujeme za využití naší služby.",105,205,{align:"center"});
+pdf.text("Dekujeme za využití naší služby.",105,205,{align:"center"});
 
 pdf.save("učtenka_cobra.pdf");
 
