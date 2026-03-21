@@ -725,12 +725,34 @@ pdf.line(20,95,190,95);
 
 /* RIDE INFO */
 
-pdf.text("Odkud: "+ride.pickup,20,110);
-pdf.text("Kam: "+ride.destination,20,120);
+// 🔥 FIX TEXT (adrese lungi + diacritice)
+function fixText(text){
+  return text
+    .replace(/ň/g,"n")
+    .replace(/ř/g,"r")
+    .replace(/š/g,"s")
+    .replace(/č/g,"c")
+    .replace(/ž/g,"z")
+    .replace(/ě/g,"e")
+    .replace(/á/g,"a")
+    .replace(/í/g,"i")
+    .replace(/ý/g,"y")
+    .replace(/ů/g,"u");
+}
 
-pdf.text("Telefon: "+(ride.phone || "-"),20,135);
+const odkud = fixText(ride.pickup || "");
+const kam = fixText(ride.destination || "");
 
-pdf.text("Vzdálenost: "+(ride.distance ? ride.distance.toFixed(1)+" km" : "-"),20,150);
+// 🔥 WRAP automat (nu mai taie textul)
+const odkudLines = pdf.splitTextToSize("Odkud: " + odkud, 170);
+pdf.text(odkudLines, 20, 110);
+
+// 🔥 mută restul sub el
+let y = 110 + (odkudLines.length * 6);
+
+pdf.text("Kam: " + kam, 20, y);
+pdf.text("Telefon: " + (ride.phone || "-"), 20, y + 10);
+pdf.text("Vzdálenost: " + (ride.distance ? ride.distance.toFixed(1)+" km" : "-"), 20, y + 20);
 
 pdf.line(20,160,190,160);
 
