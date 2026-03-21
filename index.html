@@ -76,18 +76,20 @@ Exportovat měsíc
 </button>  </div>  <div class="flex gap-3">    
 
 <button id="activeBtn" onclick="showActive()"
-class="bg-yellow-500 text-black px-4 py-3 rounded flex-1">
-Aktivní jízdy
+class="bg-yellow-500 text-black px-4 py-3 rounded-xl flex-1 shadow-lg active:scale-95 transition">
+🚕 Aktivní jízdi
 </button>
-  
-<button onclick="showHistory()"    
-class="bg-gray-600 px-4 py-3 rounded flex-1">  
-Historie  </button>
+
+<button onclick="showHistory()"
+class="bg-gray-700 px-4 py-3 rounded-xl flex-1 shadow active:scale-95 transition">
+📄 Historie
+</button>
 
 <button onclick="toggleStats()" 
-class="bg-blue-600 px-4 py-3 rounded flex-1">
-Statistika
-</button>
+class="bg-blue-600 px-4 py-3 rounded-xl flex-1 shadow active:scale-95 transition">
+📊 Statistika
+</button> 
+
 </div>
   
   <div id="statsPanel" class="hidden space-y-4 mt-4">
