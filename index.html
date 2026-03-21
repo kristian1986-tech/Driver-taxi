@@ -966,18 +966,7 @@ img.onload = function(){
 
   pdf.addImage(img, "PNG", 80, 10, 50, 25); // poziție + mărime
 
-  pdf.setFontSize(20);
-  pdf.setFont("helvetica","bold");
-  pdf.text("COBRA",105,40,{align:"center"});
-
-  pdf.setFontSize(12);
-  pdf.setFont("helvetica","normal");
-  pdf.text("preprava osob Plzen",105,48,{align:"center"});
-
-  pdf.setFontSize(14);
-  pdf.text("Prehled jízd",105,60,{align:"center"});
-
-  // 🔥 restul codului (tabel etc) MUTĂ-L AICI
+    // 🔥 restul codului (tabel etc) MUTĂ-L AICI
 
 pdf.setFontSize(20);
 pdf.setFont("helvetica","bold");
@@ -991,7 +980,7 @@ pdf.setFontSize(14);
 pdf.text("Prehled jízd",105,38,{align:"center"});
 pdf.line(20,45,190,45);
   
-let y = 50;
+let y = 80;
 
 pdf.setFontSize(10);
 
