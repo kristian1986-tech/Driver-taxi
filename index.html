@@ -724,8 +724,7 @@ pdf.text("Cas: "+cas,20,85);
 pdf.line(20,95,190,95);
 
 /* RIDE INFO */
-// 🔥 TEXT FIX FINAL
-
+  
 function fixText(text){
   return text
     .replace(/ň/g,"n")
@@ -743,22 +742,26 @@ function fixText(text){
 const odkud = fixText(ride.pickup || "");
 const kam = fixText(ride.destination || "");
 
-// 🔥 font uniform
 pdf.setFont("helvetica","normal");
 pdf.setFontSize(11);
 
-// 🔥 wrap mai mic (ca să nu iasă din pagină)
-const odkudLines = pdf.splitTextToSize("Odkud: " + odkud, 160);
+// 🔥 LABEL separat
+pdf.text("Odkud:", 20, 110);
 
-pdf.text(odkudLines, 20, 110);
+// 🔥 DOAR ADRESA se face wrap
+const odkudLines = pdf.splitTextToSize(odkud, 140);
 
-// 🔥 calc Y corect
+// 🔥 începe mai în dreapta (IMPORTANT!)
+pdf.text(odkudLines, 40, 110);
+
+// 🔥 calcul Y corect
 let y = 110 + (odkudLines.length * 5);
 
-// 🔥 restul perfect aliniat
+// 🔥 restul
 pdf.text("Kam: " + kam, 20, y);
 pdf.text("Telefon: " + (ride.phone || "-"), 20, y + 8);
 pdf.text("Vzdálenost: " + (ride.distance ? ride.distance.toFixed(1)+" km" : "-"), 20, y + 16);
+  
 pdf.line(20,160,190,160);
 
 /* TOTAL */
