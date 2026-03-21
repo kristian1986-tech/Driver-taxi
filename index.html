@@ -274,6 +274,7 @@ return;
 }
 
 const data = driverSnap.data();
+window.driverData = data;
 
 if(data.pin !== pin){
 alert("Špatný PIN");
@@ -979,8 +980,15 @@ pdf.text("preprava osob Plzen",105,53,{align:"center"});
 pdf.setFontSize(14);
 pdf.text("Prehled jízd",105,65,{align:"center"});
 pdf.line(20,75,190,75);
+
+pdf.setFontSize(10);
+
+pdf.text("Jméno: " + (window.driverData?.name || "-"),20,85);
+pdf.text("IČO: " + (window.driverData?.ico || "-"),20,92);
+
+pdf.text("Období: " + value,140,55);
   
-let y = 85;
+let y = 105;
 
 pdf.setFontSize(10);
 
