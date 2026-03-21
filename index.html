@@ -970,15 +970,15 @@ img.onload = function(){
 
 pdf.setFontSize(20);
 pdf.setFont("helvetica","bold");
-pdf.text("COBRA",105,20,{align:"center"});
+pdf.text("COBRA",105,40,{align:"center"});
 
 pdf.setFontSize(12);
 pdf.setFont("helvetica","normal");
-pdf.text("preprava osob Plzen",105,28,{align:"center"});
+pdf.text("preprava osob Plzen",105,48,{align:"center"});
 
 pdf.setFontSize(14);
-pdf.text("Prehled jízd",105,38,{align:"center"});
-pdf.line(20,45,190,45);
+pdf.text("Prehled jízd",105,60,{align:"center"});
+pdf.line(20,70,190,70);
   
 let y = 80;
 
@@ -1067,6 +1067,8 @@ pdf.text("CELKEM:",140,y);
 pdf.text(total+" Kc ",180,y,{align:"right"});
 
 pdf.save("prehled_jizd_mesic.pdf");
+
+};
 
 };
 
