@@ -736,7 +736,8 @@ function fixText(text){
     .replace(/á/g,"a")
     .replace(/í/g,"i")
     .replace(/ý/g,"y")
-    .replace(/ů/g,"u");
+    .replace(/ů/g,"u")
+    .replace(/ă/g,"a");
 }
 
 const odkud = fixText(ride.pickup || "");
@@ -746,10 +747,10 @@ pdf.setFont("helvetica","normal");
 pdf.setFontSize(11);
 
 // 🔥 LABEL separat
-pdf.text("Odkud:", 20, 100);
+pdf.text("Odkud:", 20, 110);
 
 // 🔥 DOAR ADRESA se face wrap
-const odkudLines = pdf.splitTextToSize(odkud, 100);
+const odkudLines = pdf.splitTextToSize(odkud, 140);
 
 // 🔥 începe mai in dreapta (IMPORTANT!)
 pdf.text(odkudLines, 40, 110);
