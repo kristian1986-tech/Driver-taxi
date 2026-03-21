@@ -746,12 +746,12 @@ pdf.setFont("helvetica","normal");
 pdf.setFontSize(11);
 
 // 🔥 LABEL separat
-pdf.text("Odkud:", 20, 110);
+pdf.text("Odkud:", 20, 100);
 
 // 🔥 DOAR ADRESA se face wrap
-const odkudLines = pdf.splitTextToSize(odkud, 120);
+const odkudLines = pdf.splitTextToSize(odkud, 110);
 
-// 🔥 începe mai în stânga (IMPORTANT!)
+// 🔥 începe mult  mai în stânga (IMPORTANT!)
 pdf.text(odkudLines, 40, 110);
 
 // 🔥 calcul Y corect
