@@ -856,6 +856,13 @@ if(savedDriver){
 
 driverId = savedDriver;
 
+const driverRef = doc(db,"drivers",savedDriver);
+const driverSnap = await getDoc(driverRef);
+
+if(driverSnap.exists()){
+  window.driverData = driverSnap.data();
+}
+
 loginSection.classList.add("hidden");
 driverPanel.classList.remove("hidden");
 
@@ -1142,7 +1149,8 @@ document.getElementById("monthEarnings").innerText = month + " Kč";
 
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
+  
 document.getElementById("loginBtn").addEventListener("click", window.driverLogin);
 });
 
