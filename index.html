@@ -741,6 +741,7 @@ function fixText(text){
 }
 
 const odkud = fixText(ride.pickup || "");
+  
 const kam = fixText(ride.destination || "");
 
 pdf.setFont("helvetica","normal");
@@ -750,7 +751,7 @@ pdf.setFontSize(11);
 pdf.text("Odkud:", 20, 110);
 
 // 🔥 DOAR ADRESA se face wrap
-const odkudLines = pdf.splitTextToSize(odkud, 140);
+const odkudLines = pdf.splitTextToSize(odkud, 110);
 
 // 🔥 începe mai in dreapta (IMPORTANT!)
 pdf.text(odkudLines, 40, 110);
