@@ -749,9 +749,9 @@ pdf.setFontSize(11);
 pdf.text("Odkud:", 20, 110);
 
 // 🔥 DOAR ADRESA se face wrap
-const odkudLines = pdf.splitTextToSize(odkud, 140);
+const odkudLines = pdf.splitTextToSize(odkud, 120);
 
-// 🔥 începe mai în dreapta (IMPORTANT!)
+// 🔥 începe mai în stânga (IMPORTANT!)
 pdf.text(odkudLines, 40, 110);
 
 // 🔥 calcul Y corect
