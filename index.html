@@ -959,12 +959,18 @@ const selectedMonth = parseInt(value.split("-")[1]) - 1;
 const { jsPDF } = window.jspdf;
 const pdf = new jsPDF();
 
-pdf.setFontSize(18);
-pdf.text("Taxi Plzen",105,20,{align:"center"});
+pdf.setFontSize(20);
+pdf.setFont("helvetica","bold");
+pdf.text("COBRA",105,20,{align:"center"});
+
+pdf.setFontSize(12);
+pdf.setFont("helvetica","normal");
+pdf.text("preprava osob Plzen",105,28,{align:"center"});
 
 pdf.setFontSize(14);
-pdf.text("Prehled jízd",105,30,{align:"center"});
-
+pdf.text("Prehled jízd",105,38,{align:"center"});
+pdf.line(20,45,190,45);
+  
 let y = 50;
 
 pdf.setFontSize(10);
