@@ -266,7 +266,7 @@ return;
 }
 
 driverId = code;
-
+window.isPriorityDriver = data.priority === true;
 localStorage.setItem("driverId",driverId);
 
 await updateDoc(driverRef,{
