@@ -258,8 +258,10 @@ let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
 
-const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg");
+const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
+rideSound.volume = 1.0;
+rideSound.preload = "auto";
 
     /* DRIVER LOGIN */
       
