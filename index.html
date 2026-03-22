@@ -1182,6 +1182,24 @@ avg.toFixed(1) + " ⭐";
 
 }
 
+
+function openNavigation(address){
+
+  const encoded = encodeURIComponent(address);
+
+  // 🔥 citește din dropdown (NU salvăm nimic)
+  const navSelect = document.getElementById("navSelect");
+  const nav = navSelect ? navSelect.value : "waze";
+
+  if(nav === "waze"){
+    window.open(`https://waze.com/ul?q=${encoded}&navigate=yes`,"_blank");
+  }else{
+    window.open(`https://www.google.com/maps/dir/?api=1&destination=${encoded}&travelmode=driving`,"_blank");
+  }
+
+}
+      
+
 </script>
 
 <div class="fixed bottom-0 left-0 w-full bg-gray-800 border-t border-gray-700 flex justify-around py-3 text-sm">
