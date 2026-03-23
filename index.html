@@ -579,8 +579,10 @@ return;
 currentRideId = ride.id;
 
 await updateDoc(rideRef,{
-status:"confirmed",
-driverId:driverId
+  status:"confirmed",
+  driverId:driverId,
+  driverName: window.driverData.name,
+  driverIco: window.driverData.ico
 });
 
 openNavigation(ride.pickup);
