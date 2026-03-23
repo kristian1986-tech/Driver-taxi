@@ -816,10 +816,18 @@ navigator.vibrate([300,100,300,100,600]);
 }
 
 if(Notification.permission === "granted"){
-new Notification("🚕 Nová jízda!",{
-body:"Máte novou objednávku taxi.",
-icon:"https://maps.google.com/mapfiles/kml/shapes/cabs.png"
-});
+
+  navigator.serviceWorker.ready.then(reg => {
+
+    reg.showNotification("🚕 Nová jízda!", {
+      body: "Máte novou objednávku taxi",
+      icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
+      vibrate: [300,100,300,100,600],
+      requireInteraction: true
+    });
+
+  });
+
 }
 
 }
