@@ -766,7 +766,7 @@ let y = 110 + (odkudLines.length * 6);
 pdf.text("Kam: " + kam, 20, y + 6);
 pdf.text("Telefon: " + (ride.phone || "-"), 20, y + 16);
 pdf.text("Řidič: " + (ride.driverName || "-"), 20, y + 26);
-pdf.text("IČO: " + (ride.driverIco || "-"), 20, y + 36);
+pdf.text("ICO: " + (ride.driverIco || "-"), 20, y + 36);
 pdf.text("Vzdálenost: " + (ride.distance ? ride.distance.toFixed(1)+" km" : "-"), 20, y + 26); 
 pdf.line(20,160,190,160);
 
