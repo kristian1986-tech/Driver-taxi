@@ -705,8 +705,10 @@ pdf.text("Tel: +420 777 842 870",105,34,{align:"center"});
 pdf.text("Email: Nicolaecristian100@yahoo.com",105,40,{align:"center"});
 
 pdf.line(20,45,190,45);
+  
+const receiptNumber = ride.receiptId || ("COBRA-" + ride.id.slice(-8));
 
-/* TITLE */
+  /* TITLE */
 
 pdf.setFontSize(14);
 pdf.setFont("helvetica","bold");
@@ -803,6 +805,8 @@ pdf.setFontSize(9);
 pdf.setFont("helvetica","normal");
 
 pdf.text("Děkujeme za využití našich služeb.",105,yPos,{align:"center"});
+
+pdf.save("uctenka_cobra.pdf");
   
 };
 
