@@ -692,15 +692,16 @@ const cas = rideDate.toLocaleTimeString("cs-CZ",{hour:"2-digit",minute:"2-digit"
 
 /* HEADER */
 
-pdf.setFontSize(20);
+pdf.setFontSize(22);
 pdf.setFont("helvetica","bold");
 pdf.text("COBRA",105,20,{align:"center"});
 
-pdf.setFontSize(10);
+pdf.setFontSize(11);
 pdf.setFont("helvetica","normal");
+pdf.text("Přeprava osob Plzeň",105,28,{align:"center"});
 
-pdf.text("preprava osob Plzeñ",105,28,{align:"center"});
-pdf.text("Telefon: +420 777 842 870",105,34,{align:"center"});
+pdf.setFontSize(10);
+pdf.text("Tel: +420 777 842 870",105,34,{align:"center"});
 pdf.text("Email: Nicolaecristian100@yahoo.com",105,40,{align:"center"});
 
 pdf.line(20,45,190,45);
@@ -709,22 +710,25 @@ pdf.line(20,45,190,45);
 
 pdf.setFontSize(14);
 pdf.setFont("helvetica","bold");
+pdf.text("ÚČTENKA",105,55,{align:"center"});
 
-const receiptNumber = ride.receiptId || ("OLD-" + ride.id.slice(-6));
-
-pdf.text("ÚCTENKA #"+receiptNumber,105,55,{align:"center"});
-
+pdf.setFontSize(10);
 pdf.setFont("helvetica","normal");
+pdf.text("#" + receiptNumber,105,62,{align:"center"});
+
+  /* DATA */
+
 pdf.setFontSize(11);
 
-/* DATA */
+pdf.text("Datum:",20,75);
+pdf.text(datum,60,75);
 
-pdf.text("Datum: "+datum,20,75);
-pdf.text("Cas: "+cas,20,85);
+pdf.text("Čas:",20,85);
+pdf.text(cas,60,85);
 
 pdf.line(20,95,190,95);
 
-/* RIDE INFO */
+  /* RIDE INFO */
   
 function fixText(text){
   return text
@@ -746,55 +750,60 @@ const odkud = fixText(ride.pickup || "");
   
 const kam = fixText(ride.destination || "");
 
+let yPos = 110;
+
+pdf.setFont("helvetica","bold");
+pdf.text("Detaily jízdy",20,yPos);
+
+yPos += 10;
 pdf.setFont("helvetica","normal");
-pdf.setFontSize(11);
 
-// 🔥 LABEL separat
-pdf.text("Odkud:", 20, 110);
+pdf.text("Odkud:",20,yPos);
+pdf.text(odkud,60,yPos);
 
-// 🔥 DOAR ADRESA se face wrap
-const odkudLines = pdf.splitTextToSize(odkud, 110);
-
-// 🔥 începe mai in dreapta (IMPORTANT!)
-pdf.text(odkudLines, 40, 110);
-
-// 🔥 calcul Y corect
-let y = 110 + (odkudLines.length * 7);
-
-// 🔥 restul
-
-let yPos = y + 6;
-
-pdf.text("Kam: " + kam, 20, yPos);
 yPos += 10;
+pdf.text("Kam:",20,yPos);
+pdf.text(kam,60,yPos);
 
-pdf.text("Ridic: " + (ride.driverName || "-"), 20, yPos);
 yPos += 10;
+pdf.text("Telefon:",20,yPos);
+pdf.text(ride.phone || "-",60,yPos);
 
-pdf.text("ICO: " + (ride.driverIco || "-"), 20, yPos);
 yPos += 10;
+pdf.text("Řidič:",20,yPos);
+pdf.text(ride.driverName || "-",60,yPos);
 
-pdf.text("Vzdálenost: " + (ride.distance ? ride.distance.toFixed(1)+" km" : "-"), 20, yPos);
+yPos += 10;
+pdf.text("IČO:",20,yPos);
+pdf.text(ride.driverIco || "-",60,yPos);
 
+yPos += 10;
+pdf.text("Vzdálenost:",20,yPos);
+pdf.text((ride.distance ? ride.distance.toFixed(1)+" km" : "-"),60,yPos);
+  
 /* TOTAL */
+
+yPos += 20;
+
+pdf.line(20,yPos,190,yPos);
+
+yPos += 10;
 
 pdf.setFont("helvetica","bold");
 pdf.setFontSize(14);
 
-pdf.text("Celkem:",20,180);
-pdf.text((ride.estimatedPrice || 0)+" Kc",150,180);
-
-pdf.line(20,190,190,190);
-
+pdf.text("CELKEM",20,yPos);
+pdf.text((ride.estimatedPrice || 0)+" Kč",190,yPos,{align:"right"});
+  
 /* FOOTER */
+
+yPos += 15;
 
 pdf.setFontSize(9);
 pdf.setFont("helvetica","normal");
 
-pdf.text("Dekujeme za využití naší služby.",105,205,{align:"center"});
-
-pdf.save("učtenka_cobra.pdf");
-
+pdf.text("Děkujeme za využití našich služeb.",105,yPos,{align:"center"});
+  
 };
 
 div.appendChild(receiptBtn);
