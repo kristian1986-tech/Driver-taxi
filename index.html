@@ -1074,11 +1074,15 @@ return text
 }
 
 pdf.text(normalize(datum),20,y);
-pdf.text(normalize(from.substring(0,20)),50,y);
-pdf.text(normalize(to.substring(0,20)),110,y);
+const fromLines = pdf.splitTextToSize(normalize(from), 55);
+const toLines = pdf.splitTextToSize(normalize(to), 55);
+
+pdf.text(fromLines,50,y);
+pdf.text(toLines,110,y);
 pdf.text(price+" Kc ",180,y,{align:"right"});
 
-y += 10;
+const lines = Math.max(fromLines.length, toLines.length);
+y += lines * 8;
 
 if(y > 270){
 pdf.addPage();
