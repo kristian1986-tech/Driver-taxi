@@ -570,6 +570,8 @@ acceptBtn.className="mt-3 bg-green-600 px-4 py-2 rounded";
 
 acceptBtn.onclick = async ()=>{
 
+ currentRideId = ride.id; 
+  
 rideSound.pause();
 rideSound.currentTime = 0;
 
@@ -582,8 +584,6 @@ if(rideSnap.data().status !== "new"){
 alert("Tuto jízdu už přijal jiný řidič.");
 return;
 }
-
-currentRideId = ride.id;
 
 await updateDoc(rideRef,{
   status:"confirmed",
