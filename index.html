@@ -393,17 +393,24 @@ lat:lat,
 lng:lng
 });
 
-if(currentRideId){
-
-await updateDoc(doc(db,"rides",currentRideId),{
-driverLat:lat,
-driverLng:lng,
-driverUpdatedAt: Date.now()
+// 🔥 TRIMITE ÎN DRIVER (pentru hartă globală)
+await updateDoc(doc(db,"drivers",driverId),{
+  lat:lat,
+  lng:lng
 });
 
+// 🔥 TRIMITE ȘI ÎN CURSA ACTIVĂ (dacă există)
+if(currentRideId){
+  await updateDoc(doc(db,"rides",currentRideId),{
+    driverLat:lat,
+    driverLng:lng,
+    driverUpdatedAt: Date.now()
+  });
 }
-
+  
 },
+
+                                    
 error=>{
 console.log("GPS error",error);
 },
