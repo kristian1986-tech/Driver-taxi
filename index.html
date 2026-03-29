@@ -254,6 +254,7 @@ const historyList = document.getElementById("historyList");
 const historyTitle = document.getElementById("historyTitle");
 let driverId = null;
 let currentRideId = null;
+let lastPosition = null;     
 let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
@@ -385,12 +386,18 @@ navigator.geolocation.watchPosition(async pos=>{
 const lat = pos.coords.latitude;
 const lng = pos.coords.longitude;
 
+lastPosition = {
+  lat: lat,
+  lng: lng
+};
+  
 driverLat = lat;
 driverLng = lng;
 
 await updateDoc(doc(db,"drivers",driverId),{
-lat:lat,
-lng:lng
+  lat: lat,
+  lng: lng,
+  lastPing: Date.now()
 });
 
 // 🔥 TRIMITE ÎN DRIVER (pentru hartă globală)
@@ -419,6 +426,24 @@ enableHighAccuracy:true
 });
 
 }
+
+
+setInterval(async () => {
+
+  if(!driverId || !lastPosition) return;
+
+  try{
+    await updateDoc(doc(db,"drivers",driverId),{
+      lat: lastPosition.lat,
+      lng: lastPosition.lng,
+      lastPing: Date.now()
+    });
+  }catch(e){
+    console.log("refresh error", e);
+  }
+
+}, 10000);
+      
 
 /* LISTEN RIDES */
 
