@@ -834,10 +834,8 @@ div.appendChild(receiptBtn);
 }
 
 if(
-ride.status==="completed" ||
-ride.status==="cancelled" ||
-ride.status==="rejected"
-){
+ride.status==="completed" ){
+  
 div.className="bg-gray-800 p-4 rounded opacity-70";
 historyList.appendChild(div);
 }else{
