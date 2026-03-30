@@ -204,7 +204,11 @@ Odhlásit </button>
 Historie jízd    
 </h2>  <div id="ridesList" class="space-y-4 mt-6"></div>  <div id="historyList" class="space-y-4 mt-6 hidden"></div>   
   </div>  
+
+  
     <script type="module"> 
+
+      
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";  
 import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, arrayUnion, query, where, getDocs,orderBy} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";  
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";  const firebaseConfig = {
@@ -458,10 +462,13 @@ let newRideIds = [];
 ridesList.innerHTML="";
 historyList.innerHTML="";
 
-snapshot.forEach(docSnap=>{
+snapshot.docChanges().forEach(change => {
 
-const ride = {id:docSnap.id,...docSnap.data()};
+  if(change.type !== "added") return;
 
+  const docSnap = change.doc;
+  const ride = {id: docSnap.id, ...docSnap.data()};
+  
 /* LIMITARE RAZA */
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
