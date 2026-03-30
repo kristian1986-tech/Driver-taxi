@@ -833,14 +833,19 @@ div.appendChild(receiptBtn);
 
 }
 
-if(
-ride.status==="completed" ){
-  
-div.className="bg-gray-800 p-4 rounded opacity-70";
-historyList.appendChild(div);
-}else{
-ridesList.appendChild(div);
+if(ride.status==="completed"){
+  div.className="bg-gray-800 p-4 rounded opacity-70";
+  historyList.appendChild(div);
 }
+else if(
+  ride.status==="new" ||
+  ride.status==="confirmed" ||
+  ride.status==="arrived" ||
+  ride.status==="in_progress"
+){
+  ridesList.appendChild(div);
+}
+// 🔥 IMPORTANT: cancelled și rejected NU intră NICĂIERI
 
 });
   
