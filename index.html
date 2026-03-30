@@ -489,10 +489,12 @@ ride.status === "new" &&
 (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
 ){
 
-if(ride.priorityOnly === true && !window.isPriorityDriver){
-  // doar ignorăm afișarea, NU stricăm flow-ul
-}else{
+  // 🔥 PRIORITY FILTER (CORECT)
+  if(ride.priorityOnly === true && !window.isPriorityDriver){
+    return;
+  }
 
+  // 🔥 DISTANCE + ADD
   if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
 
     const km = distanceKm(
