@@ -490,9 +490,11 @@ ride.status === "new" &&
 ){
 
   // 🔥 PRIORITY FILTER (CORECT)
-  if(ride.priorityOnly === true && !window.isPriorityDriver){
-    return;
-  }
+  let canSeeRide = true;
+
+if(ride.priorityOnly === true && !window.isPriorityDriver){
+  canSeeRide = false;
+}
 
   // 🔥 DISTANCE + ADD
   if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
@@ -504,8 +506,9 @@ ride.status === "new" &&
       ride.pickupLng
     );
 
-    if(km <= 20){
-      newRideIds.push(ride.id);
+if(canSeeRide && km <= 20){
+    newRideIds.push(ride.id);
+    
     }
 
   }
@@ -862,7 +865,9 @@ else if(
   ride.status==="arrived" ||
   ride.status==="in_progress"
 ){
+ if(canSeeRide){
   ridesList.appendChild(div);
+ } 
 }
 // 🔥 IMPORTANT: cancelled și rejected NU intră NICĂIERI
 
