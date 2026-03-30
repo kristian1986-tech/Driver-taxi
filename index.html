@@ -489,14 +489,15 @@ ride.status === "new" &&
 ){
 
 // 🔥 PRIORITY LOGIC
-if(ride.priorityOnly === true){
 
-  // dacă NU e VIP → NU vede cursa
-  if(!window.isPriorityDriver){
+  if(ride.priorityOnly === true){
+
+  // dacă nu e pentru acest șofer → NU arăta
+  if(ride.targetDriverId !== driverId){
     return;
   }
 
-}
+  }
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
 
