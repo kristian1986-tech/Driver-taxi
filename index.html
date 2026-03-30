@@ -489,15 +489,27 @@ ride.status === "new" &&
 (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
 ){
 
-// 🔥 PRIORITY LOGIC
-if(ride.priorityOnly === true){
+if(ride.priorityOnly === true && !window.isPriorityDriver){
+  // doar ignorăm afișarea, NU stricăm flow-ul
+}else{
 
-  // dacă NU e VIP → NU vede cursa
-  if(!window.isPriorityDriver){
-    return;
+  if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
+
+    const km = distanceKm(
+      driverLat,
+      driverLng,
+      ride.pickupLat,
+      ride.pickupLng
+    );
+
+    if(km <= 20){
+      newRideIds.push(ride.id);
+    }
+
   }
 
 }
+  
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
 
