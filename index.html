@@ -517,11 +517,18 @@ currentRideId = ride.id;
 
 if(
 ride.status !== "new" &&
+ride.status !== "confirmed" &&
+ride.status !== "arrived" &&
+ride.status !== "in_progress" &&
 ride.driverId !== driverId
 ){
 return;
 }
 
+if(ride.status === "cancelled" || ride.status === "rejected"){
+return;
+}
+  
 if(
 ride.rejectedDrivers &&
 ride.rejectedDrivers.includes(driverId)
