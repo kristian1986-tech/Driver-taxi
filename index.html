@@ -204,7 +204,11 @@ Odhlásit </button>
 Historie jízd    
 </h2>  <div id="ridesList" class="space-y-4 mt-6"></div>  <div id="historyList" class="space-y-4 mt-6 hidden"></div>   
   </div>  
+
+  
     <script type="module"> 
+
+      
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";  
 import { getFirestore, collection, onSnapshot, doc, updateDoc, getDoc, arrayUnion, query, where, getDocs,orderBy} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";  
 import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js";  const firebaseConfig = {
@@ -258,7 +262,9 @@ let lastPosition = null;
 let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
+let cancelledNotified = {};
 
+      
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
 rideSound.volume = 1.0;
@@ -463,12 +469,14 @@ snapshot.forEach(docSnap=>{
 const ride = {id:docSnap.id,...docSnap.data()};
 
 
-// 🔥 DETECTARE CANCELLED
+// 🔥 DETECTARE CANCELLED (FINAL)
 if(
   ride.status === "cancelled" &&
   ride.driverId === driverId &&
-  lastRideIds.includes(ride.id)
+  !cancelledNotified[ride.id]
 ){
+
+  cancelledNotified[ride.id] = true;
 
   alert("❌ Klient zrušil jízdu");
 
