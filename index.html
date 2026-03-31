@@ -258,7 +258,9 @@ let lastPosition = null;
 let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
+let shownCancelled = {};
 
+      
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
 rideSound.volume = 1.0;
@@ -463,8 +465,19 @@ snapshot.forEach(docSnap=>{
 const ride = {id:docSnap.id,...docSnap.data()};
 
   
-  if(ride.status === "cancelled"){
-  alert("CANCEL DETECTAT");
+  if(
+  ride.status === "cancelled" &&
+  !shownCancelled[ride.id]
+){
+
+  shownCancelled[ride.id] = true;
+
+  alert("❌ Klient zrušil jízdu");
+
+  if(navigator.vibrate){
+    navigator.vibrate([200,100,200]);
+  }
+
   }
 
   
