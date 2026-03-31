@@ -462,6 +462,23 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
+
+// 🔥 DETECTARE CANCELLED
+if(
+  ride.status === "cancelled" &&
+  ride.driverId === driverId &&
+  lastRideIds.includes(ride.id)
+){
+
+  alert("❌ Klient zrušil jízdu");
+
+  if(navigator.vibrate){
+    navigator.vibrate([200,100,200]);
+  }
+
+}
+
+  
 /* LIMITARE RAZA */
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
