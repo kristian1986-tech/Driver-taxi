@@ -557,10 +557,7 @@ distanceText =
 }
 
 const div = document.createElement("div");
-// 🔥 NU afișa cancelled / rejected NICĂIERI
-if(ride.status === "cancelled" || ride.status === "rejected"){
-  return;
-}
+
 div.className="bg-gray-800 p-4 rounded-xl border border-gray-700";
 
 const rideDate = ride.createdAt
