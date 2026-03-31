@@ -860,8 +860,11 @@ ride.status==="rejected"
 ){
 div.className="bg-gray-800 p-4 rounded opacity-70";
 historyList.appendChild(div);
-}else{
-ridesList.appendChild(div);
+}else if(
+  ride.status !== "cancelled" &&
+  ride.status !== "rejected"
+){
+  ridesList.appendChild(div);
 }
 
 });
