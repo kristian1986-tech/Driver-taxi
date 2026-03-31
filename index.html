@@ -1061,9 +1061,7 @@ y += 10;
 let total = 0;
 
 historyList.querySelectorAll("div").forEach(div=>{
-if(!div.innerText.includes("Status: completed")){
-  return;
-}
+
 const dateText = div.querySelector(".ride-date");
 
 if(!dateText) return;
