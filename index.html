@@ -515,6 +515,23 @@ if(ride.driverId === driverId){
 currentRideId = ride.id;
 }
 
+  
+// 🔔 CLIENT A ANULAT (SAFE)
+if(
+  ride.status === "cancelled" &&
+  currentRideId === ride.id
+){
+
+  alert("❌ Klient zrušil jízdu");
+
+  if(navigator.vibrate){
+    navigator.vibrate([200,100,200]);
+  }
+
+  currentRideId = null;
+}
+
+  
 if(
 ride.status !== "new" &&
 ride.driverId !== driverId
