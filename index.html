@@ -263,7 +263,8 @@ let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
 let cancelledNotified = {};
-
+let myActiveRides = {};
+let cancelledNotified = {};
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -469,10 +470,10 @@ snapshot.forEach(docSnap=>{
 const ride = {id:docSnap.id,...docSnap.data()};
 
 
-// 🔥 DETECTARE CANCELLED (FINAL)
+// 🔥 DETECTARE CANCELLED FINAL
 if(
   ride.status === "cancelled" &&
-  ride.driverId === driverId &&
+  myActiveRides[ride.id] &&
   !cancelledNotified[ride.id]
 ){
 
@@ -540,6 +541,11 @@ if(ride.driverId === driverId){
 currentRideId = ride.id;
 }
 
+if(ride.driverId === driverId){
+  myActiveRides[ride.id] = true;
+}
+
+  
 if(
 ride.status !== "new" &&
 ride.driverId !== driverId
