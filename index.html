@@ -462,6 +462,13 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
+
+  // 🔥 IGNORĂ COMPLET cursele anulate
+if(ride.status === "cancelled" || ride.status === "rejected"){
+  return;
+}
+
+  
 /* LIMITARE RAZA */
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
