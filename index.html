@@ -258,7 +258,7 @@ let lastPosition = null;
 let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
-let shownCancelled = {};
+let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
 
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
