@@ -473,6 +473,7 @@ const ride = {id:docSnap.id,...docSnap.data()};
 ){
 
   shownCancelled[ride.id] = true;
+localStorage.setItem("shownCancelled", JSON.stringify(shownCancelled));
 
   alert("❌ Klient zrušil jízdu");
 
