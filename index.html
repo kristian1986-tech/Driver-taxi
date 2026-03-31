@@ -462,6 +462,14 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
+  // 🔔 DETECTARE CANCEL (FORȚAT)
+if(ride.status === "cancelled"){
+
+  console.log("CANCEL DETECTAT", ride.id);
+
+}
+
+  
 /* LIMITARE RAZA */
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
