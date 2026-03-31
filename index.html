@@ -450,11 +450,7 @@ setInterval(async () => {
 function listenForRides(){
 
 onSnapshot(
-  query(
-    collection(db,"rides"),
-    where("status","in",["new","confirmed","arrived","in_progress","completed"]),
-    orderBy("createdAt","desc")
-  ),
+  query(collection(db,"rides"), orderBy("createdAt","desc")),
   snapshot=>{
 
 let newRideIds = [];
