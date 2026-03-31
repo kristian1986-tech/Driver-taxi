@@ -462,12 +462,6 @@ snapshot.forEach(docSnap=>{
 
 const ride = {id:docSnap.id,...docSnap.data()};
 
-
-  // 🔥 IGNORĂ COMPLET cursele anulate
-if(ride.status === "cancelled" || ride.status === "rejected"){
-  return;
-}
-
   
 /* LIMITARE RAZA */
 
@@ -840,15 +834,17 @@ div.appendChild(receiptBtn);
 
 }
 
-if(
-ride.status==="completed" ||
-ride.status==="cancelled" ||
-ride.status==="rejected"
+if(ride.status==="completed"){
+  div.className="bg-gray-800 p-4 rounded opacity-70";
+  historyList.appendChild(div);
+}
+else if(
+  ride.status==="new" ||
+  ride.status==="confirmed" ||
+  ride.status==="arrived" ||
+  ride.status==="in_progress"
 ){
-div.className="bg-gray-800 p-4 rounded opacity-70";
-historyList.appendChild(div);
-}else{
-ridesList.appendChild(div);
+  ridesList.appendChild(div);
 }
 
 });
