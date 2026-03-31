@@ -909,7 +909,11 @@ const driverRef = doc(db,"drivers",savedDriver);
 const driverSnap = await getDoc(driverRef);
 
 if(driverSnap.exists()){
-  window.driverData = driverSnap.data();
+  const data = driverSnap.data();
+  window.driverData = data;
+
+  // 🔥 IMPORTANT
+  window.isPriorityDriver = data.priority === true;
 }
 
 loginSection.classList.add("hidden");
