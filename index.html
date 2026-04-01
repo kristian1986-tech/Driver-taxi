@@ -95,6 +95,9 @@ class="bg-blue-600 px-4 py-3 rounded-xl flex-1 shadow active:scale-95 transition
 📊 Statistika
 </button> 
 
+<div id="chatBox" class="bg-gray-800 p-3 rounded mt-3 max-h-40 overflow-y-auto text-sm"></div>
+
+  
 </div>
   
   <div id="statsPanel" class="hidden space-y-4 mt-4">
@@ -1273,6 +1276,40 @@ function openNavigation(address){
 }
       
 
+function listenMessagesDriver(rideId){
+
+onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
+
+const chatBox = document.getElementById("chatBox");
+if(!chatBox) return;
+
+// 🔥 curățăm ca să nu dubleze
+chatBox.innerHTML = "";
+
+snapshot.forEach(doc=>{
+const msg = doc.data();
+
+const div = document.createElement("div");
+div.innerText = msg.text;
+
+// stil simplu momentan
+if(msg.sender === "client"){
+div.className = "text-left text-white mb-1";
+}else{
+div.className = "text-right text-green-400 mb-1";
+}
+
+chatBox.appendChild(div);
+});
+
+// scroll jos
+chatBox.scrollTop = chatBox.scrollHeight;
+
+});
+}
+      
+
+      
 </script>
 
 <div class="fixed bottom-0 left-0 w-full bg-gray-800 border-t border-gray-700 flex justify-around py-3 text-sm">
