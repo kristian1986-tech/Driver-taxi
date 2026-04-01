@@ -1286,21 +1286,19 @@ function openNavigation(address){
 function listenMessagesDriver(rideId){
 
   
-  const chatBox = document.querySelector("#chatBox");
-if(!chatBox) return;
+  onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
 
-onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
+  const chatBox = document.querySelector("#chatBox");
+  if(!chatBox) return;
 
   // 🔥 verificăm dacă era jos ÎNAINTE
   const isAtBottom =
     chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 20;
 
-  // 🔥 reconstruim chat (ca înainte)
+  // 🔥 REFACEM chat (ca înainte, sigur)
   chatBox.innerHTML = "";
 
-  snapshot.docs
-  .sort((a,b)=> (a.data().createdAt?.seconds || 0) - (b.data().createdAt?.seconds || 0))
-  .forEach(doc=>{
+  snapshot.forEach(doc => {
 
     const msg = doc.data();
 
@@ -1314,9 +1312,10 @@ onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
     }
 
     chatBox.appendChild(div);
+
   });
 
-  // 🔥 DOAR dacă era jos → scroll
+  // 🔥 scroll doar dacă era jos
   if(isAtBottom){
     chatBox.scrollTop = chatBox.scrollHeight;
   }
