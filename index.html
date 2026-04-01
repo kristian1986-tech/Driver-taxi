@@ -1315,9 +1315,13 @@ chatBox.appendChild(div);
 
 });
 
-// scroll jos
-chatBox.scrollTop = chatBox.scrollHeight;
+const isAtBottom =
+  chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 20;
 
+if(isAtBottom){
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+  
 });
 }
       
