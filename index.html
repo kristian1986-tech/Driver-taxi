@@ -1340,7 +1340,18 @@ window.closeChat = function(){
   document.getElementById("chatPopup").classList.add("hidden");
 }      
 
+setTimeout(()=>{
+  const popup = document.getElementById("chatPopup");
+  if(popup){
+    popup.addEventListener("click", (e)=>{
+      if(e.target.id === "chatPopup"){
+        closeChat();
+      }
+    });
+  }
+},500);
 
+      
   
 </script>
   
