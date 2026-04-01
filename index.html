@@ -1285,10 +1285,7 @@ function openNavigation(address){
 
 function listenMessagesDriver(rideId){
 
-onSnapshot(
-collection(db,"rides",rideId,"messages"),
-snapshot=>{
-
+  
  const chatBox = document.querySelector("#chatBox");
 if(!chatBox) return;
 
