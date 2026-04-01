@@ -95,9 +95,6 @@ class="bg-blue-600 px-4 py-3 rounded-xl flex-1 shadow active:scale-95 transition
 📊 Statistika
 </button> 
 
-<div id="chatBox" class="bg-gray-800 p-3 rounded mt-3 max-h-40 overflow-y-auto text-sm"></div>
-
-  
 </div>
   
   <div id="statsPanel" class="hidden space-y-4 mt-4">
@@ -680,6 +677,14 @@ status:"arrived"
 
 div.appendChild(arriveBtn);
 
+// 🔥 creezi chat box
+const chatBox = document.createElement("div");
+chatBox.id = "chatBox";
+chatBox.className = "bg-gray-800 p-2 rounded mt-2 text-sm max-h-32 overflow-y-auto";
+
+div.appendChild(chatBox);
+
+  
 // 🔥 CHAT DRIVER
 listenMessagesDriver(ride.id);
   
