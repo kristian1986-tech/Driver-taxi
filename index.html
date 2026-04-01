@@ -1298,7 +1298,9 @@ function listenMessagesDriver(rideId){
   // 🔥 REFACEM chat (ca înainte, sigur)
   chatBox.innerHTML = "";
 
-  snapshot.forEach(doc => {
+snapshot.docs
+.sort((a,b)=> (a.data().createdAt?.seconds || 0) - (b.data().createdAt?.seconds || 0))
+.forEach(doc => {
 
     const msg = doc.data();
 
