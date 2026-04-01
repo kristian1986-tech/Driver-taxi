@@ -1285,46 +1285,45 @@ function openNavigation(address){
 
 function listenMessagesDriver(rideId){
 
-  
   onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
 
-  const chatBox = document.querySelector("#chatBox");
-  if(!chatBox) return;
+    const chatBox = document.querySelector("#chatBox");
+    if(!chatBox) return;
 
-  // 🔥 verificăm dacă era jos ÎNAINTE
-  const isAtBottom =
-    chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 20;
+    // 🔥 salvăm poziția
+    const prevScrollTop = chatBox.scrollTop;
+    const prevScrollHeight = chatBox.scrollHeight;
 
-  // 🔥 REFACEM chat (ca înainte, sigur)
-  chatBox.innerHTML = "";
+    // 🔥 refacem chat-ul
+    chatBox.innerHTML = "";
 
-snapshot.docs
-.sort((a,b)=> (a.data().createdAt?.seconds || 0) - (b.data().createdAt?.seconds || 0))
-.forEach(doc => {
+    snapshot.docs
+    .sort((a,b)=> (a.data().createdAt?.seconds || 0) - (b.data().createdAt?.seconds || 0))
+    .forEach(doc => {
 
-    const msg = doc.data();
+      const msg = doc.data();
 
-    const div = document.createElement("div");
-    div.innerText = msg.text;
+      const div = document.createElement("div");
+      div.innerText = msg.text;
 
-    if(msg.sender === "client"){
-      div.className = "text-left text-white mb-1";
-    } else {
-      div.className = "text-right text-green-400 mb-1";
-    }
+      if(msg.sender === "client"){
+        div.className = "text-left text-white mb-1";
+      } else {
+        div.className = "text-right text-green-400 mb-1";
+      }
 
-    chatBox.appendChild(div);
+      chatBox.appendChild(div);
+
+    });
+
+    // 🔥 restaurăm poziția (NU mai sare)
+    const newScrollHeight = chatBox.scrollHeight;
+    chatBox.scrollTop = prevScrollTop + (newScrollHeight - prevScrollHeight);
 
   });
 
-  // 🔥 scroll doar dacă era jos
-  if(isAtBottom){
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-
-});
-
 }
+
 
   
 </script>
