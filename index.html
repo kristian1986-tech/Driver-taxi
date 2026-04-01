@@ -1289,7 +1289,7 @@ function listenMessagesDriver(rideId){
 
 onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
 
-const chatBox = document.getElementById("chatBox");
+const chatBox = document.querySelector("#chatBox");
 if(!chatBox) return;
 
 // 🔥 curățăm ca să nu dubleze
