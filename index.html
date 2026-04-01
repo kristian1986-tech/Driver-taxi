@@ -678,12 +678,10 @@ status:"arrived"
 div.appendChild(arriveBtn);
 
 const chatBox = document.createElement("div");
-chatBox.innerText = "CHAT TEST";
-chatBox.style.background = "red";
-chatBox.style.padding = "10px";
+chatBox.id = "chatBox";
+chatBox.className = "bg-gray-800 p-2 rounded mt-2 text-sm max-h-32 overflow-y-auto text-white";
 
 div.appendChild(chatBox);
-
   
 // 🔥 CHAT DRIVER
 listenMessagesDriver(ride.id);
