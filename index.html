@@ -677,14 +677,15 @@ status:"arrived"
 
 div.appendChild(arriveBtn);
 
-const chatBox = document.createElement("div");
-chatBox.id = "chatBox";
-chatBox.className = "bg-gray-800 p-2 rounded mt-2 h-32 overflow-y-auto text-sm";
+const chatBtn = document.createElement("button");
+chatBtn.innerText = "💬 Chat";
+chatBtn.className = "mt-2 bg-blue-600 px-4 py-2 rounded";
 
-div.appendChild(chatBox);
-  
-// 🔥 CHAT DRIVER
-listenMessagesDriver(ride.id);
+chatBtn.onclick = () => {
+  openChat(ride.id);
+};
+
+div.appendChild(chatBtn);
   
 }
 
@@ -1325,6 +1326,22 @@ function listenMessagesDriver(rideId){
 }
 
 
+
+function openChat(rideId){
+
+  window.activeRideId = rideId;
+
+  document.getElementById("chatPopup").classList.remove("hidden");
+
+  // 🔥 pornește ascultarea mesajelor
+  listenMessagesDriver(rideId);
+}
+
+function closeChat(){
+  document.getElementById("chatPopup").classList.add("hidden");
+}      
+
+
   
 </script>
   
@@ -1352,6 +1369,28 @@ function listenMessagesDriver(rideId){
 </button>
 
 </div>
+
+
+<div id="chatPopup" class="hidden fixed inset-0 bg-black/70 z-50 flex items-end justify-center">
+
+  <div class="w-full max-w-md bg-gray-900 rounded-t-3xl p-4">
+
+    <div class="flex justify-between mb-2">
+      <b>💬 Chat</b>
+      <button onclick="closeChat()">✕</button>
+    </div>
+
+    <div id="chatBox" class="h-60 overflow-y-auto bg-gray-800 p-2 rounded"></div>
+
+    <div class="flex gap-2 mt-2">
+      <input id="chatInput" class="flex-1 p-2 rounded bg-gray-700" placeholder="Zpráva">
+      <button onclick="sendMessageDriver()" class="bg-blue-600 px-3 rounded">➤</button>
+    </div>
+
+  </div>
+</div>  
+
+
   
 </body> 
 </html>
