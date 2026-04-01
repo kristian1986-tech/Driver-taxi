@@ -1327,17 +1327,16 @@ function listenMessagesDriver(rideId){
 
 
 
-function openChat(rideId){
+window.openChat = function(rideId){
 
   window.activeRideId = rideId;
 
   document.getElementById("chatPopup").classList.remove("hidden");
 
-  // 🔥 pornește ascultarea mesajelor
   listenMessagesDriver(rideId);
 }
 
-function closeChat(){
+window.closeChat = function(){
   document.getElementById("chatPopup").classList.add("hidden");
 }      
 
