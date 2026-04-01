@@ -1289,65 +1289,37 @@ function listenMessagesDriver(rideId){
   const chatBox = document.querySelector("#chatBox");
 if(!chatBox) return;
 
-let loaded = false;
-
 onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
 
-  // 🔥 PRIMA ÎNCĂRCARE → toate mesajele
-  if(!loaded){
-    chatBox.innerHTML = "";
+  // 🔥 verificăm dacă era jos ÎNAINTE
+  const isAtBottom =
+    chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 20;
 
-    snapshot.docs
-    .sort((a,b)=> (a.data().createdAt?.seconds || 0) - (b.data().createdAt?.seconds || 0))
-    .forEach(doc=>{
+  // 🔥 reconstruim chat (ca înainte)
+  chatBox.innerHTML = "";
 
-      const msg = doc.data();
+  snapshot.docs
+  .sort((a,b)=> (a.data().createdAt?.seconds || 0) - (b.data().createdAt?.seconds || 0))
+  .forEach(doc=>{
 
-      const div = document.createElement("div");
-      div.innerText = msg.text;
+    const msg = doc.data();
 
-      if(msg.sender === "client"){
-        div.className = "text-left text-white mb-1";
-      } else {
-        div.className = "text-right text-green-400 mb-1";
-      }
+    const div = document.createElement("div");
+    div.innerText = msg.text;
 
-      chatBox.appendChild(div);
-    });
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-    loaded = true;
-    return;
-  }
-
-  // 🔥 DUPĂ → doar mesaje noi
-  snapshot.docChanges().forEach(change => {
-
-    if(change.type === "added"){
-
-      const msg = change.doc.data();
-
-      const div = document.createElement("div");
-      div.innerText = msg.text;
-
-      if(msg.sender === "client"){
-        div.className = "text-left text-white mb-1";
-      } else {
-        div.className = "text-right text-green-400 mb-1";
-      }
-
-      chatBox.appendChild(div);
-
-      const isAtBottom =
-        chatBox.scrollTop + chatBox.clientHeight >= chatBox.scrollHeight - 20;
-
-      if(isAtBottom){
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-
+    if(msg.sender === "client"){
+      div.className = "text-left text-white mb-1";
+    } else {
+      div.className = "text-right text-green-400 mb-1";
     }
 
+    chatBox.appendChild(div);
   });
+
+  // 🔥 DOAR dacă era jos → scroll
+  if(isAtBottom){
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
 
 });
 
