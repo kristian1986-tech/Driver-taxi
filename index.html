@@ -1363,6 +1363,10 @@ snapshot.docs.forEach(doc=>{
   }
 });
 
+unreadMessages[rideId] = unread;
+localStorage.setItem("unreadMessages", JSON.stringify(unreadMessages));
+
+    
 // 🔥 badge update
 if(badge){
   if(unread > 0){
