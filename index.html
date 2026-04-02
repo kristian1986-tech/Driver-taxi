@@ -677,17 +677,33 @@ status:"arrived"
 
 div.appendChild(arriveBtn);
 
+
 const chatBtn = document.createElement("button");
-chatBtn.innerText = "💬 Chat";
-chatBtn.className = "mt-2 bg-blue-600 px-4 py-2 rounded";
+chatBtn.className = "mt-2 bg-blue-600 px-4 py-2 rounded relative";
+
+chatBtn.innerHTML = `
+  💬 Chat
+  <span id="badge-${ride.id}" 
+  class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+  0
+  </span>
+`;
 
 chatBtn.onclick = () => {
   openChat(ride.id);
+
+  // 🔥 reset badge
+  const badge = document.getElementById("badge-"+ride.id);
+  if(badge){
+    badge.innerText = "0";
+    badge.classList.add("hidden");
+  }
 };
 
 div.appendChild(chatBtn);
   
 }
+
 
 if(ride.status==="arrived" && ride.driverId===driverId){
 
@@ -1291,6 +1307,9 @@ function listenMessagesDriver(rideId){
     const chatBox = document.querySelector("#chatBox");
     if(!chatBox) return;
 
+const badge = document.getElementById("badge-"+rideId);
+
+    
     // 🔥 salvăm poziția
     const prevScrollTop = chatBox.scrollTop;
     const prevScrollHeight = chatBox.scrollHeight;
