@@ -692,7 +692,6 @@ chatBtn.innerHTML = `
 chatBtn.onclick = () => {
   openChat(ride.id);
 
-  // 🔥 reset badge
   const badge = document.getElementById("badge-"+ride.id);
   if(badge){
     badge.innerText = "0";
