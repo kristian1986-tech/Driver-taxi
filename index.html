@@ -260,8 +260,9 @@ let driverLat = null;
 let driverLng = null;
 let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
 let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
+let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
 
-
+      
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
 rideSound.volume = 1.0;
@@ -693,11 +694,14 @@ chatBtn.innerHTML = `
 `;
 
 chatBtn.onclick = () => {
+
   openChat(ride.id);
 
-  unreadMessages[ride.id] = 0;
-  localStorage.setItem("unreadMessages", JSON.stringify(unreadMessages));
+  // 🔥 salvăm momentul citirii
+  lastReadMessages[ride.id] = Math.floor(Date.now() / 1000);
+  localStorage.setItem("lastReadMessages", JSON.stringify(lastReadMessages));
 
+  // 🔥 reset badge UI
   const badge = document.getElementById("badge-"+ride.id);
   if(badge){
     badge.innerText = "0";
@@ -1342,27 +1346,31 @@ const badge = document.getElementById("badge-"+rideId);
 
     });
 
+    
 // 🔴 COUNT mesaje client
-let unread = unreadMessages[rideId] || 0;
 
-snapshot.docChanges().forEach(change=>{
-  if(change.type === "added"){
-    const msg = change.doc.data();
+let unread = 0;
 
-    if(msg.sender === "client"){
-      unread++;
-    }
+const lastRead = lastReadMessages[rideId] || 0;
+
+snapshot.docs.forEach(doc=>{
+  const msg = doc.data();
+
+  const msgTime = msg.createdAt?.seconds || 0;
+
+  if(msg.sender === "client" && msgTime > lastRead){
+    unread++;
   }
 });
 
-// 🔥 salvăm
-unreadMessages[rideId] = unread;
-localStorage.setItem("unreadMessages", JSON.stringify(unreadMessages));
-
 // 🔥 badge update
-if(badge && unread > 0){
-  badge.innerText = unread;
-  badge.classList.remove("hidden");
+if(badge){
+  if(unread > 0){
+    badge.innerText = unread;
+    badge.classList.remove("hidden");
+  }else{
+    badge.classList.add("hidden");
+  }
 }
     
 
