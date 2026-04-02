@@ -741,7 +741,7 @@ if(ride.status==="in_progress" && ride.driverId===driverId){
 
 const finishBtn=document.createElement("button");
 finishBtn.innerText="Dokončit jízdu";
-finishBtn.className="mt-3 bg-red-600 px-4 py-2 rounded";
+finishBtn.className="mt-3 bg-red-600 px-6 py-3 rounded-xl shadow active:scale-95 transition block mx-auto w-3/4 text-center";
 
 finishBtn.onclick=()=>{
 updateDoc(doc(db,"rides",ride.id),{
