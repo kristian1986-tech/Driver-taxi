@@ -261,6 +261,7 @@ let driverLng = null;
 let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
 let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
+let activeChatListeners = {};
 
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
@@ -1311,8 +1312,13 @@ function openNavigation(address){
       
 
 function listenMessagesDriver(rideId){
-
-  onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
+  
+// 🔥 dacă există deja listener → îl oprim
+if(activeChatListeners[rideId]){
+  activeChatListeners[rideId]();
+}
+  
+const unsubscribe = onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
 
     const chatBox = document.querySelector("#chatBox");
     if(!chatBox) return;
@@ -1379,6 +1385,9 @@ if(badge){
     chatBox.scrollTop = prevScrollTop + (newScrollHeight - prevScrollHeight);
 
   });  
+
+// 🔥 salvăm listener activ
+activeChatListeners[rideId] = unsubscribe;
   
 }
 
