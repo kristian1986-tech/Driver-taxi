@@ -682,11 +682,13 @@ div.appendChild(arriveBtn);
 const chatBtn = document.createElement("button");
 chatBtn.className = "mt-2 bg-blue-600 px-4 py-2 rounded relative";
 
+const unread = unreadMessages[ride.id] || 0;
+
 chatBtn.innerHTML = `
   💬 Chat
   <span id="badge-${ride.id}" 
-  class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
-  0
+  class="${unread > 0 ? '' : 'hidden'} absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+  ${unread}
   </span>
 `;
 
