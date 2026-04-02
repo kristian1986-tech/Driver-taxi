@@ -259,8 +259,9 @@ let lastRideIds = [];
 let driverLat = null;
 let driverLng = null;
 let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
+let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 
-      
+
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
 rideSound.volume = 1.0;
@@ -692,6 +693,9 @@ chatBtn.innerHTML = `
 chatBtn.onclick = () => {
   openChat(ride.id);
 
+  unreadMessages[ride.id] = 0;
+  localStorage.setItem("unreadMessages", JSON.stringify(unreadMessages));
+
   const badge = document.getElementById("badge-"+ride.id);
   if(badge){
     badge.innerText = "0";
@@ -699,6 +703,7 @@ chatBtn.onclick = () => {
   }
 };
 
+  
 div.appendChild(chatBtn);
   
 }
@@ -1336,15 +1341,21 @@ const badge = document.getElementById("badge-"+rideId);
     });
 
 // 🔴 COUNT mesaje client
-let unread = 0;
+let unread = unreadMessages[rideId] || 0;
 
-snapshot.docs.forEach(doc=>{
-  const msg = doc.data();
+snapshot.docChanges().forEach(change=>{
+  if(change.type === "added"){
+    const msg = change.doc.data();
 
-  if(msg.sender === "client"){
-    unread++;
+    if(msg.sender === "client"){
+      unread++;
+    }
   }
 });
+
+// 🔥 salvăm
+unreadMessages[rideId] = unread;
+localStorage.setItem("unreadMessages", JSON.stringify(unreadMessages));
 
 // 🔥 badge update
 if(badge && unread > 0){
