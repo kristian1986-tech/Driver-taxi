@@ -1399,23 +1399,21 @@ window.openChat = function(rideId){
 
   document.getElementById("chatPopup").classList.remove("hidden");
 
+if(!activeChatListeners[rideId]){
   listenMessagesDriver(rideId);
+}
+  
 }
 
 window.closeChat = function(){
-  document.getElementById("chatPopup").classList.add("hidden");
-}      
 
-setTimeout(()=>{
-  const popup = document.getElementById("chatPopup");
-  if(popup){
-    popup.addEventListener("click", (e)=>{
-      if(e.target.id === "chatPopup"){
-        closeChat();
-      }
-    });
+  if(window.activeRideId && activeChatListeners[window.activeRideId]){
+    activeChatListeners[window.activeRideId](); // stop listener
+    delete activeChatListeners[window.activeRideId];
   }
-},500);
+
+  document.getElementById("chatPopup").classList.add("hidden");
+}
 
 
       
