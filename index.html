@@ -1399,9 +1399,7 @@ window.openChat = function(rideId){
 
   document.getElementById("chatPopup").classList.remove("hidden");
 
-if(!activeChatListeners[rideId]){
-  listenMessagesDriver(rideId);
-}
+listenMessagesDriver(rideId);
   
 }
 
