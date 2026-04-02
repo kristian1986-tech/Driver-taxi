@@ -1336,12 +1336,30 @@ const badge = document.getElementById("badge-"+rideId);
 
     });
 
+// 🔴 COUNT mesaje client
+let unread = 0;
+
+snapshot.docs.forEach(doc=>{
+  const msg = doc.data();
+
+  if(msg.sender === "client"){
+    unread++;
+  }
+});
+
+// 🔥 badge update
+if(badge && unread > 0){
+  badge.innerText = unread;
+  badge.classList.remove("hidden");
+}
+    
+
     // 🔥 restaurăm poziția (NU mai sare)
     const newScrollHeight = chatBox.scrollHeight;
     chatBox.scrollTop = prevScrollTop + (newScrollHeight - prevScrollHeight);
 
-  });
-
+  });  
+  
 }
 
 
