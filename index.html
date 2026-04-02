@@ -666,7 +666,8 @@ rejectedDrivers: arrayUnion(driverId)
 div.appendChild(rejectBtn);
 }
 if(ride.status==="confirmed" && ride.driverId===driverId){
-
+listenMessagesDriver(ride.id);
+  
 const arriveBtn=document.createElement("button");
 arriveBtn.innerText="Jsem na místě";
 arriveBtn.className="mt-3 bg-yellow-500 px-4 py-2 rounded";
