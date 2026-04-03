@@ -1419,6 +1419,8 @@ if(badge){
 window.openChat = function(rideId){
 
   window.activeRideId = rideId;
+
+  currentOpenChatId = rideId;
   
   document.getElementById("chatPopup").classList.remove("hidden");
 
@@ -1427,6 +1429,8 @@ window.openChat = function(rideId){
 
 window.closeChat = function(){
   document.getElementById("chatPopup").classList.add("hidden");
+
+  currentOpenChatId = null;
 }      
 
 setTimeout(()=>{
