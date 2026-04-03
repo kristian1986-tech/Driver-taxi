@@ -263,7 +263,7 @@ let driverLng = null;
 let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
 let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
-
+let currentOpenChatId = null;
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -1375,11 +1375,15 @@ snapshot.docs.forEach(docSnap=>{
   const msg = docSnap.data();
   
 // 🔥 SEEN pentru mesajele clientului
-if(msg.sender === "client" && !msg.seen){
+
+const chatOpen = currentOpenChatId === rideId;
+
+if(chatOpen && msg.sender === "client" && !msg.seen){
   updateDoc(doc(db,"rides",rideId,"messages",docSnap.id),{
     seen: true
   });
 }
+  
   const msgTime = msg.createdAt?.seconds || 0;
 
   if(msg.sender === "client" && msgTime > lastRead){
