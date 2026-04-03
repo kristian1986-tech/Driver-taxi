@@ -1376,7 +1376,7 @@ snapshot.docs.forEach(docSnap=>{
   
 // 🔥 SEEN pentru mesajele clientului
 
-const chatOpen = !document.getElementById("chatSection").classList.contains("hidden");
+const chatOpen = currentOpenChatId === rideId;
   
 if(chatOpen && msg.sender === "client" && !msg.seen){
   updateDoc(doc(db,"rides",rideId,"messages",docSnap.id),{
