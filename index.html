@@ -1376,8 +1376,8 @@ snapshot.docs.forEach(docSnap=>{
   
 // 🔥 SEEN pentru mesajele clientului
 
-const chatOpen = currentOpenChatId === rideId;
-
+const chatOpen = !document.getElementById("chatSection").classList.contains("hidden");
+  
 if(chatOpen && msg.sender === "client" && !msg.seen){
   updateDoc(doc(db,"rides",rideId,"messages",docSnap.id),{
     seen: true
@@ -1420,6 +1420,8 @@ window.openChat = function(rideId){
 
   window.activeRideId = rideId;
 
+  currentOpenChatId = rideId;
+  
   document.getElementById("chatPopup").classList.remove("hidden");
 
   listenMessagesDriver(rideId);
@@ -1427,6 +1429,7 @@ window.openChat = function(rideId){
 
 window.closeChat = function(){
   document.getElementById("chatPopup").classList.add("hidden");
+  currentOpenChatId = null;
 }      
 
 setTimeout(()=>{
