@@ -1337,7 +1337,22 @@ const badge = document.getElementById("badge-"+rideId);
       const msg = doc.data();
 
       const div = document.createElement("div");
-      div.innerText = msg.text;
+
+      div.innerHTML = msg.text;
+
+if(msg.sender === "driver"){
+  const tick = document.createElement("span");
+
+  tick.className = "text-xs ml-2 opacity-70";
+
+  if(msg.seen){
+    tick.innerText = "✔✔";
+  }else{
+    tick.innerText = "✔";
+  }
+
+  div.appendChild(tick);
+}
 
       if(msg.sender === "client"){
         div.className = "text-left text-white mb-1";
