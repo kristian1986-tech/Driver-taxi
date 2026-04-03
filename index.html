@@ -1434,6 +1434,7 @@ window.sendMessageDriver = async function(){
     await addDoc(collection(db,"rides",window.activeRideId,"messages"),{
       text: text,
       sender: "driver",
+      seen: false,
       createdAt: serverTimestamp()
     });
 
