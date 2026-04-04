@@ -1378,6 +1378,7 @@ snapshot.docs.forEach(docSnap=>{
 
 const chatOpen = currentOpenChatId === rideId;
   
+
 if(chatOpen && msg.sender === "client" && !msg.seen){
   updateDoc(doc(db,"rides",rideId,"messages",docSnap.id),{
     seen: true
