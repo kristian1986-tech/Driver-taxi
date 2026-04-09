@@ -265,6 +265,7 @@ let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
 let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
 let currentOpenChatId = null;
+let prevRideIds = [];
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -960,38 +961,39 @@ historyList.appendChild(div);
 
 });
   
-if(newRideIds.length > 0){
 
-if(rideSound.paused){
-rideSound.play().catch(()=>{});
+// 🔥 DETECTARE CURSE NOI REAL
+const hasNewRide = newRideIds.some(id => !prevRideIds.includes(id));
 
-if(navigator.vibrate){
-navigator.vibrate([300,100,300,100,600]);
+if(hasNewRide){
+
+  if(rideSound.paused){
+    rideSound.play().catch(()=>{});
+
+    if(navigator.vibrate){
+      navigator.vibrate([300,100,300,100,600]);
+    }
+
+    if(Notification.permission === "granted"){
+      navigator.serviceWorker.ready.then(reg => {
+        reg.showNotification("🚕 Nová jízda!", {
+          body: "Máte novou objednávku taxi",
+          icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
+          vibrate: [300,100,300,100,600],
+          requireInteraction: true
+        });
+      });
+    }
+
+  }
+
+} else {
+  rideSound.pause();
+  rideSound.currentTime = 0;
 }
 
-if(Notification.permission === "granted"){
-
-  navigator.serviceWorker.ready.then(reg => {
-
-    reg.showNotification("🚕 Nová jízda!", {
-      body: "Máte novou objednávku taxi",
-      icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
-      vibrate: [300,100,300,100,600],
-      requireInteraction: true
-    });
-
-  });
-
-}
-
-}
-
-}else{
-
-rideSound.pause();
-rideSound.currentTime = 0;
-
-}
+// 🔥 UPDATE LISTĂ
+prevRideIds = newRideIds;    
 
   
 // 🔥 EMPTY STATE
