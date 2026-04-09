@@ -999,7 +999,24 @@ historyList.appendChild(div);
 }
 
 });
-     
+
+
+// 🔥 STOP SUNET dacă NU mai există curse noi
+let hasNewRide = false;
+
+snapshot.forEach(docSnap=>{
+  const r = docSnap.data();
+
+  if(r.status === "new"){
+    hasNewRide = true;
+  }
+});
+
+if(!hasNewRide){
+  rideSound.pause();
+  rideSound.currentTime = 0;
+}
+    
   
 // 🔥 EMPTY STATE
 if(ridesList.innerHTML === ""){
