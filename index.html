@@ -1156,6 +1156,12 @@ let total = 0;
 
 historyList.querySelectorAll("div").forEach(div=>{
 
+// 🔥 IGNORĂ curse anulate de driver
+if(div.innerText.includes("cancelled_by_driver")){
+  return;
+}
+
+  
 const dateText = div.querySelector(".ride-date");
 
 if(!dateText) return;
