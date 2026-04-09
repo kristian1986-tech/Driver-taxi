@@ -741,16 +741,13 @@ div.appendChild(startBtn);
 // 🔥 TIMER REAL DIN DB (NU SE RESETEAZĂ)
 
 const arrivedTime = ride.arrivedAt || 0;
-const now = Date.now();
 
-const diff = Math.floor((now - arrivedTime) / 1000);
-
-// 🔥 AFIȘĂM CRONOMETRU
 const timerDiv = document.createElement("div");
 timerDiv.className = "text-yellow-400 mt-2 text-center";
 div.appendChild(timerDiv);
 
-// 🔁 UPDATE LIVE
+let cancelBtnAdded = false; // 🔥 prevenim duplicate
+
 setInterval(()=>{
 
 const nowLive = Date.now();
@@ -761,28 +758,31 @@ const sec = diffLive % 60;
 
 timerDiv.innerText = `Čekání: ${min}:${sec.toString().padStart(2,"0")}`;
 
+// 🔥 AICI E FIXUL IMPORTANT
+if(diffLive >= 180 && !cancelBtnAdded){
+
+  cancelBtnAdded = true;
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.innerText = "Zrušit jízdu (no-show)";
+
+  // 🔥 STIL CA BUTONUL ALBASTRU
+  cancelBtn.className = "mt-3 bg-red-600 px-6 py-3 rounded-xl shadow active:scale-95 transition block mx-auto w-3/4 text-center";
+
+  cancelBtn.onclick = async ()=>{
+
+    await updateDoc(doc(db,"rides",ride.id),{
+      status:"cancelled_by_driver",
+      cancelledAt: Date.now()
+    });
+
+  };
+
+  div.appendChild(cancelBtn);
+}
+
 },1000);
 
-
-// 🔥 BUTON DUPĂ 3 MIN
-if(diff >= 180){
-
-const cancelBtn = document.createElement("button");
-cancelBtn.innerText = "Zrušit jízdu (no-show)";
-cancelBtn.className = "mt-3 bg-red-600 px-4 py-2 rounded-xl";
-
-cancelBtn.onclick = async ()=>{
-
-await updateDoc(doc(db,"rides",ride.id),{
-  status:"cancelled_by_driver",
-  cancelledAt: Date.now()
-});
-
-};
-
-div.appendChild(cancelBtn);
-
-}
 
 }
 
