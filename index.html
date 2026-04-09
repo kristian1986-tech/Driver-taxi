@@ -796,7 +796,22 @@ const diffLive = Math.floor((nowLive - arrivedTime) / 1000);
 const min = Math.floor(diffLive / 60);
 const sec = diffLive % 60;
 
-timerDiv.innerText = `Čekání: ${min}:${sec.toString().padStart(2,"0")}`;
+  
+// 🔥 CALCUL TAXĂ AȘTEPTARE
+const totalMinutes = Math.floor(diffLive / 60);
+
+// după 3 minute
+const extraMinutes = Math.max(0, totalMinutes - 3);
+
+// taxa 5 Kč / minut
+const waitingFee = extraMinutes * 5;
+
+// preț final LIVE
+const finalPrice = ride.estimatedPrice + waitingFee;
+
+  
+timerDiv.innerText = `Čekání: ${min}:${sec.toString().padStart(2,"0")} | Cena: ${finalPrice} Kč`;
+  
 
 // 🔥 AICI E FIXUL IMPORTANT
 if(diffLive >= 180 && !cancelBtnAdded){
