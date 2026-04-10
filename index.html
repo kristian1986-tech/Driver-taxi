@@ -772,6 +772,8 @@ startBtn.onclick=()=>{
 clearInterval(arrivedTimers[ride.id]);
 
 waitingStopTimes[ride.id] = Date.now();
+
+localStorage.setItem("waitingStop_" + ride.id, Date.now());
   
   updateDoc(doc(db,"rides",ride.id),{
     status:"in_progress"
@@ -861,7 +863,10 @@ const now = Date.now();
 const arrived = ride.arrivedAt || now;
 
 // 🔥 cheia:
-const stopped = waitingStopTimes[ride.id] || now;
+const stopped =
+  waitingStopTimes[ride.id] ||
+  Number(localStorage.getItem("waitingStop_" + ride.id)) ||
+  now;
 
 const diff = Math.floor((stopped - arrived) / 1000);
 
@@ -878,6 +883,8 @@ const finalPrice = (ride.estimatedPrice || 0) + waitingFee;
     finalPrice: finalPrice,
     waitingFee: waitingFee
   });
+
+localStorage.removeItem("waitingStop_" + ride.id);  
 
 alert("Cena celkem: " + finalPrice + " Kč");
   
