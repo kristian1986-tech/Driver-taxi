@@ -851,15 +851,16 @@ finishBtn.className="mt-3 bg-red-600 px-6 py-3 rounded-xl shadow active:scale-95
 
 finishBtn.onclick = async ()=>{
 
- const now = Date.now(); 
+const now = Date.now();
 
-const endTime = ride.startedAt || now;
+const arrived = ride.arrivedAt || now;
+const started = ride.startedAt || now;
 
-const diff = Math.floor((endTime - ride.arrivedAt) / 1000);
+const endTime = ride.startedAt ? started : now;
+
+const diff = Math.floor((endTime - arrived) / 1000);
   
-const totalMinutes = Math.floor(diff / 60);
-
-const extraMinutes = Math.max(0, totalMinutes - 2);
+const extraMinutes = Math.max(0, totalMinutes - 3);
 const waitingFee = extraMinutes * 5;
 
 const finalPrice = ride.estimatedPrice + waitingFee;
