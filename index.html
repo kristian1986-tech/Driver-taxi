@@ -773,6 +773,7 @@ clearInterval(arrivedTimers[ride.id]);
   
   updateDoc(doc(db,"rides",ride.id),{
     status:"in_progress"
+    waitingStoppedAt: Date.now()
   });
 
   openNavigation(ride.destination);
@@ -856,8 +857,11 @@ finishBtn.onclick = async ()=>{
 const now = Date.now();
 
 const arrived = ride.arrivedAt || now;
+const stopped = ride.waitingStoppedAt || now;
 
-const diff = Math.floor((now - arrived) / 1000);
+const endTime = ride.waitingStoppedAt ? stopped : now;
+
+const diff = Math.floor((endTime - arrived) / 1000);
 
 const totalMinutes = Math.floor(diff / 60);
 
