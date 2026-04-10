@@ -889,7 +889,7 @@ const finalPrice = (ride.estimatedPrice || 0) + waitingFee;
 
 localStorage.removeItem("waitingStop_" + ride.id);  
 
-showPriceModal(finalPrice);
+showPriceModal(ride.estimatedPrice || 0, waitingFee, finalPrice);
   
 };
   
@@ -1621,15 +1621,14 @@ window.sendMessageDriver = async function(){
       
 
 
-window.showPriceModal = function(price){
-  
-  document.getElementById("finalPriceText").innerText = price + " Kč";
+window.showPriceModal = function(ridePrice, waitingFee, finalPrice){
+
+  document.getElementById("ridePriceText").innerText = ridePrice + " Kč";
+  document.getElementById("waitingPriceText").innerText = waitingFee + " Kč";
+  document.getElementById("finalPriceText").innerText = finalPrice + " Kč";
+
   document.getElementById("priceModal").classList.remove("hidden");
 }
-
-window.closePriceModal = function(){
-  document.getElementById("priceModal").classList.add("hidden");
-}      
 
       
 
@@ -1681,15 +1680,33 @@ window.closePriceModal = function(){
 </div>  
 
 
-  <div id="priceModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+  
+<div id="priceModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
 
-  <div class="bg-gray-800 text-white p-6 rounded-2xl shadow-xl w-80 text-center animate-fade">
+  <div class="bg-gradient-to-br from-gray-800 to-gray-900 text-white p-6 rounded-3xl shadow-2xl w-80 text-center">
 
-    <h2 class="text-xl font-bold mb-2">💰 Cena jízdy</h2>
+    <h2 class="text-lg text-gray-400 mb-3">💰 Shrnutí jízdy</h2>
 
-    <p id="finalPriceText" class="text-3xl font-extrabold text-green-400 mb-4">
-      0 Kč
-    </p>
+    <div class="bg-gray-800 rounded-xl p-4 mb-4 text-left space-y-2">
+
+      <div class="flex justify-between">
+        <span>Cena jízdy</span>
+        <span id="ridePriceText">0 Kč</span>
+      </div>
+
+      <div class="flex justify-between text-yellow-400">
+        <span>Čekání</span>
+        <span id="waitingPriceText">0 Kč</span>
+      </div>
+
+      <hr class="border-gray-600">
+
+      <div class="flex justify-between text-xl font-bold text-green-400">
+        <span>CELKEM</span>
+        <span id="finalPriceText">0 Kč</span>
+      </div>
+
+    </div>
 
     <button onclick="closePriceModal()" 
     class="bg-green-600 px-6 py-2 rounded-xl w-full">
@@ -1698,7 +1715,7 @@ window.closePriceModal = function(){
 
   </div>
 
-  </div>
+</div>
   
 
   
