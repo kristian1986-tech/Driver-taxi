@@ -265,7 +265,7 @@ let shownCancelled = JSON.parse(localStorage.getItem("shownCancelled") || "{}");
 let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
 let currentOpenChatId = null;
-
+let waitingStopTimes = {};
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -770,6 +770,8 @@ startBtn.className="mt-3 bg-blue-500 px-6 py-3 rounded-xl shadow active:scale-95
 startBtn.onclick=()=>{
 
 clearInterval(arrivedTimers[ride.id]);
+
+waitingStopTimes[ride.id] = Date.now();
   
   updateDoc(doc(db,"rides",ride.id),{
     status:"in_progress"
@@ -857,11 +859,11 @@ finishBtn.onclick = async ()=>{
 const now = Date.now();
 
 const arrived = ride.arrivedAt || now;
-const stopped = ride.waitingStoppedAt || now;
 
-const endTime = ride.waitingStoppedAt ? stopped : now;
+// 🔥 cheia:
+const stopped = waitingStopTimes[ride.id] || now;
 
-const diff = Math.floor((endTime - arrived) / 1000);
+const diff = Math.floor((stopped - arrived) / 1000);
 
 const totalMinutes = Math.floor(diff / 60);
 
