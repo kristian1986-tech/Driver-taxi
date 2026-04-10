@@ -889,7 +889,7 @@ const finalPrice = (ride.estimatedPrice || 0) + waitingFee;
 
 localStorage.removeItem("waitingStop_" + ride.id);  
 
-alert("Cena celkem: " + finalPrice + " Kč");
+showPriceModal(finalPrice);
   
 };
   
@@ -1621,6 +1621,18 @@ window.sendMessageDriver = async function(){
       
 
 
+window.showPriceModal = function(price){
+  
+  document.getElementById("finalPriceText").innerText = price + " Kč";
+  document.getElementById("priceModal").classList.remove("hidden");
+}
+
+window.closePriceModal = function(){
+  document.getElementById("priceModal").classList.add("hidden");
+}      
+
+      
+
 </script>
   
 
@@ -1668,6 +1680,26 @@ window.sendMessageDriver = async function(){
   </div>
 </div>  
 
+
+  <div id="priceModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+
+  <div class="bg-gray-800 text-white p-6 rounded-2xl shadow-xl w-80 text-center animate-fade">
+
+    <h2 class="text-xl font-bold mb-2">💰 Cena jízdy</h2>
+
+    <p id="finalPriceText" class="text-3xl font-extrabold text-green-400 mb-4">
+      0 Kč
+    </p>
+
+    <button onclick="closePriceModal()" 
+    class="bg-green-600 px-6 py-2 rounded-xl w-full">
+      OK
+    </button>
+
+  </div>
+
+  </div>
+  
 
   
 </body> 
