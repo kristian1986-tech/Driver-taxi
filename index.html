@@ -998,6 +998,7 @@ pdf.setFont("helvetica","bold");
 pdf.setFontSize(14);
 
 pdf.text("Celkem:",20,180);
+pdf.text((ride.estimatedPrice || 0)+" Kc",150,180);
 
 
 pdf.line(20,190,190,190);
