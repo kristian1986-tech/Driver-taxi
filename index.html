@@ -773,7 +773,7 @@ clearInterval(arrivedTimers[ride.id]);
   
   updateDoc(doc(db,"rides",ride.id),{
     status:"in_progress"
-    waitingStoppedAt: Date.now()
+  
   });
 
   openNavigation(ride.destination);
