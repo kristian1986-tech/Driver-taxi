@@ -858,9 +858,7 @@ finishBtn.onclick = async ()=>{
   const extraMinutes = Math.max(0, totalMinutes - 3);
   const waitingFee = extraMinutes * 5;
 
-  const finalPrice = parseFloat(
-  (timerDiv.innerText.match(/Cena:\s*(\d+)/) || [])[1]
-) || ride.estimatedPrice;
+  const finalPrice = ride.estimatedPrice + waitingFee;
 
   await updateDoc(doc(db,"rides",ride.id),{
     status:"completed",
