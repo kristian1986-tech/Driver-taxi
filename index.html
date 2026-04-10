@@ -853,18 +853,34 @@ finishBtn.onclick = async ()=>{
 
 const now = Date.now();
 
-const arrived = ride.arrivedAt || now;
-const started = ride.startedAt || now;
+// siguranță date
+const arrived = Number(ride.arrivedAt);
+const started = ride.startedAt ? Number(ride.startedAt) : null;
 
-const endTime = ride.startedAt ? started : now;
+// dacă nu există arrived → ieșim
+if (!arrived) {
+  alert("Eroare: arrivedAt lipsă");
+  return;
+}
 
-const diff = Math.floor((endTime - arrived) / 1000);
-  
+// dacă a început cursa → oprim waiting la start
+const endTime = started ? started : now;
+
+let diff = Math.floor((endTime - arrived) / 1000);
+
+// protecție
+if (isNaN(diff) || diff < 0) diff = 0;
+
+const totalMinutes = Math.floor(diff / 60);
+
+// 3 minute gratis
 const extraMinutes = Math.max(0, totalMinutes - 3);
+
 const waitingFee = extraMinutes * 5;
 
-const finalPrice = ride.estimatedPrice + waitingFee;
-
+const basePrice = Number(ride.estimatedPrice) || 0;
+const finalPrice = basePrice + waitingFee;
+  
   await updateDoc(doc(db,"rides",ride.id),{
     status:"completed",
     finalPrice: finalPrice,
