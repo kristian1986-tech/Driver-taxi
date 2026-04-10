@@ -851,6 +851,8 @@ finishBtn.className="mt-3 bg-red-600 px-6 py-3 rounded-xl shadow active:scale-95
 
 finishBtn.onclick = async ()=>{
 
+ const now = Date.now(); 
+
 const endTime = ride.startedAt || now;
 
 const diff = Math.floor((endTime - ride.arrivedAt) / 1000);
