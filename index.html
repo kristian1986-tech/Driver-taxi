@@ -1630,6 +1630,13 @@ window.showPriceModal = function(ridePrice, waitingFee, finalPrice){
   document.getElementById("priceModal").classList.remove("hidden");
 }
 
+
+document.addEventListener("click", function(e){
+  if(e.target.id === "closePriceBtn"){
+    document.getElementById("priceModal").classList.add("hidden");
+  }
+});
+
       
 
 </script>
@@ -1708,7 +1715,7 @@ window.showPriceModal = function(ridePrice, waitingFee, finalPrice){
 
     </div>
 
-    <button onclick="closePriceModal()" 
+    <button id="closePriceBtn"
     class="bg-green-600 px-6 py-2 rounded-xl w-full">
       OK
     </button>
