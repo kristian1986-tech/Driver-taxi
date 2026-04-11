@@ -812,7 +812,7 @@ const sec = diffLive % 60;
 const totalMinutes = Math.floor(diffLive / 60);
 
 // după 3 minute
-const extraMinutes = Math.max(0, totalMinutes - 3);
+const extraMinutes = Math.max(0, totalMinutes - 2);
 
 // taxa 5 Kč / minut
 const waitingFee = extraMinutes * 5;
@@ -875,7 +875,7 @@ const diff = Math.floor((stopped - arrived) / 1000);
 
 const totalMinutes = Math.floor(diff / 60);
 
-const extraMinutes = Math.max(0, totalMinutes - 3);
+const extraMinutes = Math.max(0, totalMinutes - 2);
 
 const waitingFee = extraMinutes * 5;
 
