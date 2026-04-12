@@ -469,6 +469,10 @@ snapshot.docChanges().forEach(change => {
 
     const ride = change.doc.data();
 
+    setTimeout(()=>{
+  location.reload();
+}, 500);
+
     if(
       ride.status === "new" &&
       (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
