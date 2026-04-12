@@ -533,16 +533,16 @@ localStorage.setItem("shownCancelled", JSON.stringify(shownCancelled));
 
 if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
 
-const km = distanceKm(
-driverLat,
-driverLng,
-ride.pickupLat,
-ride.pickupLng
-);
+  const km = distanceKm(
+    driverLat,
+    driverLng,
+    ride.pickupLat,
+    ride.pickupLng
+  );
 
-if(km > 20){
-return;
-}
+  if(km > 20){
+    // ignoră cursa, dar NU opri tot
+  }
 
 }
 
