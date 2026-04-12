@@ -472,8 +472,6 @@ function listenForRides(){
 // 🔥 DETECTARE CURSĂ NOUĂ REALĂ
 snapshot.docChanges().forEach(change => {
 
-snapshot.docChanges().forEach(change => {
-
   if(change.type === "added" || change.type === "modified"){
 
     const ride = change.doc.data();
