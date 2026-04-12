@@ -471,18 +471,14 @@ function listenForRides(){
 // 🔥 DETECTARE CURSĂ NOUĂ REALĂ
 snapshot.docChanges().forEach(change => {
 
-  if(change.type === "added" || change.type === "modified"){
+  if(change.type === "added"){
 
     const ride = change.doc.data();
 
-    const canSeeRide =
+    if(
       ride.status === "new" &&
-      (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
-      (!ride.priorityOnly || window.isPriorityDriver);
-
-    if(canSeeRide && !notifiedRides[change.doc.id]){
-
-      notifiedRides[change.doc.id] = true;
+      (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
+    ){
 
       // 🔊 SUNET
       rideSound.currentTime = 0;
@@ -505,11 +501,11 @@ snapshot.docChanges().forEach(change => {
         });
       }
 
-    } // ← asta închide canSeeRide
+    }
 
-  } // ← asta închide change.type
+  }
 
-}); // ← asta închide forEach    
+}); 
     
 
 ridesList.innerHTML="";
