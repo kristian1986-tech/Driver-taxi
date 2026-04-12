@@ -551,7 +551,7 @@ localStorage.setItem("shownCancelled", JSON.stringify(shownCancelled));
   
 /* LIMITARE RAZA */
 
-if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
+if(driverLat && driverLng && ride.pickupLat && ride.pickupLng){
 
   const km = distanceKm(
     driverLat,
@@ -561,7 +561,7 @@ if(ride.pickupLat && ride.pickupLng && driverLat && driverLng){
   );
 
   if(km > 20){
-    // ignoră cursa, dar NU opri tot
+    return;
   }
 
 }
