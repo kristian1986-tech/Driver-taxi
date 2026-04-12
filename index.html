@@ -267,6 +267,7 @@ let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{
 let currentOpenChatId = null;
 let waitingStopTimes = {};
 let unsubscribeRides = null;
+let notifiedRides = {};
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -471,15 +472,18 @@ function listenForRides(){
 // 🔥 DETECTARE CURSĂ NOUĂ REALĂ
 snapshot.docChanges().forEach(change => {
 
-  if(change.type === "added"){
+  if(change.type === "added" || change.type === "modified"){
 
     const ride = change.doc.data();
 
-   if(
-  ride.status === "new" &&
-  (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
-  (!ride.priorityOnly || window.isPriorityDriver)
-){
+    const canSeeRide =
+      ride.status === "new" &&
+      (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
+      (!ride.priorityOnly || window.isPriorityDriver);
+
+    if(canSeeRide && !notifiedRides[change.doc.id]){
+
+      notifiedRides[change.doc.id] = true;
 
       // 🔊 SUNET
       rideSound.currentTime = 0;
@@ -502,11 +506,11 @@ snapshot.docChanges().forEach(change => {
         });
       }
 
-    }
+    } // ← asta închide canSeeRide
 
-  }
+  } // ← asta închide change.type
 
-});    
+}); // ← asta închide forEach    
     
 
 ridesList.innerHTML="";
