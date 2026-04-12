@@ -475,10 +475,11 @@ snapshot.docChanges().forEach(change => {
 
     const ride = change.doc.data();
 
-    if(
-      ride.status === "new" &&
-      (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId))
-    ){
+   if(
+  ride.status === "new" &&
+  (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
+  (!ride.priorityOnly || window.isPriorityDriver)
+){
 
       // 🔊 SUNET
       rideSound.currentTime = 0;
