@@ -268,6 +268,7 @@ let currentOpenChatId = null;
 let waitingStopTimes = {};
 let unsubscribeRides = null;
 let notifiedRides = {};
+let newRideIds = [];
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -819,6 +820,9 @@ div.appendChild(timerDiv);
 
 let cancelBtnAdded = false; // 🔥 prevenim duplicate
 
+
+if(!arrivedTimers[ride.id]){
+  arrivedTimers[ride.id] =  
 setInterval(()=>{
 
 const nowLive = Date.now();
@@ -868,7 +872,7 @@ if(diffLive >= 180 && !cancelBtnAdded){
 }
 
 },1000);
-
+}
 
 }
 
