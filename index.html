@@ -457,8 +457,8 @@ setInterval(async () => {
 
 function listenForRides(){
 
-onSnapshot(
-  query(collection(db,"rides"), orderBy("createdAt","desc")),
+  onSnapshot(
+  collection(db,"rides"),
   snapshot=>{
 
 
@@ -505,10 +505,19 @@ snapshot.docChanges().forEach(change => {
 ridesList.innerHTML="";
 historyList.innerHTML="";
 
+const rides = [];
+
 snapshot.forEach(docSnap=>{
+  rides.push({ id: docSnap.id, ...docSnap.data() });
+});
 
-const ride = {id:docSnap.id,...docSnap.data()};
+// sortare locală
+rides.sort((a,b)=>{
+  return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+});
 
+rides.forEach(ride=>{
+  
   
   if(
   ride.status === "cancelled" &&
