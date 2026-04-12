@@ -266,6 +266,7 @@ let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
 let currentOpenChatId = null;
 let waitingStopTimes = {};
+let unsubscribeRides = null;
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -457,9 +458,14 @@ setInterval(async () => {
 
 function listenForRides(){
 
-  onSnapshot(
-  collection(db,"rides"),
-  snapshot=>{
+  // 🔥 oprește listener vechi (IMPORTANT)
+  if(unsubscribeRides){
+    unsubscribeRides();
+  }
+
+  unsubscribeRides = onSnapshot(
+    collection(db,"rides"),
+    snapshot=>{
 
 
 // 🔥 DETECTARE CURSĂ NOUĂ REALĂ
@@ -468,10 +474,6 @@ snapshot.docChanges().forEach(change => {
   if(change.type === "added"){
 
     const ride = change.doc.data();
-
-    setTimeout(()=>{
-  location.reload();
-}, 500);
 
     if(
       ride.status === "new" &&
