@@ -739,11 +739,12 @@ const arriveBtn=document.createElement("button");
 arriveBtn.innerText="Jsem na místě";
 arriveBtn.className="mt-3 bg-yellow-500 px-4 py-2 rounded-xl shadow active:scale-95 transition mr-2";
 
-arriveBtn.onclick=()=>{
-updateDoc(doc(db,"rides",ride.id),{
-  status:"arrived",
-  arrivedAt: Date.now() // 🔥 salvăm timpul real
-});
+arriveBtn.onclick = () => {
+  updateDoc(doc(db,"rides",ride.id),{
+    status: "arrived",
+    arrivedAt: Date.now(),
+    notifyClient: true
+  });
 };
 
 div.appendChild(arriveBtn);
