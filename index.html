@@ -739,13 +739,34 @@ const arriveBtn=document.createElement("button");
 arriveBtn.innerText="Jsem na místě";
 arriveBtn.className="mt-3 bg-yellow-500 px-4 py-2 rounded-xl shadow active:scale-95 transition mr-2";
 
-arriveBtn.onclick = () => {
-  updateDoc(doc(db,"rides",ride.id),{
+
+arriveBtn.onclick = async () => {
+
+  await updateDoc(doc(db,"rides",ride.id),{
     status: "arrived",
     arrivedAt: Date.now(),
     notifyClient: true
   });
+
+  try{
+    await fetch(
+      "https://us-central1-taxi-kristian.cloudfunctions.net/clientArrivedNotification",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          rideId: ride.id
+        })
+      }
+    );
+  }catch(e){
+    console.log("Push error:", e);
+  }
+
 };
+  
 
 div.appendChild(arriveBtn);
 
