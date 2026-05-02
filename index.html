@@ -836,6 +836,9 @@ div.appendChild(timerDiv);
 let cancelBtnAdded = false; // 🔥 prevenim duplicate
 
 
+clearInterval(arrivedTimers[ride.id]);
+delete arrivedTimers[ride.id];
+  
 if(!arrivedTimers[ride.id]){
   arrivedTimers[ride.id] =  
 setInterval(()=>{
