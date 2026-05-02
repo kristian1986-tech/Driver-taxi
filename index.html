@@ -267,6 +267,8 @@ let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{
 let currentOpenChatId = null;
 let waitingStopTimes = {};
 let unsubscribeRides = null;
+let unsubscribeDriverChat = null;
+let activeDriverChatRide = null;      
 let notifiedRides = {};
 let newRideIds = [];
       
@@ -1498,8 +1500,20 @@ function openNavigation(address){
 
 function listenMessagesDriver(rideId){
 
-  onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
+  if(activeDriverChatRide === rideId){
+    return;
+  }
 
+  if(unsubscribeDriverChat){
+    unsubscribeDriverChat();
+  }
+
+  activeDriverChatRide = rideId;
+
+  unsubscribeDriverChat =
+    onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
+
+      
     const chatBox = document.querySelector("#chatBox");
     if(!chatBox) return;
 
