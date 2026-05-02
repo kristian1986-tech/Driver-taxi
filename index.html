@@ -411,11 +411,6 @@ await updateDoc(doc(db,"drivers",driverId),{
   lastPing: Date.now()
 });
 
-// 🔥 TRIMITE ÎN DRIVER (pentru hartă globală)
-await updateDoc(doc(db,"drivers",driverId),{
-  lat:lat,
-  lng:lng
-});
 
 // 🔥 TRIMITE ȘI ÎN CURSA ACTIVĂ (dacă există)
 if(currentRideId){
