@@ -266,6 +266,7 @@ let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
 let currentOpenChatId = null;
 let waitingStopTimes = {};
+      
 let unsubscribeRides = null;
 let unsubscribeDriverChat = null;      
 let notifiedRides = {};
@@ -456,8 +457,12 @@ setInterval(async () => {
 
 function listenForRides(){
 
+
+  if(unsubscribeRides){
+  unsubscribeRides();
+  }
   
-  onSnapshot(
+unsubscribeRides =  onSnapshot(
     collection(db,"rides"),
     snapshot=>{
 
