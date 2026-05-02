@@ -1500,17 +1500,8 @@ function openNavigation(address){
 
 function listenMessagesDriver(rideId){
 
-  if(activeDriverChatRide === rideId){
-    return;
-  }
-
-  if(unsubscribeDriverChat){
-    unsubscribeDriverChat();
-  }
-
-  activeDriverChatRide = rideId;
-
-  unsubscribeDriverChat =
+  
+    
     onSnapshot(collection(db,"rides",rideId,"messages"), snapshot=>{
 
       
