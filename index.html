@@ -456,7 +456,8 @@ setInterval(async () => {
 
 function listenForRides(){
 
-  unsubscribeRides = onSnapshot(
+  
+  onSnapshot(
     collection(db,"rides"),
     snapshot=>{
 
