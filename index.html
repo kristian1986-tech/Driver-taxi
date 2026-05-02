@@ -456,11 +456,6 @@ setInterval(async () => {
 
 function listenForRides(){
 
-  // 🔥 oprește listener vechi (IMPORTANT)
-  if(unsubscribeRides){
-    unsubscribeRides();
-  }
-
   unsubscribeRides = onSnapshot(
     collection(db,"rides"),
     snapshot=>{
