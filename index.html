@@ -744,6 +744,10 @@ arriveBtn.onclick = async () => {
     notifyClient: true
   });
 
+  // redraw instant
+  listenForRides();
+
+
   try{
     await fetch(
       "https://us-central1-taxi-kristian.cloudfunctions.net/clientArrivedNotification",
