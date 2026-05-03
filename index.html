@@ -734,10 +734,9 @@ rejectedDrivers: arrayUnion(driverId)
 
 div.appendChild(rejectBtn);
 }
-if(
-  (ride.status==="confirmed" || ride.status==="arrived") &&
-  ride.driverId===driverId
-){
+
+if(ride.status==="confirmed" && ride.driverId===driverId){
+  
 listenMessagesDriver(ride.id);
   
 const arriveBtn=document.createElement("button");
@@ -810,6 +809,48 @@ chatBtn.onclick = () => {
 div.appendChild(chatBtn);
   
 }
+
+
+if(
+  (ride.status==="confirmed" || ride.status==="arrived") &&
+  ride.driverId===driverId
+){
+
+  listenMessagesDriver(ride.id);
+
+  const chatBtn = document.createElement("button");
+  chatBtn.className =
+    "mt-3 bg-blue-600 px-4 py-2 rounded-xl shadow active:scale-95 transition relative";
+
+  const unread = unreadMessages[ride.id] || 0;
+
+  chatBtn.innerHTML = `
+    💬 Chat
+    <span id="badge-${ride.id}"
+    class="${unread > 0 ? '' : 'hidden'} absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+    ${unread}
+    </span>
+  `;
+
+  chatBtn.onclick = () => {
+    openChat(ride.id);
+
+    lastReadMessages[ride.id] = Math.floor(Date.now()/1000);
+    localStorage.setItem(
+      "lastReadMessages",
+      JSON.stringify(lastReadMessages)
+    );
+
+    const badge = document.getElementById("badge-"+ride.id);
+    if(badge){
+      badge.innerText = "0";
+      badge.classList.add("hidden");
+    }
+  };
+
+  div.appendChild(chatBtn);
+}
+  
 
 
 if(ride.status==="arrived" && ride.driverId===driverId){
