@@ -734,7 +734,10 @@ rejectedDrivers: arrayUnion(driverId)
 
 div.appendChild(rejectBtn);
 }
-if(ride.status==="confirmed" && ride.driverId===driverId){
+if(
+  (ride.status==="confirmed" || ride.status==="arrived") &&
+  ride.driverId===driverId
+){
 listenMessagesDriver(ride.id);
   
 const arriveBtn=document.createElement("button");
