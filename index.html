@@ -705,9 +705,12 @@ return;
 
 await updateDoc(rideRef,{
   status:"confirmed",
-  driverId:driverId,
+  driverId: driverId,
   driverName: window.driverData.name,
-  driverIco: window.driverData.ico
+  driverIco: window.driverData.ico,
+  driverLat: driverLat,
+  driverLng: driverLng,
+  driverUpdatedAt: Date.now()
 });
 
 openNavigation(ride.pickup);
