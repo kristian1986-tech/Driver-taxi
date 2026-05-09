@@ -710,8 +710,9 @@ await updateDoc(rideRef,{
   driverId: driverId,
   driverName: window.driverData.name,
   driverIco: window.driverData.ico,
-  driverLat: driverLat || ride.pickupLat,
-driverLng: driverLng || ride.pickupLng,
+
+  driverLat: driverLat || lastPosition?.lat || null,
+  driverLng: driverLng || lastPosition?.lng || null,
   driverUpdatedAt: Date.now()
 });
 
