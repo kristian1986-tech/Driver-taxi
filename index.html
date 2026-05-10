@@ -495,24 +495,33 @@ snapshot.docChanges().forEach(change => {
 const canSeeRide =
   ride.status === "new" &&
   (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
-  (!ride.priorityOnly || window.isPriorityDriver) &&
-  (
-    !driverLat ||
-    !driverLng ||
-    !ride.pickupLat ||
-    !ride.pickupLng ||
-    distanceKm(
+  (!ride.priorityOnly || window.isPriorityDriver);
+
+    
+if(canSeeRide && !notifiedRides[change.doc.id]){
+
+  // dacă e >20 km → nu suna
+  if(
+    driverLat &&
+    driverLng &&
+    ride.pickupLat &&
+    ride.pickupLng
+  ){
+    const km = distanceKm(
       driverLat,
       driverLng,
       ride.pickupLat,
       ride.pickupLng
-    ) <= 20
-  );
+    );
+
+    if(km > 20){
+      return;
+    }
+  }
+
+  notifiedRides[change.doc.id] = true;
+
     
-    if(canSeeRide && !notifiedRides[change.doc.id]){
-
-      notifiedRides[change.doc.id] = true;
-
       // 🔊 SUNET
       rideSound.currentTime = 0;
       rideSound.play().catch(()=>{});
