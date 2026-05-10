@@ -592,7 +592,14 @@ localStorage.setItem("shownCancelled", JSON.stringify(shownCancelled));
   
 /* LIMITARE RAZA */
 
-if(driverLat && driverLng && ride.pickupLat && ride.pickupLng){
+
+if(
+  ride.status === "new" &&
+  driverLat &&
+  driverLng &&
+  ride.pickupLat &&
+  ride.pickupLng
+){
 
   const km = distanceKm(
     driverLat,
@@ -606,6 +613,7 @@ if(driverLat && driverLng && ride.pickupLat && ride.pickupLng){
   }
 
 }
+  
 
 if(
 ride.status === "new" &&
