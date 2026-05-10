@@ -416,11 +416,21 @@ await updateDoc(doc(db,"drivers",driverId),{
 
 // 🔥 TRIMITE ȘI ÎN CURSA ACTIVĂ (dacă există)
 if(currentRideId){
-  await updateDoc(doc(db,"rides",currentRideId),{
-    driverLat:lat,
-    driverLng:lng,
-    driverUpdatedAt: Date.now()
-  });
+
+  const rideRef = doc(db,"rides",currentRideId);
+  const rideSnap = await getDoc(rideRef);
+
+  if(rideSnap.exists()){
+    const ride = rideSnap.data();
+
+    if(ride.status === "confirmed"){
+      await updateDoc(rideRef,{
+        driverLat: lat,
+        driverLng: lng,
+        driverUpdatedAt: Date.now()
+      });
+    }
+  }
 }
   
 },
