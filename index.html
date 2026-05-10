@@ -467,6 +467,12 @@ function listenForRides(){
 unsubscribeRides =  onSnapshot(
     collection(db,"rides"),
     snapshot=>{
+
+
+Object.keys(arrivedTimers).forEach(id=>{
+  clearInterval(arrivedTimers[id]);
+});
+arrivedTimers = {};
       
 
 // 🔥 DETECTARE CURSĂ NOUĂ REALĂ
