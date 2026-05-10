@@ -500,7 +500,8 @@ const canSeeRide =
     
 if(canSeeRide && !notifiedRides[change.doc.id]){
 
-  // dacă e >20 km → nu suna
+  let shouldNotify = true;
+
   if(
     driverLat &&
     driverLng &&
@@ -515,35 +516,38 @@ if(canSeeRide && !notifiedRides[change.doc.id]){
     );
 
     if(km > 20){
-      return;
+      shouldNotify = false;
     }
   }
 
-  notifiedRides[change.doc.id] = true;
+  if(shouldNotify){
 
-    
-      // 🔊 SUNET
-      rideSound.currentTime = 0;
-      rideSound.play().catch(()=>{});
+    notifiedRides[change.doc.id] = true;
 
-      // 📳 VIBRAȚIE
-      if(navigator.vibrate){
-        navigator.vibrate([300,100,300,100,600]);
-      }
+    // 🔊 SUNET
+    rideSound.currentTime = 0;
+    rideSound.play().catch(()=>{});
 
-      // 🔔 NOTIFICARE
-      if(Notification.permission === "granted"){
-        navigator.serviceWorker.ready.then(reg => {
-          reg.showNotification("🚕 Nová jízda!", {
-            body: "Máte novou objednávku taxi",
-            icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
-            vibrate: [300,100,300,100,600],
-            requireInteraction: true
-          });
+    // 📳 VIBRAȚIE
+    if(navigator.vibrate){
+      navigator.vibrate([300,100,300,100,600]);
+    }
+
+    // 🔔 NOTIFICARE
+    if(Notification.permission === "granted"){
+      navigator.serviceWorker.ready.then(reg => {
+        reg.showNotification("🚕 Nová jízda!", {
+          body: "Máte novou objednávku taxi",
+          icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
+          vibrate: [300,100,300,100,600],
+          requireInteraction: true
         });
-      }
+      });
+    }
 
-    } // ← asta închide canSeeRide
+  }
+}
+    
 
   } // ← asta închide change.type
 
