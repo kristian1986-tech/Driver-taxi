@@ -851,10 +851,16 @@ div.appendChild(startBtn);
 
 const arrivedTime = ride.arrivedAt || 0;
 
-const timerDiv = document.createElement("div");
-timerDiv.className = "text-yellow-400 mt-2 text-center";
-div.appendChild(timerDiv);
+let timerDiv = document.getElementById("timer-" + ride.id);
 
+if(!timerDiv){
+  timerDiv = document.createElement("div");
+  timerDiv.id = "timer-" + ride.id;
+  timerDiv.className = "text-yellow-400 mt-2 text-center";
+}
+
+div.appendChild(timerDiv);
+  
 let cancelBtnAdded = false; // 🔥 prevenim duplicate
   
 if(!arrivedTimers[ride.id]){
