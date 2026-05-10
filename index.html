@@ -492,11 +492,23 @@ snapshot.docChanges().forEach(change => {
 
     const ride = change.doc.data();
 
-    const canSeeRide =
-      ride.status === "new" &&
-      (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
-      (!ride.priorityOnly || window.isPriorityDriver);
-
+const canSeeRide =
+  ride.status === "new" &&
+  (!ride.rejectedDrivers || !ride.rejectedDrivers.includes(driverId)) &&
+  (!ride.priorityOnly || window.isPriorityDriver) &&
+  (
+    !driverLat ||
+    !driverLng ||
+    !ride.pickupLat ||
+    !ride.pickupLng ||
+    distanceKm(
+      driverLat,
+      driverLng,
+      ride.pickupLat,
+      ride.pickupLng
+    ) <= 20
+  );
+    
     if(canSeeRide && !notifiedRides[change.doc.id]){
 
       notifiedRides[change.doc.id] = true;
