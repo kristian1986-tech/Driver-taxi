@@ -856,10 +856,6 @@ timerDiv.className = "text-yellow-400 mt-2 text-center";
 div.appendChild(timerDiv);
 
 let cancelBtnAdded = false; // 🔥 prevenim duplicate
-
-
-clearInterval(arrivedTimers[ride.id]);
-delete arrivedTimers[ride.id];
   
 if(!arrivedTimers[ride.id]){
   arrivedTimers[ride.id] =  
