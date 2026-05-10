@@ -639,24 +639,23 @@ return;
 let distanceText = "";
 
 if(
-ride.pickupLat &&
-ride.pickupLng &&
-driverLat &&
-driverLng
+  (ride.status === "new" || ride.status === "confirmed") &&
+  ride.pickupLat &&
+  ride.pickupLng &&
+  driverLat &&
+  driverLng
 ){
+  const km = distanceKm(
+    driverLat,
+    driverLng,
+    ride.pickupLat,
+    ride.pickupLng
+  );
 
-const km = distanceKm(
-driverLat,
-driverLng,
-ride.pickupLat,
-ride.pickupLng
-);
-
-distanceText =
-"<p><strong>🚕 Od vás:</strong> "
-+ km.toFixed(1) +
-" km</p>";
-
+  distanceText =
+    "<p><strong>🚕 Od vás:</strong> " +
+    km.toFixed(1) +
+    " km</p>";
 }
 
 const div = document.createElement("div");
