@@ -1463,7 +1463,18 @@ pdf.setFont("helvetica","bold");
 pdf.text("CELKEM:",140,y);
 pdf.text(total+" Kc ",180,y,{align:"right"});
 
+if(window.Android && window.Android.saveBase64){
+
+const pdfBase64 = pdf.output("datauristring");
+const base64 = pdfBase64.split(",")[1];
+
+window.Android.saveBase64(base64);
+
+}else{
+
 pdf.save("prehled_jizd_mesic.pdf");
+
+}
 
 };
 
