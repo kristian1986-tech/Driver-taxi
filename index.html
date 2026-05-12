@@ -1151,7 +1151,7 @@ if(window.Android && window.Android.saveBase64){
 
   const base64 = pdfBase64.split(",")[1];
 
-  window.Android.saveBase64(base64,"uctenka_cobra.pdf");
+window.Android.saveBase64(base64);
 
 }else{
 
@@ -1462,7 +1462,7 @@ if(window.Android && window.Android.saveBase64){
 const pdfBase64 = pdf.output("datauristring");
 const base64 = pdfBase64.split(",")[1];
 
-window.Android.saveBase64(base64,"prehled_jizd_mesic.pdf");
+window.Android.saveBase64(base64);
 
 }else{
 
