@@ -1339,12 +1339,6 @@ const selectedMonth = parseInt(value.split("-")[1]) - 1;
 const { jsPDF } = window.jspdf;
 const pdf = new jsPDF();
 
-const img = new Image();
-img.src = "cobra.png";
-
-img.onload = function(){
-
-  pdf.addImage(img, "PNG", 70, 10, 60, 18); // poziție + mărime
 
     // 🔥 restul codului (tabel etc) MUTĂ-L AICI
 
@@ -1478,7 +1472,7 @@ pdf.save("prehled_jizd_mesic.pdf");
 
 };
 
-};
+
 
 window.toggleStats = function(){
 
