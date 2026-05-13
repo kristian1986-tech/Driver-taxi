@@ -1487,22 +1487,35 @@ pdf.save("prehled_jizd_mesic.pdf");
 };
 
 
-
 window.toggleStats = function(){
 
 const panel = document.getElementById("statsPanel");
 
-ridesList.classList.add("hidden");
-historyList.classList.add("hidden");
-historyTitle.classList.add("hidden");
-document.getElementById("rulesPanel").classList.add("hidden");
-document.getElementById("settingsPanel").classList.add("hidden");
+const isVisible = !panel.classList.contains("hidden");
 
-panel.classList.toggle("hidden");
+if(isVisible){
 
-calculateStats();
+  // 🔥 revenire la home
+  panel.classList.add("hidden");
+
+  ridesList.classList.remove("hidden");
+
+}else{
+
+  ridesList.classList.add("hidden");
+  historyList.classList.add("hidden");
+  historyTitle.classList.add("hidden");
+
+  document.getElementById("rulesPanel").classList.add("hidden");
+  document.getElementById("settingsPanel").classList.add("hidden");
+
+  panel.classList.remove("hidden");
+
+  calculateStats();
+}
 
 }
+
 
 /* CALCUL VÝDĚLKŮ */
 
