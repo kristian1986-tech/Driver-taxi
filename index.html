@@ -709,7 +709,7 @@ const cas = rideDate
 
 div.innerHTML = `
 
-<p class="ride-date" data-date="${rideDate ? rideDate.toISOString() : ""}">    
+<p class="ride-date" data-date="${rideDate instanceof Date ? rideDate.toISOString() : ""}">  
 <strong>Datum:</strong> ${datum}    
 </p>    
 <p><strong>Čas:</strong> ${cas}</p>
