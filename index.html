@@ -1266,29 +1266,34 @@ document.getElementById("rulesPanel").classList.add("hidden");
 document.getElementById("settingsPanel").classList.add("hidden");
 }
       
+
 window.showHistory = function(){
 
 const historyVisible = !historyList.classList.contains("hidden");
 
 if(historyVisible){
 
-historyList.classList.add("hidden");
-historyTitle.classList.add("hidden");
+  // 🔥 revenire la home
+  historyList.classList.add("hidden");
+  historyTitle.classList.add("hidden");
+
+  ridesList.classList.remove("hidden");
 
 }else{
 
-ridesList.classList.add("hidden");
+  ridesList.classList.add("hidden");
 
-historyList.classList.remove("hidden");
-historyTitle.classList.remove("hidden");
+  historyList.classList.remove("hidden");
+  historyTitle.classList.remove("hidden");
 
-document.getElementById("statsPanel").classList.add("hidden");
-document.getElementById("rulesPanel").classList.add("hidden");
-document.getElementById("settingsPanel").classList.add("hidden");
-  
-}
+  document.getElementById("statsPanel").classList.add("hidden");
+  document.getElementById("rulesPanel").classList.add("hidden");
+  document.getElementById("settingsPanel").classList.add("hidden");
 
 }
+
+}
+      
 
 window.showRules = function(){
 
