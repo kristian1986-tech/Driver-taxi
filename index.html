@@ -666,8 +666,7 @@ ride.rejectedDrivers.includes(driverId)
 rideSound.pause();
 rideSound.currentTime = 0;
 
-return;
-}
+}else{
 
 let distanceText = "";
 
@@ -1211,7 +1210,9 @@ if(ridesList.innerHTML === ""){
 
 
 lastRideIds = newRideIds;
-  
+
+}
+      
 });
 
 }
