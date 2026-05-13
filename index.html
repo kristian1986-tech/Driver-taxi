@@ -1255,6 +1255,8 @@ listenForRides();
 loadDriverRating();
 }
 
+
+      
 window.showActive = function(){
 
 ridesList.classList.remove("hidden");
@@ -1267,6 +1269,7 @@ document.getElementById("settingsPanel").classList.add("hidden");
 }
       
 
+      
 window.showHistory = function(){
 
 const historyVisible = !historyList.classList.contains("hidden");
@@ -1293,6 +1296,7 @@ if(historyVisible){
 }
 
 }
+
       
 
 window.showRules = function(){
@@ -1306,16 +1310,24 @@ document.getElementById("settingsPanel").classList.add("hidden");
 document.getElementById("statsPanel").classList.add("hidden");
 historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
-ridesList.classList.add("hidden");
 
-// toggle DOAR rules
 if(isVisible){
-panel.classList.add("hidden");
+
+  // 🔥 revenire home
+  panel.classList.add("hidden");
+
+  ridesList.classList.remove("hidden");
+
 }else{
-panel.classList.remove("hidden");
+
+  ridesList.classList.add("hidden");
+
+  panel.classList.remove("hidden");
 }
 
 }
+
+      
 
 window.showSettings = function(){
 
@@ -1328,16 +1340,24 @@ document.getElementById("rulesPanel").classList.add("hidden");
 document.getElementById("statsPanel").classList.add("hidden");
 historyList.classList.add("hidden");
 historyTitle.classList.add("hidden");
-ridesList.classList.add("hidden");
 
-// toggle DOAR settings
 if(isVisible){
-panel.classList.add("hidden");
+
+  // 🔥 revenire home
+  panel.classList.add("hidden");
+
+  ridesList.classList.remove("hidden");
+
 }else{
-panel.classList.remove("hidden");
+
+  ridesList.classList.add("hidden");
+
+  panel.classList.remove("hidden");
 }
 
-}
+}      
+      
+      
 
 window.exportMonth = function(){
 
