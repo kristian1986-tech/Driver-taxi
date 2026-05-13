@@ -534,7 +534,7 @@ if(canSeeRide && !notifiedRides[change.doc.id]){
     }
 
     // 🔔 NOTIFICARE
-    if(Notification.permission === "granted"){
+    if(typeof Notification !== "undefined" && Notification.permission === "granted"){
       navigator.serviceWorker.ready.then(reg => {
         reg.showNotification("🚕 Nová jízda!", {
           body: "Máte novou objednávku taxi",
