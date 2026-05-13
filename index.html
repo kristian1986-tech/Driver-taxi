@@ -595,10 +595,10 @@ localStorage.setItem("shownCancelled", JSON.stringify(shownCancelled));
 
 if(
   ride.status === "new" &&
-  driverLat &&
-  driverLng &&
   ride.pickupLat &&
-  ride.pickupLng
+  ride.pickupLng &&
+  driverLat != null &&
+  driverLng != null
 ){
 
   const km = distanceKm(
