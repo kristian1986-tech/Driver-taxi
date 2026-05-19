@@ -317,7 +317,8 @@ window.isPriorityDriver = data.priority === true;
 localStorage.setItem("driverId",driverId);
 
 await updateDoc(driverRef,{
-status:"online"
+status:"online",
+pushToken: window.androidFcmToken || null
 });
 
 loginSection.classList.add("hidden");
