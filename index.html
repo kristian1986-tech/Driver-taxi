@@ -321,6 +321,10 @@ status:"online",
 pushToken: window.androidFcmToken || null
 });
 
+if(window.Android && window.Android.startOnlineService){
+  window.Android.startOnlineService();
+}  
+
 loginSection.classList.add("hidden");
 driverPanel.classList.remove("hidden");
 loadDriverRating();
@@ -352,6 +356,10 @@ await updateDoc(doc(db,"drivers",driverId),{
 status:"offline"
 });
 
+if(window.Android && window.Android.stopOnlineService){
+  window.Android.stopOnlineService();
+}
+  
 localStorage.removeItem("driverId");
 location.reload();
 
