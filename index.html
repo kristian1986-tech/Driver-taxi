@@ -513,7 +513,12 @@ const canSeeRide =
   (!ride.priorityOnly || window.isPriorityDriver);
 
     
-if(canSeeRide && !notifiedRides[change.doc.id]){
+const notifyKey =
+  ride.priorityOnly
+    ? change.doc.id + "_priority"
+    : change.doc.id + "_normal";
+
+if(canSeeRide && !notifiedRides[notifyKey]){
 
   let shouldNotify = true;
 
@@ -537,7 +542,7 @@ if(canSeeRide && !notifiedRides[change.doc.id]){
 
   if(shouldNotify){
 
-    notifiedRides[change.doc.id] = true;
+    notifiedRides[notifyKey] = true;
 
     // 🔊 SUNET
     rideSound.currentTime = 0;
