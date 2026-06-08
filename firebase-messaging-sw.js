@@ -13,6 +13,8 @@ const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function(payload){
 
+return;
+  
 self.registration.showNotification("🚕 Cursă nouă",{
 body: payload.data?.body || "Ai primit o cursă nouă",
 icon: "/Driver-taxi/icon.png",
