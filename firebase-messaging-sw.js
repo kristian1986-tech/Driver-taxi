@@ -12,8 +12,6 @@ appId: "1:872925880546:web:12da74898c90a0155b7ebb"
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function(payload){
-
-return;
   
 self.registration.showNotification("🚕 Cursă nouă",{
 body: payload.data?.body || "Ai primit o cursă nouă",
