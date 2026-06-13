@@ -1660,6 +1660,22 @@ function openNavigation(address){
   }
 
 }
+
+
+function openNavigationCoords(lat, lng){
+
+  const navSelect = document.getElementById("navSelect");
+  const nav = navSelect ? navSelect.value : "waze";
+
+  if(nav === "waze"){
+    window.open(`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`,"_blank");
+  }else{
+    window.open(
+      `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`,
+      "_blank"
+    );
+  }
+}
       
 
 function listenMessagesDriver(rideId){
