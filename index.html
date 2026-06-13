@@ -786,7 +786,11 @@ try{
 
   });
 
+  if(ride.pickupLat && ride.pickupLng){
+  openNavigationCoords(ride.pickupLat, ride.pickupLng);
+}else{
   openNavigation(ride.pickup);
+  }
 
 }catch(e){
 
@@ -927,7 +931,12 @@ localStorage.setItem("waitingStop_" + ride.id, Date.now());
   
   });
 
+if(ride.destinationLat && ride.destinationLng){
+  openNavigationCoords(ride.destinationLat, ride.destinationLng);
+}else{
   openNavigation(ride.destination);
+}
+  
 };
 
 div.appendChild(startBtn);
