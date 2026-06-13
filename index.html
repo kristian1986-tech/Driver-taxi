@@ -760,27 +760,44 @@ rideSound.pause();
 rideSound.currentTime = 0;
 
 const rideRef = doc(db,"rides",ride.id);
-const rideSnap = await getDoc(rideRef);
 
-if(!rideSnap.exists()) return;
+try{
 
-if(rideSnap.data().status !== "new"){
-alert("Tuto jízdu už přijal jiný řidič.");
-return;
+  await runTransaction(db, async (tx)=>{
+
+    const rideSnap = await tx.get(rideRef);
+
+    if(!rideSnap.exists()) return;
+
+    if(rideSnap.data().status !== "new"){
+      throw new Error("TAKEN");
+    }
+
+    tx.update(rideRef,{
+      status:"confirmed",
+      driverId: driverId,
+      driverName: window.driverData.name,
+      driverIco: window.driverData.ico,
+
+      driverLat: driverLat || lastPosition?.lat || null,
+      driverLng: driverLng || lastPosition?.lng || null,
+      driverUpdatedAt: Date.now()
+    });
+
+  });
+
+  openNavigation(ride.pickup);
+
+}catch(e){
+
+  if(e && e.message === "TAKEN"){
+    alert("Tuto jízdu už přijal jiný řidič.");
+    return;
+  }
+
+  console.log("Accept transaction error", e);
+  alert("Chyba při přijmutí jízdy.");
 }
-
-await updateDoc(rideRef,{
-  status:"confirmed",
-  driverId: driverId,
-  driverName: window.driverData.name,
-  driverIco: window.driverData.ico,
-
-  driverLat: driverLat || lastPosition?.lat || null,
-  driverLng: driverLng || lastPosition?.lng || null,
-  driverUpdatedAt: Date.now()
-});
-
-openNavigation(ride.pickup);
 
 };
 
