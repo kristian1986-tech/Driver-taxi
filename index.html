@@ -1193,36 +1193,38 @@ function renderSnapshot(snapshot){
 
 function listenForRides(){
 
+  // reset listă id-uri noi
+  newRideIds = [];
 
-// --- TEST: 2 listeners (încă nu schimbăm UI) ---
-if (unsubscribeNewRides) unsubscribeNewRides();
-if (unsubscribeMyRides) unsubscribeMyRides();
+  // oprim listenerii vechi (ca să nu avem dubluri)
+  if (unsubscribeNewRides) {
+    unsubscribeNewRides();
+    unsubscribeNewRides = null;
+  }
+  if (unsubscribeRides) {
+    unsubscribeRides();
+    unsubscribeRides = null;
+  }
+  // (în 3A nu folosim my rides pentru UI încă, deci îl oprim doar dacă exista)
+  if (unsubscribeMyRides) {
+    unsubscribeMyRides();
+    unsubscribeMyRides = null;
+  }
 
-const qNew = query(
-  collection(db, "rides"),
-  where("status", "==", "new"),
-  orderBy("createdAt", "desc")
-);
-
-const qMine = query(
-  collection(db, "rides"),
-  where("driverId", "==", driverId),
-  orderBy("createdAt", "desc")
-);
-
-
-
-
-  
+  // Query pentru curse noi (notificare)
+  const qNew = query(
+    collection(db, "rides"),
+    where("status", "==", "new"),
+    orderBy("createdAt", "desc")
+  );
 
   unsubscribeNewRides = onSnapshot(qNew, (snapshot) => {
 
-  console.log("[NEW rides] " + snapshot.size);
+    console.log("[NEW rides] " + snapshot.size);
 
-  // Detectare cursă nouă (folosim docChanges ca înainte)
-  snapshot.docChanges().forEach(change => {
+    snapshot.docChanges().forEach(change => {
 
-    if(change.type === "added" || change.type === "modified"){
+      if (change.type !== "added" && change.type !== "modified") return;
 
       const ride = change.doc.data();
 
@@ -1236,67 +1238,56 @@ const qMine = query(
           ? change.doc.id + "_priority"
           : change.doc.id + "_normal";
 
-      if(canSeeRide && !notifiedRides[notifyKey]){
+      if (!canSeeRide || notifiedRides[notifyKey]) return;
 
-        let shouldNotify = true;
+      let shouldNotify = true;
 
-        // limitare rază 20 km (identic cu logica ta)
-        if(driverLat && driverLng && ride.pickupLat && ride.pickupLng){
-          const km = distanceKm(driverLat, driverLng, ride.pickupLat, ride.pickupLng);
-          if(km > 20){
-            shouldNotify = false;
-          }
-        }
-
-        if(shouldNotify){
-
-          notifiedRides[notifyKey] = true;
-
-          // 🔊 SUNET
-          rideSound.currentTime = 0;
-          rideSound.play().catch(()=>{});
-
-          // 📳 VIBRAȚIE
-          if(navigator.vibrate){
-            navigator.vibrate([300,100,300,100,600]);
-          }
-
-          // 🔔 NOTIFICARE
-          if(typeof Notification !== "undefined" && Notification.permission === "granted"){
-            navigator.serviceWorker.ready.then(reg => {
-              reg.showNotification("🚕 Nová jízda!", {
-                body: "Máte novou objednávku taxi",
-                icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
-                vibrate: [300,100,300,100,600],
-                requireInteraction: true
-              });
-            });
-          }
-
-        }
+      // limitare rază 20 km
+      if (driverLat && driverLng && ride.pickupLat && ride.pickupLng) {
+        const km = distanceKm(driverLat, driverLng, ride.pickupLat, ride.pickupLng);
+        if (km > 20) shouldNotify = false;
       }
+
+      if (!shouldNotify) return;
+
+      notifiedRides[notifyKey] = true;
+
+      // 🔊 SUNET
+      rideSound.currentTime = 0;
+      rideSound.play().catch(()=>{});
+
+      // 📳 VIBRAȚIE
+      if (navigator.vibrate) {
+        navigator.vibrate([300,100,300,100,600]);
+      }
+
+      // 🔔 NOTIFICARE
+      if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+        navigator.serviceWorker.ready.then(reg => {
+          reg.showNotification("🚕 Nová jízda!", {
+            body: "Máte novou objednávku taxi",
+            icon: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
+            vibrate: [300,100,300,100,600],
+            requireInteraction: true
+          });
+        });
+      }
+
+    });
+
+  }); // <-- IMPORTANT: aici se închide unsubscribeNewRides corect
+
+  // UI (încă pe vechiul listener mare, ca să nu stricăm nimic)
+  unsubscribeRides = onSnapshot(
+    collection(db, "rides"),
+    (snapshot) => {
+      renderSnapshot(snapshot);
     }
-  });
+  );
 
-});
-
-
-
-  
-  newRideIds = [];
-
-if (unsubscribeRides) {
-  unsubscribeRides();
-  unsubscribeRides = null;
 }
+      
 
-
-unsubscribeRides = onSnapshot(
-  collection(db, "rides"),
-  (snapshot) => {
-    renderSnapshot(snapshot);
-  }
-);
   
 
 
