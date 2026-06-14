@@ -273,7 +273,9 @@ let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{
 let currentOpenChatId = null;
 let waitingStopTimes = {};
       
-let unsubscribeRides = null;
+let unsubscribeRides = null;        // păstrăm vechiul până terminăm
+let unsubscribeNewRides = null;
+let unsubscribeMyRides = null;
 let unsubscribeDriverChat = null;      
 let notifiedRides = {};
 let newRideIds = [];
@@ -483,6 +485,33 @@ setInterval(async () => {
 function listenForRides(){
 
 
+// --- TEST: 2 listeners (încă nu schimbăm UI) ---
+if (unsubscribeNewRides) unsubscribeNewRides();
+if (unsubscribeMyRides) unsubscribeMyRides();
+
+const qNew = query(
+  collection(db, "rides"),
+  where("status", "==", "new"),
+  orderBy("createdAt", "desc")
+);
+
+const qMine = query(
+  collection(db, "rides"),
+  where("driverId", "==", driverId),
+  orderBy("createdAt", "desc")
+);
+
+unsubscribeNewRides = onSnapshot(qNew, (snap) => {
+  console.log("[NEW rides]", snap.size);
+});
+
+unsubscribeMyRides = onSnapshot(qMine, (snap) => {
+  console.log("[MY rides]", snap.size);
+});
+// --- END TEST ---
+
+
+  
   newRideIds = [];
 
   if(unsubscribeRides){
