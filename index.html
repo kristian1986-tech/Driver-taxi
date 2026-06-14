@@ -1278,12 +1278,17 @@ function listenForRides(){
   }); // <-- IMPORTANT: aici se închide unsubscribeNewRides corect
 
   // UI (încă pe vechiul listener mare, ca să nu stricăm nimic)
-  unsubscribeRides = onSnapshot(
-    collection(db, "rides"),
-    (snapshot) => {
-      renderSnapshot(snapshot);
-    }
-  );
+  // UI: afișăm doar cursele driverului (istoric + active ale tale)
+const qMineUI = query(
+  collection(db, "rides"),
+  where("driverId", "==", driverId),
+  orderBy("createdAt", "desc")
+);
+
+unsubscribeMyRides = onSnapshot(qMineUI, (snapshot) => {
+  console.log("[MY rides UI]", snapshot.size);
+  renderSnapshot(snapshot);
+});
 
 }
       
