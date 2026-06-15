@@ -1202,6 +1202,17 @@ cacheMyRides.clear();
 
     console.log("[NEW rides] " + snapshot.size);
 
+
+  // cache pentru UI: toate cursele NEW
+  cacheNewRides.clear();
+  snapshot.forEach(docSnap=>{
+    cacheNewRides.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
+  });
+
+  // re-randăm UI (NEW + MY)
+  renderFromCaches();
+    
+    
     snapshot.docChanges().forEach(change => {
 
       if (change.type !== "added" && change.type !== "modified") return;
@@ -1255,6 +1266,12 @@ cacheMyRides.clear();
 
     });
 
+      // dacă nu mai există curse NEW, oprim sunetul imediat (client a dat cancelled)
+  if(snapshot.size === 0){
+    rideSound.pause();
+    rideSound.currentTime = 0;
+  }
+
   }); // <-- IMPORTANT: aici se închide unsubscribeNewRides corect
 
   // UI (încă pe vechiul listener mare, ca să nu stricăm nimic)
@@ -1265,10 +1282,19 @@ const qMineUI = query(
   orderBy("createdAt", "desc")
 );
 
+
 unsubscribeMyRides = onSnapshot(qMineUI, (snapshot) => {
+
   console.log("[MY rides UI]", snapshot.size);
-  renderSnapshot(snapshot);
+
+  cacheMyRides.clear();
+  snapshot.forEach(docSnap=>{
+    cacheMyRides.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
+  });
+
+  renderFromCaches();
 });
+  
 
 }
       
