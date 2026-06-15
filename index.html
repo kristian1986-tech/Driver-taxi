@@ -279,6 +279,8 @@ let unsubscribeMyRides = null;
 let unsubscribeDriverChat = null;      
 let notifiedRides = {};
 let newRideIds = [];
+let cacheNewRides = new Map(); // id -> ride
+let cacheMyRides = new Map();  // id -> ride
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -1136,6 +1138,29 @@ function renderSnapshot(snapshot){
     }
     
   
+
+function renderFromCaches(){
+
+  // combinăm fără duplicate (my suprascrie new dacă e același id)
+  const combined = new Map();
+  cacheNewRides.forEach((ride, id) => combined.set(id, ride));
+  cacheMyRides.forEach((ride, id) => combined.set(id, ride));
+
+  const rides = Array.from(combined.values());
+
+  // IMPORTANT: resetăm newRideIds la fiecare render
+  newRideIds = [];
+
+  // Fake snapshot ca să refolosim renderSnapshot fără să rescriem tot UI-ul
+  const fakeSnapshot = {
+    forEach: (cb) => {
+      rides.forEach(r => cb({ id: r.id, data: () => r }));
+    }
+  };
+
+  renderSnapshot(fakeSnapshot);
+}
+
       
       
 
@@ -1160,6 +1185,11 @@ function listenForRides(){
     unsubscribeMyRides();
     unsubscribeMyRides = null;
   }
+
+
+cacheNewRides.clear();
+cacheMyRides.clear();
+  
 
   // Query pentru curse noi (notificare)
   const qNew = query(
