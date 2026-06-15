@@ -504,28 +504,7 @@ function renderSnapshot(snapshot){
   });
 
   rides.forEach(ride=>{
-    function renderSnapshot(snapshot){
-
-  Object.keys(arrivedTimers).forEach(id=>{
-    clearInterval(arrivedTimers[id]);
-  });
-  arrivedTimers = {};
-
-  ridesList.innerHTML="";
-  historyList.innerHTML="";
-
-  const rides = [];
-
-  snapshot.forEach(docSnap=>{
-    rides.push({ id: docSnap.id, ...docSnap.data() });
-  });
-
-  // sortare locală
-  rides.sort((a,b)=>{
-    return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-  });
-
-  rides.forEach(ride=>{
+    
 
     if(
       ride.status === "cancelled" &&
