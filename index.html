@@ -1155,36 +1155,7 @@ function renderSnapshot(snapshot){
   lastRideIds = newRideIds;
 
     }
-    // (îl mutăm în pasul 3A-2, ca să fie copy-paste)
-  });
-
-  // 🔥 STOP SUNET dacă NU mai există curse noi
-  let hasNewRide = false;
-
-  snapshot.forEach(docSnap=>{
-    const r = docSnap.data();
-    if(r.status === "new"){
-      hasNewRide = true;
-    }
-  });
-
-  if(!hasNewRide){
-    rideSound.pause();
-    rideSound.currentTime = 0;
-  }
-
-  // 🔥 EMPTY STATE
-  if(ridesList.innerHTML === ""){
-    ridesList.innerHTML = `
-      <div class="text-center text-gray-500 mt-40 pb-32">
-        <p class="text-4xl mb-2">🚕</p>
-        <p>Žádné jízdy dostupné</p>
-      </div>
-    `;
-  }
-
-  lastRideIds = newRideIds;
-}
+    
 
       
       
