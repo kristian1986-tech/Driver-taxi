@@ -281,6 +281,7 @@ let notifiedRides = {};
 let newRideIds = [];
 let cacheNewRides = new Map(); // id -> ride
 let cacheMyRides = new Map();  // id -> ride
+let renderScheduled = false;
       
 const rideSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 rideSound.loop = true;
@@ -1161,6 +1162,18 @@ function renderFromCaches(){
   renderSnapshot(fakeSnapshot);
 }
 
+
+
+function scheduleRender(){
+  
+  if(renderScheduled) return;
+  renderScheduled = true;
+
+  setTimeout(() => {
+    renderScheduled = false;
+    renderFromCaches();
+  }, 50); // 50ms = suficient ca să nu randeze de 2 ori la același eveniment
+}
       
       
 
@@ -1210,7 +1223,7 @@ cacheMyRides.clear();
   });
 
   // re-randăm UI (NEW + MY)
-  renderFromCaches();
+  scheduleRender();
     
     
     snapshot.docChanges().forEach(change => {
@@ -1292,7 +1305,7 @@ unsubscribeMyRides = onSnapshot(qMineUI, (snapshot) => {
     cacheMyRides.set(docSnap.id, { id: docSnap.id, ...docSnap.data() });
   });
 
-  renderFromCaches();
+  scheduleRender();
 });
   
 
