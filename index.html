@@ -1283,6 +1283,11 @@ cacheMyRides.clear();
   if(snapshot.size === 0){
     rideSound.pause();
     rideSound.currentTime = 0;
+
+
+  // optional: curățăm notificările vechi ca să nu crească la infinit
+  notifiedRides = {};
+    
   }
 
   }); // <-- IMPORTANT: aici se închide unsubscribeNewRides corect
