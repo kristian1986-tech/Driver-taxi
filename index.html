@@ -272,6 +272,10 @@ let unreadMessages = JSON.parse(localStorage.getItem("unreadMessages") || "{}");
 let lastReadMessages = JSON.parse(localStorage.getItem("lastReadMessages") || "{}");
 let currentOpenChatId = null;
 let waitingStopTimes = {};
+
+let currentRideStatus = null;     // statusul cursei curente (din UI/cache)
+let lastRideGpsWriteAt = 0;       // când am scris ultima dată în rides/{id}
+const RIDE_GPS_WRITE_MS = 10000;   // scriem max o dată la 5 sec
       
 let unsubscribeRides = null;        // păstrăm vechiul până terminăm
 let unsubscribeNewRides = null;
@@ -434,24 +438,24 @@ await updateDoc(doc(db,"drivers",driverId),{
 });
 
 
-// 🔥 TRIMITE ȘI ÎN CURSA ACTIVĂ (dacă există)
-if(currentRideId){
+// 🔥 TRIMITE ȘI ÎN CURSA ACTIVĂ (fără getDoc)
+// păstrăm aceeași logică: doar când status e "confirmed"
+if (currentRideId && currentRideStatus === "confirmed") {
 
-  const rideRef = doc(db,"rides",currentRideId);
-  const rideSnap = await getDoc(rideRef);
+  const now = Date.now();
 
-  if(rideSnap.exists()){
-    const ride = rideSnap.data();
+  // throttle: nu scriem prea des în Firestore
+  if (now - lastRideGpsWriteAt >= RIDE_GPS_WRITE_MS) {
+    lastRideGpsWriteAt = now;
 
-    if(ride.status === "confirmed"){
-      await updateDoc(rideRef,{
-        driverLat: lat,
-        driverLng: lng,
-        driverUpdatedAt: Date.now()
-      });
-    }
+    await updateDoc(doc(db, "rides", currentRideId), {
+      driverLat: lat,
+      driverLng: lng,
+      driverUpdatedAt: now
+    });
   }
 }
+  
   
 },
 
@@ -576,9 +580,19 @@ function renderSnapshot(snapshot){
       }
     }
 
-    if(ride.driverId === driverId){
-      currentRideId = ride.id;
-    }
+    
+  // setăm cursa curentă doar dacă e a driverului și e activă
+if (ride.driverId === driverId && ["confirmed","arrived","in_progress"].includes(ride.status)) {
+  currentRideId = ride.id;
+  currentRideStatus = ride.status;
+}
+
+// dacă e completată, eliberăm
+if (ride.driverId === driverId && ride.status === "completed") {
+  currentRideId = null;
+  currentRideStatus = null;
+}
+    
 
     if(
       ride.status !== "new" &&
