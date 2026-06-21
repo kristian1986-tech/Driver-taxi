@@ -275,7 +275,7 @@ let waitingStopTimes = {};
 
 let currentRideStatus = null;     // statusul cursei curente (din UI/cache)
 let lastRideGpsWriteAt = 0;       // când am scris ultima dată în rides/{id}
-const RIDE_GPS_WRITE_MS = 10000;   // scriem max o dată la 5 sec
+const RIDE_GPS_WRITE_MS = 10000;   // scriem max o dată la 10 sec
       
 let unsubscribeRides = null;        // păstrăm vechiul până terminăm
 let unsubscribeNewRides = null;
@@ -438,13 +438,11 @@ await updateDoc(doc(db,"drivers",driverId),{
 });
 
 
-// 🔥 TRIMITE ȘI ÎN CURSA ACTIVĂ (fără getDoc)
-// păstrăm aceeași logică: doar când status e "confirmed"
+// 🔥 TRIMITE ÎN CURSA ACTIVĂ doar când status e "confirmed"
 if (currentRideId && currentRideStatus === "confirmed") {
 
   const now = Date.now();
 
-  // throttle: nu scriem prea des în Firestore
   if (now - lastRideGpsWriteAt >= RIDE_GPS_WRITE_MS) {
     lastRideGpsWriteAt = now;
 
@@ -682,6 +680,8 @@ if (ride.driverId === driverId && ride.status === "completed") {
 
         currentRideId = ride.id;
 
+        currentRideStatus = "confirmed";
+
         rideSound.pause();
         rideSound.currentTime = 0;
 
@@ -766,6 +766,8 @@ if (ride.driverId === driverId && ride.status === "completed") {
           arrivedAt: Date.now(),
           notifyClient: true
         });
+
+        currentRideStatus = "arrived"; // ca să se oprească update-ul în ride
 
         try{
           await fetch(
@@ -952,6 +954,9 @@ if (ride.driverId === driverId && ride.status === "completed") {
           finalPrice: finalPrice,
           waitingFee: waitingFee
         });
+
+        currentRideId = null;
+currentRideStatus = null;
 
         localStorage.removeItem("waitingStop_" + ride.id);
 
