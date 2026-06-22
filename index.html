@@ -331,7 +331,7 @@ pushToken: window.androidFcmToken || null
 });
 
 if(window.Android && window.Android.startOnlineService){
-  window.Android.startOnlineService();
+  window.Android.startOnlineService(driverId);
 }  
 
 loginSection.classList.add("hidden");
